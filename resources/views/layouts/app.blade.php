@@ -59,7 +59,9 @@
                                class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"
                                onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt fa-fw"></i> {{ __('Logout') }}</a>
-                            
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
                             </div>
                         </div>
                     </li>

@@ -647,6 +647,15 @@ video {
   }
 }
 
+.form-label { display: block; color: #4a5568; font-size: 0.875rem; font-weight: 700; margin-bottom: 0.5rem
+}
+
+.form-input { box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); -webkit-appearance: none; -moz-appearance: none; appearance: none; border-width: 1px; border-radius: 0.25rem; width: 100%; padding-top: 0.5rem; padding-bottom: 0.5rem; padding-left: 0.75rem; padding-right: 0.75rem; color: #4a5568; line-height: 1.25
+}
+
+.link { display: block; padding-top: 0.25rem; padding-bottom: 0.25rem; padding-left: 0; vertical-align: middle; color: #000; text-decoration: underline
+}
+
 /**
  * Here you would add any of your custom component classes; stuff that you'd
  * want loaded *before* the utilities so that the utilities could still
@@ -54564,3 +54573,4 @@ video {
     z-index: auto;
   }
 }
+
