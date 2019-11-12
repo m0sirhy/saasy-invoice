@@ -54,7 +54,7 @@
                             {!! Form::text('country', null, ['class' => 'form-input leading-tight focus:outline-none focus:shadow-outline']) !!}
                         </div>
                         <div class="mb-4">
-                            {!! Form::submit('Click Me!', ['class' => 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded']) !!}
+                            {!! Form::submit('Save', ['class' => 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded']) !!}
                         </div>
                     {!! Form::close() !!}
                 </div>

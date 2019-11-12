@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="bg-blue-800 p-2 shadow text-xl text-white">
-                <h3 class="font-bold pl-2">Dashboard</h3>
-            </div>
+    <h3 class="font-bold pl-2">Dashboard</h3>
+</div>
             <div class="flex flex-wrap">
                 <div class="w-full md:w-1/2 xl:w-1/3 p-3">
                     <!--Metric Card-->

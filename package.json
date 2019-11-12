@@ -21,5 +21,10 @@
         "sass-loader": "^7.1.0",
         "tailwindcss": "^1.0",
         "vue-template-compiler": "^2.6.10"
+    },
+    "dependencies": {
+        "datatables.net": "^1.10.20",
+        "datatables.net-buttons": "^1.6.1",
+        "jquery": "^3.4.1"
     }
 }
