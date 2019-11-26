@@ -43,13 +43,37 @@ Route::get('settings/users/new', 'UserController@new')
     ->middleware(['auth'])
     ->name('user.new');
 
-Route::post('settings/save', 'SettingController@save')->middleware(['auth'])->name('settings.save');
-Route::post('settings/user/create', 'UserController@create')->middleware(['auth'])->name('user.create');
-Route::post('settings/user/store/{user}', 'UserController@save')->middleware(['auth'])->name('user.save');
+Route::post('settings/save', 'SettingController@save')
+    ->middleware(['auth'])
+    ->name('settings.save');
 
-Route::get('user/{token}', 'UserController@activate')->name('user.activate');
+Route::post('settings/user/create', 'UserController@create')
+    ->middleware(['auth'])
+    ->name('user.create');
 
-Route::get('clients', 'ClientController@index')->middleware(['auth'])->name('clients');
-Route::get('clients/create', 'ClientController@create')->middleware(['auth'])->name('clients.create');
-Route::get('clients/view/{client}', 'ClientController@view')->middleware(['auth'])->name('clients.view');
-Route::get('api/clients/datatables', 'ClientController@datatables')->middleware(['auth'])->name('clients.data');
+Route::post('settings/user/store/{user}', 'UserController@save')
+    ->middleware(['auth'])
+    ->name('user.save');
+
+Route::get('user/{token}', 'UserController@activate')
+    ->name('user.activate');
+
+Route::get('clients', 'ClientController@index')
+    ->middleware(['auth'])
+    ->name('clients');
+
+Route::get('clients/create', 'ClientController@create')
+    ->middleware(['auth'])
+    ->name('clients.create');
+
+Route::post('clients/save', 'ClientController@save')
+    ->middleware(['auth'])
+    ->name('clients.save');
+
+Route::get('clients/view/{client}', 'ClientController@view')
+    ->middleware(['auth'])
+    ->name('clients.view');
+
+Route::get('api/clients/datatables', 'ClientController@datatables')
+    ->middleware(['auth'])
+    ->name('clients.data');

@@ -24,7 +24,7 @@ class CreateClientsTable extends Migration
             $table->string('zipcode')->nullable();;
             $table->float('balance', 10,2)->default(0.00);
             $table->float('total_paid', 10,2)->default(0.00);
-            $table->string('crm_id');
+            $table->string('crm_id')->default('');
             $table->datetime('terms_accepted_at')->nullable();
             $table->datetime('deleted_at')->nullable();;
             $table->timestamps();

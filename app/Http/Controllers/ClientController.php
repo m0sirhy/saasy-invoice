@@ -12,4 +12,21 @@ class ClientController extends Controller
 	{
 		return $dataTable->render('clients.index');
 	}
+
+	public function create()
+	{
+		return view('clients.new');
+	}
+
+	public function save(Request $request)
+	{
+		Client::create($request->all());
+		return redirect()->route('clients');
+	}
+
+	public function view(Client $client)
+	{
+		return view('clients.view')
+			->with('client', $client);
+	}
 }
