@@ -1,0 +1,124 @@
+/**
+ * This injects Tailwind's base styles, which is a combination of
+ * Normalize.css and some additional base styles.
+ *
+ * You can see the styles here:
+ * https://github.com/tailwindcss/tailwindcss/blob/master/css/base.css
+ *
+ * If using `postcss-import`, use this import instead:
+ *
+ * @import "tailwindcss/base";
+ */
+@tailwind base;
+
+/**
+ * This injects any component classes registered by plugins.
+ *
+ * If using `postcss-import`, use this import instead:
+ *
+ * @import "tailwindcss/components";
+ */
+@tailwind components;
+
+.form-label { @apply block text-gray-700 text-sm font-bold mb-2 }
+.form-input { @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight }
+.link { @apply block py-1 pl-0 align-middle text-black underline }
+/*Form fields*/
+.dataTables_wrapper select,
+.dataTables_wrapper .dataTables_filter input {
+	color: #4a5568; 			/*text-gray-700*/
+	padding-left: 1rem; 		/*pl-4*/
+	padding-right: 1rem; 		/*pl-4*/
+	padding-top: .5rem; 		/*pl-2*/
+	padding-bottom: .5rem; 		/*pl-2*/
+	line-height: 1.25; 			/*leading-tight*/
+	border-width: 2px; 			/*border-2*/
+	border-radius: .25rem; 		
+	border-color: #edf2f7; 		/*border-gray-200*/
+	background-color: #edf2f7; 	/*bg-gray-200*/
+}
+
+/*Row Hover*/
+table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
+	background-color: #ebf4ff;	/*bg-indigo-100*/
+}
+
+/*Pagination Buttons*/
+.dataTables_wrapper .dataTables_paginate .paginate_button		{
+	font-weight: 700;				/*font-bold*/
+	border-radius: .25rem;			/*rounded*/
+	border: 1px solid transparent;	/*border border-transparent*/
+}
+
+/*Pagination Buttons - Current selected */
+.dataTables_wrapper .dataTables_paginate .paginate_button.current	{
+	color: #fff !important;				/*text-white*/
+	box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06); 	/*shadow*/
+	font-weight: 700;					/*font-bold*/
+	border-radius: .25rem;				/*rounded*/
+	background: #667eea !important;		/*bg-indigo-500*/
+	border: 1px solid transparent;		/*border border-transparent*/
+}
+
+/*Pagination Buttons - Hover */
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover		{
+	color: #fff !important;				/*text-white*/
+	box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);	 /*shadow*/
+	font-weight: 700;					/*font-bold*/
+	border-radius: .25rem;				/*rounded*/
+	background: #667eea !important;		/*bg-indigo-500*/
+	border: 1px solid transparent;		/*border border-transparent*/
+}
+
+/*Add padding to bottom border */
+table.dataTable.no-footer {
+	border-bottom: 1px solid #e2e8f0;	/*border-b-1 border-gray-300*/
+	margin-top: 0.75em;
+	margin-bottom: 0.75em;
+}
+
+/*Change colour of responsive icon*/
+table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child:before, table.dataTable.dtr-inline.collapsed>tbody>tr>th:first-child:before {
+	background-color: #667eea !important; /*bg-indigo-500*/
+}
+/**
+ * Here you would add any of your custom component classes; stuff that you'd
+ * want loaded *before* the utilities so that the utilities could still
+ * override them.
+ *
+ * Example:
+ *
+ * .btn { ... }
+ * .form-input { ... }
+ *
+ * Or if using a preprocessor or `postcss-import`:
+ *
+ * @import "components/buttons";
+ * @import "components/forms";
+ */
+
+/**
+ * This injects all of Tailwind's utility classes, generated based on your
+ * config file.
+ *
+ * If using `postcss-import`, use this import instead:
+ *
+ * @import "tailwindcss/utilities";
+ */
+@tailwind utilities;
+
+/**
+ * Here you would add any custom utilities you need that don't come out of the
+ * box with Tailwind.
+ *
+ * Example :
+ *
+ * .bg-pattern-graph-paper { ... }
+ * .skew-45 { ... }
+ *
+ * Or if using a preprocessor or `postcss-import`:
+ *
+ * @import "utilities/background-patterns";
+ * @import "utilities/skew-transforms";
+ */
+
