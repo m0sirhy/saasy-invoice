@@ -12,4 +12,14 @@ class ClientController extends Controller
 	{
 		return $dataTable->render('clients.index');
 	}
+
+	/**
+     * Show the form for creating a new client.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function new()
+    {
+        return view('clients.new');
+    }
 }
