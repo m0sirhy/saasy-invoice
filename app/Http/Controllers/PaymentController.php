@@ -3,11 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Payment;
 use App\PaymentGateway;
 use App\PaymentGatewaySetting;
+use App\DataTables\PaymentsDataTable;
 
 class PaymentController extends Controller
 {
+    /**
+     * Show the Payments
+     *
+     * @return [type] [description]
+     */
+    public function index(PaymentsDataTable $dataTable)
+    {
+        return $dataTable->render('payments.index');
+    }
+
     /**
      * Show the payment settings.
      *
