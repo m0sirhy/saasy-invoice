@@ -5,10 +5,10 @@
     <h3 class="font-bold pl-2">Clients</h3>
 </div>
 <div class="p-5">
-  {{$dataTable ?? ''->table()}}
+  {{$dataTable->table()}}
 </div>
 @endsection
 
 @push('footerScripts')
-    {{$dataTable ?? ''->scripts()}}
+    {{$dataTable->scripts()}}
 @endpush
