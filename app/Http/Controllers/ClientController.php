@@ -29,4 +29,3 @@ class ClientController extends Controller
 		return view('clients.view')
 			->with('client', $client);
 	}
-}
