@@ -18,6 +18,7 @@ class Client extends Model
         'total_paid',
         'crm_id',
         'terms_accepted_at',
-        'deleted_at'
+        'deleted_at',
+        'invoice_key'
     ];
 }
