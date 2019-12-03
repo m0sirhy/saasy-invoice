@@ -77,3 +77,14 @@ Route::get('clients/view/{client}', 'ClientController@view')
 Route::get('api/clients/datatables', 'ClientController@datatables')
     ->middleware(['auth'])
     ->name('clients.data');
+
+Route::get('payments', 'PaymentController@index')
+    ->middleware(['auth'])
+    ->name('payments');
+
+Route::get('invoices', 'InvoiceController@index')
+    ->middleware(['auth'])
+    ->name('invoices');
+
+Route::get('invoice-credits', 'InvoiceCreditController@index')
+    ->middleware(['auth'])->name('invoice-credits');
