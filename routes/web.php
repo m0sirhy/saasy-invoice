@@ -88,3 +88,14 @@ Route::get('invoices', 'InvoiceController@index')
 
 Route::get('invoice-credits', 'InvoiceCreditController@index')
     ->middleware(['auth'])->name('invoice-credits');
+
+Route::get('subscriptions', 'SubscriptionController@index')
+    ->middleware(['auth'])->name('subscriptions');
+Route::get('subscriptions/show/{id?}', 'SubscriptionController@show')
+    ->middleware(['auth']);
+Route::post('subscriptions/save', 'SubscriptionController@save')
+    ->middleware(['auth'])->name('subscription.save');
+Route::get('subscriptions/create', 'SubscriptionController@create')
+    ->middleware(['auth'])->name('subscription.create');
+Route::post('subscriptions/store', 'SubscriptionController@store')
+    ->middleware(['auth'])->name('subscription.store');
