@@ -3766,7 +3766,6 @@
         },
         {
             "name": "symfony/mime",
-<<<<<<< HEAD
             "version": "v5.0.1",
             "source": {
                 "type": "git",
@@ -3777,18 +3776,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/mime/zipball/0e6a4ced216e49d457eddcefb61132173a876d79",
                 "reference": "0e6a4ced216e49d457eddcefb61132173a876d79",
-=======
-            "version": "v4.4.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/mime.git",
-                "reference": "010cc488e56cafe5f7494dea70aea93100c234df"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/mime/zipball/010cc488e56cafe5f7494dea70aea93100c234df",
-                "reference": "010cc488e56cafe5f7494dea70aea93100c234df",
->>>>>>> 3ba39e5d5a663d6d992fce20ca2b5ba620f6dc6c
                 "shasum": ""
             },
             "require": {
@@ -3801,20 +3788,12 @@
             },
             "require-dev": {
                 "egulias/email-validator": "^2.1.10",
-<<<<<<< HEAD
                 "symfony/dependency-injection": "^4.4|^5.0"
-=======
-                "symfony/dependency-injection": "^3.4|^4.1|^5.0"
->>>>>>> 3ba39e5d5a663d6d992fce20ca2b5ba620f6dc6c
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-<<<<<<< HEAD
                     "dev-master": "5.0-dev"
-=======
-                    "dev-master": "4.4-dev"
->>>>>>> 3ba39e5d5a663d6d992fce20ca2b5ba620f6dc6c
                 }
             },
             "autoload": {
@@ -3845,11 +3824,7 @@
                 "mime",
                 "mime-type"
             ],
-<<<<<<< HEAD
             "time": "2019-11-30T14:12:50+00:00"
-=======
-            "time": "2019-11-30T08:27:26+00:00"
->>>>>>> 3ba39e5d5a663d6d992fce20ca2b5ba620f6dc6c
         },
         {
             "name": "symfony/polyfill-ctype",
