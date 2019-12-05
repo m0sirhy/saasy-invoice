@@ -23,18 +23,18 @@ class UserController extends Controller
             ->with('users', $users);
     }
 
-    public function view(User $user)
+    public function show(User $user)
     {
-        return view('settings.users.view')
+        return view('settings.users.show')
             ->with('user', $user);
     }
 
-    public function new()
+    public function create()
     {
-        return view('settings.users.new');
+        return view('settings.users.create');
     }
 
-    public function store(User $user, Request $request)
+    public function update(User $user, Request $request)
     {
         $this->validate(request(), [
             'name' => 'required',
@@ -50,7 +50,7 @@ class UserController extends Controller
         return redirect()->route('users');
     }
 
-    public function create(Request $request)
+    public function save(Request $request)
     {
         $this->validate(request(), [
             'name' => 'required',

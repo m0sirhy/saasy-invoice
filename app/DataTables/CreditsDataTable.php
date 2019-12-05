@@ -2,14 +2,14 @@
 
 namespace App\DataTables;
 
-use App\Client;
+use App\Credit;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class ClientsDataTable extends DataTable
+class CreditsDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -22,20 +22,38 @@ class ClientsDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->editColumn('id', function ($data) {
-                $url = route('clients.show', ['client' => $data->id]);
+                $url = route('credits.show', ['credit' => $data->id]);
                 return "<a href='$url' class='link'>" . $data->id . "</a>";
-            })->editColumn('balance', function ($data) {
-                return money_format('$%i', $data->balance);
-            })->rawColumns(['id']);
+            })
+            ->editColumn('client', function ($data) {
+                $url = route('clients.show', ['client' => $data->client_id]);
+                return "<a href='$url' class='link'>" . $data->client->name . "</a>";
+            })
+            ->editColumn('created_by', function ($data) {
+                return $data->user->name;
+            })
+            ->editColumn('amount', function ($data) {
+                return '$' . money_format('%i', $data->amount);
+            })
+            ->editColumn('balance', function ($data) {
+                return '$' . money_format('%i', $data->balance);
+            })
+            ->editColumn('completed', function ($data) {
+                if ($data->completed == 1) {
+                    return "Yes";
+                }
+                return "No";
+            })
+            ->rawColumns(['id', 'client', 'invoice']);
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Client $model
+     * @param \App\Credit $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Client $model)
+    public function query(Credit $model)
     {
         return $model->newQuery();
     }
@@ -48,13 +66,12 @@ class ClientsDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('clients-table')
+                    ->setTableId('payments-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bftiplrf')
-                    ->orderBy(0, 'asc')
+                    ->orderBy(0, 'desc')
                     ->buttons(
-                        Button::make('create'),
                         Button::make('export'),
                         Button::make('print'),
                         Button::make('reset'),
@@ -71,10 +88,11 @@ class ClientsDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('name'),
-            Column::make('email'),
+            Column::make('client'),
+            Column::make('created_by'),
+            Column::make('amount'),
             Column::make('balance'),
-            Column::make('created_at'),
+            Column::make('completed')
         ];
     }
 
@@ -85,6 +103,6 @@ class ClientsDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Clients_' . date('YmdHis');
+        return 'Payments_' . date('YmdHis');
     }
 }

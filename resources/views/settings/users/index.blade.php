@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'Users')
 @section('content')
 <div class="bg-blue-800 p-2 shadow text-xl text-white">
     <h3 class="font-bold pl-2"><a href="{{ route('settings') }}">Settings</a> / Users</h3>
@@ -11,7 +11,7 @@
                 <h5 class="font-bold uppercase text-gray-600">Users</h5> 
             </div>
             <div class="p-5">
-              <a href="{{ route('user.new') }}">
+              <a href="{{ route('user.create') }}">
               <button class="bg-grey-light hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded inline-flex items-center">
                 <i class="fa fa-plus pr-0 md:pr-3"></i>
                 <span>New User</span>
@@ -29,7 +29,7 @@
                 <tbody>
                   @foreach ($users as $user)
                   <tr>
-                    <td class="border px-4 py-2"><a href="{{ route('user.view', ['user' => $user->id]) }}" class="link">{{ $user->name }}</a></td>
+                    <td class="border px-4 py-2"><a href="{{ route('user.show', ['user' => $user->id]) }}" class="link">{{ $user->name }}</a></td>
                     <td class="border px-4 py-2"><a href="mailto:{{ $user->email }}" class="link">{{ $user->email }}</td>
                     <td class="border px-4 py-2">
                       @if ($user->token != '')
