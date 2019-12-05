@@ -86,5 +86,14 @@ Route::get('invoices', 'InvoiceController@index')
     ->middleware(['auth'])
     ->name('invoices');
 
+Route::get('invoices/create', 'InvoiceController@create')
+    ->middleware(['auth'])
+    ->name('invoices.create');
+
+Route::get('invoices/store', 'InvoiceController@store')
+    ->middleware(['auth'])
+    ->name('invoices.store');
+
 Route::get('invoice-credits', 'InvoiceCreditController@index')
-    ->middleware(['auth'])->name('invoice-credits');
+    ->middleware(['auth'])
+    ->name('invoice-credits');

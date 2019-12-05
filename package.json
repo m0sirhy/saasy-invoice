@@ -12,6 +12,7 @@
     "devDependencies": {
         "axios": "^0.19",
         "cross-env": "^5.1",
+        "css-loader": "^3.2.1",
         "laravel-mix": "^4.0.14",
         "laravel-mix-purgecss": "^4.1",
         "laravel-mix-tailwind": "^0.1.0",
@@ -20,11 +21,13 @@
         "sass": "^1.15.2",
         "sass-loader": "^7.1.0",
         "tailwindcss": "^1.0",
+        "vue": "^2.6.10",
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
         "datatables.net": "^1.10.20",
         "datatables.net-buttons": "^1.6.1",
-        "jquery": "^3.4.1"
+        "jquery": "^3.4.1",
+        "vue-select": "^3.4.0"
     }
 }

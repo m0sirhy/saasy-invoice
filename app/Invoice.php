@@ -22,4 +22,14 @@ class Invoice extends Model
     {
     	return $this->belongsTo('App\InvoiceStatus');
     }
+
+    public function products()
+    {
+        return $this->hasManyThrough('App\Product', 'App\InvoiceItem');
+    }
+
+    public function items()
+    {
+        return $this->hasMany('App\InvoiceItem');
+    }
 }

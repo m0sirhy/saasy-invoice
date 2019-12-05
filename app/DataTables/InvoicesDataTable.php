@@ -25,7 +25,10 @@ class InvoicesDataTable extends DataTable
                 return "<a href='/invoices/view/$data->id' class='link'>" . $data->id . "</a>";
             })
             ->editColumn('status', function ($data) {
-                return 'Viewed';
+                return '<span class="bg-green-600 shadow-md rounded font-medium px-2 py-1 text-white">
+                <i class="fas fa-eye"></i> Viewed</span>';
+            })->editColumn('balance', function ($data) {
+                return money_format('$%i', $data->balance);
             })->rawColumns(['id', 'status']);
     }
 
