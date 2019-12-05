@@ -2,14 +2,14 @@
 
 namespace App\DataTables;
 
-use App\Client;
+use App\Product;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class ClientsDataTable extends DataTable
+class ProductsDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -22,20 +22,19 @@ class ClientsDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->editColumn('id', function ($data) {
-                $url = route('clients.show', ['client' => $data->id]);
+                $url = route('products.show', ['product' => $data->id]);
                 return "<a href='$url' class='link'>" . $data->id . "</a>";
-            })->editColumn('balance', function ($data) {
-                return money_format('$%i', $data->balance);
-            })->rawColumns(['id']);
+            })
+            ->rawColumns(['id']);
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Client $model
+     * @param \App\Product $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Client $model)
+    public function query(Product $model)
     {
         return $model->newQuery();
     }
@@ -48,7 +47,7 @@ class ClientsDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('clients-table')
+                    ->setTableId('products-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bftiplrf')
@@ -72,9 +71,7 @@ class ClientsDataTable extends DataTable
         return [
             Column::make('id'),
             Column::make('name'),
-            Column::make('email'),
-            Column::make('balance'),
-            Column::make('created_at'),
+            Column::make('notes')
         ];
     }
 
@@ -85,6 +82,6 @@ class ClientsDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Clients_' . date('YmdHis');
+        return 'Products_' . date('YmdHis');
     }
 }

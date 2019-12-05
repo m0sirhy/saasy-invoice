@@ -4,18 +4,18 @@ namespace App\Http\Controllers;
 
 use App\InvoiceCredit;
 use Illuminate\Http\Request;
-use App\DataTables\InvoiceCreditsDataTable;
+use App\DataTables\CreditsDataTable;
 
-class InvoiceCreditController extends Controller
+class CreditController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(InvoiceCreditsDataTable $dataTable)
+    public function index(CreditsDataTable $dataTable)
     {
-        return $dataTable->render('invoiceCredits.index');
+        return $dataTable->render('credits.index');
     }
 
     /**
