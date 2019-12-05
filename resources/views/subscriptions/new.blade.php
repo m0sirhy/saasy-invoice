@@ -8,7 +8,7 @@
     <div class="w-full md:w-1/2 xl:w-full p-5">
         <div class="bg-white border-transparent rounded-lg shadow-lg">
             <div class="p-5">
-            	{!! Form::open(['route' => ['subscription.store']]) !!}
+            	{!! Form::open(['route' => ['subscriptions.store']]) !!}
             		<div class="mb-4">
             			{!! Form::label('billing_type_id', 'Billing Type Id', ['class' => 'form-label']) !!}
             			{!! Form::text('billing_type_id', '0', ['class' => 'form-input']) !!}

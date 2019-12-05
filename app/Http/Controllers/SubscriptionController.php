@@ -23,13 +23,11 @@ class SubscriptionController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param String $id
+     * @param String $subscription
      * @return \Illuminate\Http\Response
      */
-    public function show(String $id) {
-    	$subscription = Subscription::where('id', $id)->first();
-
-    	return view('subscriptions.view', compact('subscription'));
+    public function show(Subscription $subscription) {
+    	return view('subscriptions.show', compact('subscription'));
     }
 
     /**
@@ -64,13 +62,8 @@ class SubscriptionController extends Controller
      */
 
     public function store(Request $request) {
-    	$subscription = new Subscription;
-    	$subscription->billing_type_id = $request->billing_type_id;
-    	$subscription->client_id = $request->client_id;
-    	$subscription->next_invoice_date = $request->next_invoice_date;
-    	$subscription->total_billed = $request->total_billed;
-    	$subscription->total_payed = $request->total_payed;
-    	$subscription->save();
+    	$parameters = array_diff_key($request->all(), ['_token' => '']); 
+    	Subscription::create($parameters);
     	return redirect()->route('subscriptions');
     }
 }

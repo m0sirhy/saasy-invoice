@@ -8,7 +8,7 @@
     <div class="w-full md:w-1/2 xl:w-full p-5">
         <div class="bg-white border-transparent rounded-lg shadow-lg">
             <div class="p-5">
-            	{!! Form::model($subscription, ['route' => ['subscription.save', 'subscription' => $subscription->id]]) !!}
+            	{!! Form::model($subscription, ['route' => ['subscriptions.save', 'subscription' => $subscription->id]]) !!}
             		{!!Form::hidden('id', $subscription->id)!!}
             		<div class="mb-4">
             			{!! Form::label('billing_type_id', 'Billing Type Id', ['class' => 'form-label']) !!}

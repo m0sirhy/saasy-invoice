@@ -23,29 +23,26 @@ class SubscriptionsDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->editColumn('id', function ($data) {
-                return "<a href='/subscriptions/show/$data->id' class='link'>" . $data->id . "</a>";
+                $url = route('subscriptions.show', ['subscription' => $data->id]);
+                return "<a href='$url' class='link'>" . $data->id . "</a>";
             })
             ->editColumn('client_id', function ($data) {
-            	return "<a href='/$data->client_id' class = 'link'>" . $data->client_id . "</a>";
+                $url = route('clients.view', ['client' => $data->client_id]);
+            	return "<a href='$url' class = 'link'>" . $data->client_id . "</a>";
             })
             ->editColumn('billing_type_id', function ($data) {
-            	return "<a href='/$data->billing_type_id' class='link'>" . $data->billing_type_id . "</a>";
+                $url = route('billings.show', ['billing' => $data->billing_type_id]);
+            	return "<a href='$url' class='link'>" . $data->billing_type_id . "</a>";
             })
-            ->editColumn('last_invoice_id', function ($data) {
-                return "<a href='/invoices/view/$data->last_invoice_id' class='link'>" . $data->last_invoice_id . "</a>";
-            })
-            // ->editColumn('status', function ($data) {
-            //     return 'Viewed';
+            // ->editColumn('last_invoice_id', function ($data) {
+            //     $url = route('invoices.view', 'invoice' => $data->last_invoice_id);
+            //     return "<a href='$url' class='link'>" . $data->last_invoice_id . "</a>";
+            // })
             ->rawColumns([
                 'id',
                 'client_id',
                 'billing_type_id',
-                'last_invoice',
                 'last_invoice_id',
-                'next_invoice',
-                'total_invoices',
-                'total_billed',
-                'total_payed'
             ]);
             
     }

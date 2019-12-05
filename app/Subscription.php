@@ -16,9 +16,23 @@ class Subscription extends Model
     	'total_billed',
     	'total_payed'
     ];
+    protected $dates = [
+        'last_invoice_date',
+        'next_invoice_date'
+    ];
 
     public function invoice()
     {
         return $this->hasMany('App\Invoice');
+    }
+
+    public function client()
+    {
+        return $this->hasOne('App\Client');
+    }
+
+    public function billingType()
+    {
+        return $this->hasOne('App\BillingType');
     }
 }

@@ -89,13 +89,16 @@ Route::get('invoices', 'InvoiceController@index')
 Route::get('invoice-credits', 'InvoiceCreditController@index')
     ->middleware(['auth'])->name('invoice-credits');
 
+Route::get('subscriptions/show/{subscription?}', 'SubscriptionController@show')
+    ->middleware(['auth'])->name('subscriptions.show');
+Route::post('subscriptions/save', 'SubscriptionController@save')
+    ->middleware(['auth'])->name('subscriptions.save');
+Route::get('subscriptions/create', 'SubscriptionController@create')
+    ->middleware(['auth'])->name('subscriptions.create');
+Route::post('subscriptions/store', 'SubscriptionController@store')
+    ->middleware(['auth'])->name('subscriptions.store');
 Route::get('subscriptions', 'SubscriptionController@index')
     ->middleware(['auth'])->name('subscriptions');
-Route::get('subscriptions/show/{id?}', 'SubscriptionController@show')
-    ->middleware(['auth']);
-Route::post('subscriptions/save', 'SubscriptionController@save')
-    ->middleware(['auth'])->name('subscription.save');
-Route::get('subscriptions/create', 'SubscriptionController@create')
-    ->middleware(['auth'])->name('subscription.create');
-Route::post('subscriptions/store', 'SubscriptionController@store')
-    ->middleware(['auth'])->name('subscription.store');
+
+Route::get('billings/show/{subscription?}', 'BillingController@show')
+    ->middleware(['auth'])->name('billings.show');

@@ -12,7 +12,7 @@
                 <h5 class="font-bold uppercase text-gray-600">Subscriptions</h5> 
             </div>
             <div class="p-5">
-              <a href="{{ route('subscription.create') }}">
+              <a href="{{ route('subscriptions.create') }}">
               <button class="bg-grey-light hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded inline-flex items-center">
                 <i class="fa fa-plus pr-0 md:pr-3"></i>
                 <span>New Subscription</span>

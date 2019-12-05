@@ -28,6 +28,6 @@ class AddBillingTypeTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('billing_types');
     }
 }
