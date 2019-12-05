@@ -72,6 +72,7 @@ class CreditsDataTable extends DataTable
                     ->dom('Bftiplrf')
                     ->orderBy(0, 'desc')
                     ->buttons(
+                        Button::make('create'),
                         Button::make('export'),
                         Button::make('print'),
                         Button::make('reset'),
