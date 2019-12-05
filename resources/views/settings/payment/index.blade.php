@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'Payment Settings')
 @section('content')
 <div class="bg-blue-800 p-2 shadow text-xl text-white">
     <h3 class="font-bold pl-2"><a href="{{ route('settings') }}">Settings</a> / Payment</h3>

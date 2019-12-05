@@ -22,7 +22,8 @@ class ClientsDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->editColumn('id', function ($data) {
-                return "<a href='/clients/view/$data->id' class='link'>" . $data->id . "</a>";
+                $url = route('clients.show', ['client' => $data->id]);
+                return "<a href='$url' class='link'>" . $data->id . "</a>";
             })->editColumn('balance', function ($data) {
                 return money_format('$%i', $data->balance);
             })->rawColumns(['id']);

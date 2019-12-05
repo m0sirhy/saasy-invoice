@@ -31,29 +31,29 @@ Route::post('settings/payment', 'PaymentController@settingsSave')
     ->middleware(['auth'])
     ->name('settings.payment.save');
 
-Route::get('settings/user/{user}', 'UserController@view')
+Route::get('settings/user/{user}', 'UserController@show')
     ->middleware(['auth'])
-    ->name('user.view');
+    ->name('user.show');
 
 Route::get('settings/users', 'UserController@index')
     ->middleware(['auth'])
     ->name('users');
 
-Route::get('settings/users/new', 'UserController@new')
+Route::get('settings/users/create', 'UserController@create')
     ->middleware(['auth'])
-    ->name('user.new');
+    ->name('user.create');
 
 Route::post('settings/save', 'SettingController@save')
     ->middleware(['auth'])
     ->name('settings.save');
 
-Route::post('settings/user/create', 'UserController@create')
+Route::post('settings/user/save', 'UserController@save')
     ->middleware(['auth'])
-    ->name('user.create');
+    ->name('user.save');
 
 Route::post('settings/user/store/{user}', 'UserController@save')
     ->middleware(['auth'])
-    ->name('user.save');
+    ->name('user.store');
 
 Route::get('user/{token}', 'UserController@activate')
     ->name('user.activate');
@@ -70,9 +70,9 @@ Route::post('clients/save', 'ClientController@save')
     ->middleware(['auth'])
     ->name('clients.save');
 
-Route::get('clients/view/{client}', 'ClientController@view')
+Route::get('clients/show/{client}', 'ClientController@show')
     ->middleware(['auth'])
-    ->name('clients.view');
+    ->name('clients.show');
 
 Route::get('api/clients/datatables', 'ClientController@datatables')
     ->middleware(['auth'])
@@ -82,9 +82,22 @@ Route::get('payments', 'PaymentController@index')
     ->middleware(['auth'])
     ->name('payments');
 
+Route::get('payments/show/{payment}', 'PaymentController@show')
+    ->middleware(['auth'])
+    ->name('payments.show');
+
+Route::get('payments/refund/{payment}', 'PaymentController@refund')
+    ->middleware(['auth'])
+    ->name('payments.refund');
+
 Route::get('invoices', 'InvoiceController@index')
     ->middleware(['auth'])
     ->name('invoices');
 
+Route::get('invoices/show/{invoice}', 'InvoiceController@show')
+    ->middleware(['auth'])
+    ->name('invoices.show');
+
 Route::get('invoice-credits', 'InvoiceCreditController@index')
-    ->middleware(['auth'])->name('invoice-credits');
+    ->middleware(['auth'])
+    ->name('invoice-credits');

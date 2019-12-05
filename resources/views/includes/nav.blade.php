@@ -13,42 +13,42 @@
                 </a>
             </li>
             <li class="mr-3 flex-1">
-                <a href="{{ route('invoices') }}" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-purple-500">
+                <a href="{{ route('invoices') }}" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 {{ Request::is('invoices') ? 'border-blue-800' : 'border-gray-800' }} hover:border-blue-800">
                     <i class="fa fa-file-invoice pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block">Invoices</span>
                 </a>
             </li>
             <li class="mr-3 flex-1">
-                <a href="/admin/dahboard/invoices" class="block py-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-red-500">
+                <a href="/admin/dahboard/invoices" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 {{ Request::is('subscriptions') ? 'border-blue-800' : 'border-gray-800' }} hover:border-blue-800">
                     <i class="fas fa-redo pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block">Subscriptions</span>
                 </a>
             </li>
             <li class="mr-3 flex-1">
-                <a href="{{ route('payments') }}" class="block py-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-red-500">
+                <a href="{{ route('payments') }}" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 {{ Request::is('payments') ? 'border-blue-800' : 'border-gray-800' }} hover:border-blue-800">
                     <i class="fa fa-wallet pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block">Payments</span>
                 </a>
             </li>
             <li class="mr-3 flex-1">
-                <a href="#" class="block py-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-red-500">
+                <a href="#" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 {{ Request::is('products') ? 'border-blue-800' : 'border-gray-800' }} hover:border-blue-800">
                     <i class="fa fa-boxes pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block">Products</span>
                 </a>
             </li>
             <li class="mr-3 flex-1">
-                <a href="#" class="block py-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-red-500">
+                <a href="#" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 {{ Request::is('commissions') ? 'border-blue-800' : 'border-gray-800' }} hover:border-blue-800">
                     <i class="fa fa-hand-holding-usd pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block">Commissions</span>
                 </a>
             </li>
             <li class="mr-3 flex-1">
-                <a href="#" class="block py-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-red-500">
+                <a href="#" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 {{ Request::is('credits') ? 'border-blue-800' : 'border-gray-800' }} hover:border-blue-800">
                     <i class="fa fa-plus pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block">Credits</span>
                 </a>
             </li>
             <li class="mr-3 flex-1">
-                <a href="#" class="block py-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-red-500">
+                <a href="#" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 {{ Request::is('reports') ? 'border-blue-800' : 'border-gray-800' }} hover:border-blue-800">
                     <i class="fa fa-chart-line pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block">Reports</span>
                 </a>
             </li>
             <li class="mr-3 flex-1">
-                <a href="{{ route('settings') }}" class="block py-1 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white border-b-2 {{ Request::is('settings') ? 'border-blue-800' : 'border-gray-800' }} hover:border-pink-800">
+                <a href="{{ route('settings') }}" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 {{ Request::is('settings') ? 'border-blue-800' : 'border-gray-800' }} hover:border-blue-800">
                     <i class="fa fa-cogs pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block">Settings</span>
                 </a>
             </li>
