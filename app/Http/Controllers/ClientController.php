@@ -15,7 +15,7 @@ class ClientController extends Controller
 
     public function create()
     {
-        return view('clients.new');
+        return view('clients.create');
     }
 
     public function save(Request $request)
@@ -24,9 +24,9 @@ class ClientController extends Controller
         return redirect()->route('clients');
     }
 
-    public function view(Client $client)
+    public function show(Client $client)
     {
-        return view('clients.view')
+        return view('clients.show')
             ->with('client', $client);
     }
 }

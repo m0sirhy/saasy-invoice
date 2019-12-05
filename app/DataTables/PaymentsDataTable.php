@@ -22,7 +22,7 @@ class PaymentsDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->editColumn('id', function ($data) {
-                $url = route('payments.view', ['payment' => $data->id]);
+                $url = route('payments.show', ['payment' => $data->id]);
                 return "<a href='$url' class='link'>" . $data->id . "</a>";
             })
             ->editColumn('refunded', function ($data) {
@@ -32,11 +32,11 @@ class PaymentsDataTable extends DataTable
                 return "No";
             })
             ->editColumn('client', function ($data) {
-                $url = route('clients.view', ['client' => $data->client_id]);
+                $url = route('clients.show', ['client' => $data->client_id]);
                 return "<a href='$url' class='link'>" . $data->client->name . "</a>";
             })
             ->editColumn('invoice', function ($data) {
-                $url = route('invoices.view', ['invoice' => $data->invoice_id]);
+                $url = route('invoices.show', ['invoice' => $data->invoice_id]);
                 return "<a href='$url' class='link'>" . $data->invoice_id . "</a>";
             })
             ->editColumn('amount', function ($data) {
