@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', $user->name)
 @section('content')
 <div class="bg-blue-800 p-2 shadow text-xl text-white">
     <h3 class="font-bold pl-2"><a href="{{ route('settings') }}">Settings</a> / <a href="{{ route('users') }}">Users</a></h3>

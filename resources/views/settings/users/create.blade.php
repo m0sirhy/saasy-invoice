@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'Create User')
 @section('content')
 <div class="bg-blue-800 p-2 shadow text-xl text-white">
     <h3 class="font-bold pl-2"><a href="{{ route('settings') }}">Settings</a> / New User</h3>
@@ -12,7 +12,7 @@
             </div>
             <div class="p-5">
                 <div class="w-full max-w-xl items-center">
-                    {!! Form::model(null, ['route' => ['user.create']]) !!}
+                    {!! Form::model(null, ['route' => ['user.save']]) !!}
                         <div class="mb-4">
                             {!! Form::label('name', 'Name', ['class' => 'form-label'])  !!}
                             {!! Form::text('name', null, ['class' => 'form-input leading-tight focus:outline-none focus:shadow-outline']) !!}
