@@ -10,14 +10,14 @@ use App\DataTables\SubscriptionsDataTable;
 
 class SubscriptionController extends Controller
 {
-	/**
+    /**
      * Display a listing of the resource.
      *
      * @param \App\Datatables\SubsctiptionsDataTable $dataTable
      * @return \Illuminate\Http\Response
      */
     public function index(SubscriptionsDataTable $dataTable) {
-    	return $dataTable->render('subscriptions.index');
+        return $dataTable->render('subscriptions.index');
     }
 
     /**
@@ -36,7 +36,7 @@ class SubscriptionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create() {
-    	return view('subscriptions.new');
+        return view('subscriptions.new');
     }
 
     /**
@@ -46,12 +46,12 @@ class SubscriptionController extends Controller
      *
      */
     public function save(Request $request) {
-    	$parameters = array_diff_key($request->all(), ['_token' => '']);
-    	Subscription::updateOrCreate([
-    		'id' => $parameters['id']
-    	],
-    	$parameters);
-    	return redirect()->route('subscriptions');
+        $parameters = array_diff_key($request->all(), ['_token' => '']);
+        Subscription::updateOrCreate([
+            'id' => $parameters['id']
+        ],
+        $parameters);
+        return redirect()->route('subscriptions');
     }
 
     /**
@@ -62,8 +62,8 @@ class SubscriptionController extends Controller
      */
 
     public function store(Request $request) {
-    	$parameters = array_diff_key($request->all(), ['_token' => '']); 
-    	Subscription::create($parameters);
-    	return redirect()->route('subscriptions');
+        $parameters = array_diff_key($request->all(), ['_token' => '']); 
+        Subscription::create($parameters);
+        return redirect()->route('subscriptions');
     }
 }

@@ -28,11 +28,11 @@ class SubscriptionsDataTable extends DataTable
             })
             ->editColumn('client_id', function ($data) {
                 $url = route('clients.view', ['client' => $data->client_id]);
-            	return "<a href='$url' class = 'link'>" . $data->client_id . "</a>";
+                return "<a href='$url' class = 'link'>" . $data->client_id . "</a>";
             })
             ->editColumn('billing_type_id', function ($data) {
                 $url = route('billings.show', ['billing' => $data->billing_type_id]);
-            	return "<a href='$url' class='link'>" . $data->billing_type_id . "</a>";
+                return "<a href='$url' class='link'>" . $data->billing_type_id . "</a>";
             })
             // ->editColumn('last_invoice_id', function ($data) {
             //     $url = route('invoices.view', 'invoice' => $data->last_invoice_id);
@@ -42,7 +42,7 @@ class SubscriptionsDataTable extends DataTable
                 'id',
                 'client_id',
                 'billing_type_id',
-                'last_invoice_id',
+                // 'last_invoice_id',
             ]);
             
     }
