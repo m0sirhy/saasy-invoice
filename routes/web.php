@@ -98,6 +98,38 @@ Route::get('invoices/show/{invoice}', 'InvoiceController@show')
     ->middleware(['auth'])
     ->name('invoices.show');
 
-Route::get('invoice-credits', 'InvoiceCreditController@index')
+Route::get('credits', 'CreditController@index')
     ->middleware(['auth'])
-    ->name('invoice-credits');
+    ->name('credits');
+
+Route::get('products', 'ProductController@index')
+    ->middleware(['auth'])
+    ->name('products');
+
+Route::get('products/show/{product}', 'ProductController@show')
+    ->middleware(['auth'])
+    ->name('products.show');
+
+Route::get('products/create', 'ProductController@create')
+    ->middleware(['auth'])
+    ->name('products.create');
+
+Route::get('products/destroy/{product}', 'ProductController@destroy')
+    ->middleware(['auth'])
+    ->name('products.destroy');;
+
+Route::post('products/store', 'ProductController@store')
+    ->middleware(['auth'])
+    ->name('products.store');
+
+Route::post('products/update/{product}', 'ProductController@update')
+    ->middleware(['auth'])
+    ->name('products.update');
+
+Route::get('credits', 'CreditController@index')
+    ->middleware(['auth'])
+    ->name('credits');
+
+Route::get('credits/show/{credit}', 'CreditController@show')
+    ->middleware(['auth'])
+    ->name('credits.show');
