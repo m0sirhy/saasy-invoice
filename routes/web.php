@@ -133,3 +133,19 @@ Route::get('credits', 'CreditController@index')
 Route::get('credits/show/{credit}', 'CreditController@show')
     ->middleware(['auth'])
     ->name('credits.show');
+
+Route::get('credits/create', 'CreditController@create')
+    ->middleware(['auth'])
+    ->name('credits.create');
+
+Route::post('credits/store', 'CreditController@store')
+    ->middleware(['auth'])
+    ->name('credits.store');
+
+Route::post('credits/update/{credit}', 'CreditController@update')
+    ->middleware(['auth'])
+    ->name('credits.update');
+
+Route::get('credits/destroy/{credit}', 'CreditController@destroy')
+    ->middleware(['auth'])
+    ->name('credits.destroy');;

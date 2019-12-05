@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\InvoiceCredit;
-use Illuminate\Http\Request;
+use App\Client;
+use App\Credit;
 use App\DataTables\CreditsDataTable;
+use Auth;
+use Illuminate\Http\Request;
 
 class CreditController extends Controller
 {
@@ -25,7 +27,7 @@ class CreditController extends Controller
      */
     public function create()
     {
-        //
+        return view('credits.create');
     }
 
     /**
@@ -36,51 +38,57 @@ class CreditController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $client = Client::findOrFail($request->client_id);
+        Credit::create([
+            'client_id' => $request->client_id,
+            'user_id' => Auth::user()->id,
+            'credit_date' => now(),
+            'amount' => $request->amount,
+            'balance' => $request->amount,
+            'notes' => $request->notes,
+            'completed' => 0
+        ]);
+        return redirect()->route('credits');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\InvoiceCredit  $invoiceCredit
+     * @param  \App\Credit  $credit
      * @return \Illuminate\Http\Response
      */
-    public function show(InvoiceCredit $invoiceCredit)
+    public function show(Credit $credit)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\InvoiceCredit  $invoiceCredit
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(InvoiceCredit $invoiceCredit)
-    {
-        //
+        return view('credits.show')
+            ->with('credit', $credit);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\InvoiceCredit  $invoiceCredit
+     * @param  \App\Credit  $credit
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, InvoiceCredit $invoiceCredit)
+    public function update(Request $request, Credit $credit)
     {
-        //
+        $credit->update($request->all());
+        if ($request->completed == 1) {
+            $credit->balance = 0;
+            $credit->save();
+        }
+        return redirect()->route('credits');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\InvoiceCredit  $invoiceCredit
+     * @param  \App\Credit  $credit
      * @return \Illuminate\Http\Response
      */
-    public function destroy(InvoiceCredit $invoiceCredit)
+    public function destroy(Credit $credit)
     {
-        //
+        $credit->delete();
+        return redirect()->route('credits');
     }
 }
