@@ -22,8 +22,28 @@ class PaymentsDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->editColumn('id', function ($data) {
-                return "<a href='/payments/view/$data->id' class='link'>" . $data->id . "</a>";
-            })->rawColumns(['id']);
+                $url = route('payments.view', ['payment' => $data->id]);
+                return "<a href='$url' class='link'>" . $data->id . "</a>";
+            })
+            ->editColumn('refunded', function ($data) {
+                if ($data->refunded == 1) {
+                    return "Yes";
+                }
+                return "No";
+            })
+            ->editColumn('client', function ($data) {
+                $url = route('clients.view', ['client' => $data->client_id]);
+                return "<a href='$url' class='link'>" . $data->client->name . "</a>";
+            })
+            ->editColumn('invoice', function ($data) {
+                $url = route('invoices.view', ['invoice' => $data->invoice_id]);
+                return "<a href='$url' class='link'>" . $data->invoice_id . "</a>";
+            })
+            ->editColumn('amount', function ($data) {
+                return '$' . money_format('%i', $data->amount);
+            })
+
+            ->rawColumns(['id', 'client', 'invoice']);
     }
 
     /**
@@ -49,9 +69,8 @@ class PaymentsDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bftiplrf')
-                    ->orderBy(0, 'asc')
+                    ->orderBy(0, 'desc')
                     ->buttons(
-                        Button::make('create'),
                         Button::make('export'),
                         Button::make('print'),
                         Button::make('reset'),
@@ -68,8 +87,12 @@ class PaymentsDataTable extends DataTable
     {
         return [
             Column::make('id'),
+            Column::make('client'),
+            Column::make('invoice'),
             Column::make('amount'),
             Column::make('created_at'),
+            Column::make('payment_at'),
+            Column::make('refunded')
         ];
     }
 

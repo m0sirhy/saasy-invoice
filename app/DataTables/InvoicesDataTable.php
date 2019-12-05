@@ -26,7 +26,8 @@ class InvoicesDataTable extends DataTable
             })
             ->editColumn('status', function ($data) {
                 return 'Viewed';
-            })->rawColumns(['id', 'status']);
+            })
+            ->rawColumns(['id', 'status']);
     }
 
     /**
@@ -52,7 +53,7 @@ class InvoicesDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bftiplrf')
-                    ->orderBy(0, 'asc')
+                    ->orderBy(0, 'desc')
                     ->buttons(
                         Button::make('create'),
                         Button::make('export'),
@@ -78,7 +79,7 @@ class InvoicesDataTable extends DataTable
             Column::make('due_date'),
             Column::make('invoice_date'),
             Column::make('start_date'),
-            Column::make('end_date'),
+            Column::make('end_date')
         ];
     }
 

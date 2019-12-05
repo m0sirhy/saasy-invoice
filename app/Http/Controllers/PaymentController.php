@@ -20,6 +20,12 @@ class PaymentController extends Controller
         return $dataTable->render('payments.index');
     }
 
+    public function view(Payment $payment)
+    {
+        return view('payments.view')
+            ->with('payment', $payment);
+    }
+
     /**
      * Show the payment settings.
      *

@@ -82,9 +82,22 @@ Route::get('payments', 'PaymentController@index')
     ->middleware(['auth'])
     ->name('payments');
 
+Route::get('payments/view/{payment}', 'PaymentController@view')
+    ->middleware(['auth'])
+    ->name('payments.view');
+
+Route::get('payments/refund/{payment}', 'PaymentController@refund')
+    ->middleware(['auth'])
+    ->name('payments.refund');
+
 Route::get('invoices', 'InvoiceController@index')
     ->middleware(['auth'])
     ->name('invoices');
 
+Route::get('invoices/view/{invoice}', 'InvoiceController@view')
+    ->middleware(['auth'])
+    ->name('invoices.view');
+
 Route::get('invoice-credits', 'InvoiceCreditController@index')
-    ->middleware(['auth'])->name('invoice-credits');
+    ->middleware(['auth'])
+    ->name('invoice-credits');
