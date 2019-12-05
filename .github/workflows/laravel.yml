@@ -4,11 +4,6 @@ name: Laravel
 on: [push]
 
 jobs:
-  lint:
-    - name: PHP Lint
-    uses: michaelw90/PHP-Lint@1.0.0
-    - name: EdgedesignCZ PHPQA tool suite
-    uses: mickaelandrieu/phpqa-ga@v1.0
   laravel-tests:
     runs-on: ubuntu-latest
     steps:
