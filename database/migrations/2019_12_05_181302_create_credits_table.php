@@ -20,7 +20,8 @@ class CreateCreditsTable extends Migration
             $table->date('credit_date');
             $table->float('amount');
             $table->float('balance');
-            $table->integer('completed');
+            $table->integer('completed')->default(0);
+            $table->string('notes');
             $table->timestamps();
         });
     }
