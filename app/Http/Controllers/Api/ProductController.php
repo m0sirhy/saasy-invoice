@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Client;
+use App\Product;
 
-class ClientController extends Controller
+class ProductController extends Controller
 {
     public function getAll(Request $request)
     {
-    	$clients = Client::all();
-    	return response()->json($clients);
+    	$products = Product::all();
+    	return response()->json($products);
     }
 }

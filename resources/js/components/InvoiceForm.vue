@@ -9,10 +9,10 @@
                     <p class="text-right"><a class="text-blue-700" href="">Create Client</a></p>
                 </div>
                 <div class="mb-4">
-                    //nvoice date
+                    //invoice date field
                 </div>
                 <div class="mb-4">
-                    // due date
+                    // due date field
                 </div>
             </form>
         </div>
@@ -29,11 +29,12 @@
         </thead>
             <tbody>
                  <tr class="item" v-for="(item, index) in items">
-                  <td><input class="form-input leading-tight focus:outline-none focus:shadow-outline" v-model="item.description" /></td>
-                  <td>$<input class="form-input leading-tight focus:outline-none focus:shadow-outline" type="number" v-model="item.price" /></td>
+                  <td><v-select v-model="selected" :options="products"></v-select></td>
+                  <td><input class="form-input leading-tight focus:outline-none focus:shadow-outline" v-model="item.description" />{{ selected }}</td>
+                  <td><input class="form-input leading-tight focus:outline-none focus:shadow-outline" type="number" v-model="item.price" /></td>
                   <td><input class="form-input leading-tight focus:outline-none focus:shadow-outline" type="number" v-model="item.quantity" /></td>
+                  <td class="text-center"><a @click="removeRow(index)"><i class="fa fa-times text-red-700"></i></a></td>
                   <td>${{ item.price * item.quantity | currency }}</td>
-                  <td><a @click="removeRow(index)">Remove Item</a></td>
                 </tr>
 
                 <tr>
@@ -58,10 +59,12 @@ import 'vue-select/dist/vue-select.css';
         data() {
             return {
                 items: [
-                  { description: "Website design", quantity: 1, price: 300 },
-                  { description: "Website design", quantity: 1, price: 75 },
-                  { description: "Website design", quantity: 1, price: 10 }
-                ]
+                  { description: "", quantity: 0, price: 0 }
+                ],
+                products: [{label: '', id: null}],
+                clients: [{label: '', id: null}],
+                selected: null,
+                productData: null
             }
           },
           computed: {
@@ -86,7 +89,31 @@ import 'vue-select/dist/vue-select.css';
             }
           },
           mounted: function () {
-            console.log();
-          }
+            var self = this;
+            var productData = [];
+            axios
+              .get('/api/products')
+              .then(function(response) {
+                productData.push(response.data);
+                $.each(response.data, function(key, data)  {
+                  self.products.push({label: data.name, id: data.id})
+                })
+              });
+            axios
+              .get('/api/clients')
+              .then(function(response) {
+                $.each(response.data, function(key, data)  {
+                  self.clients.push({label: data.name, id: data.id})
+                })
+              });
+          },
+          // computed: {
+          //   populate: {
+          //     get: function() {
+
+          //       return //
+          //     }
+          //   }
+          // }
     }
 </script>

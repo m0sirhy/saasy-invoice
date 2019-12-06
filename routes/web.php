@@ -150,3 +150,8 @@ Route::get('subscriptions', 'SubscriptionController@index')->middleware(['auth']
 
 Route::get('billings/show/{subscription?}', 'BillingController@show')
     ->middleware(['auth'])->name('billings.show');
+
+Route::namespace('Api')->prefix('api')->middleware(['auth'])->group(function () {
+    Route::get('products', 'ProductController@getAll');
+    Route::get('clients', 'ClientController@getAll');
+});
