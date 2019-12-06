@@ -94,6 +94,14 @@ Route::get('invoices', 'InvoiceController@index')
     ->middleware(['auth'])
     ->name('invoices');
 
+Route::get('invoices/create', 'InvoiceController@create')
+    ->middleware(['auth'])
+    ->name('invoices.create');
+
+Route::get('invoices/store', 'InvoiceController@store')
+    ->middleware(['auth'])
+    ->name('invoices.store');
+
 Route::get('invoices/show/{invoice}', 'InvoiceController@show')
     ->middleware(['auth'])
     ->name('invoices.show');
@@ -174,3 +182,7 @@ Route::get('billings/show/{subscription?}', 'BillingController@show')
     ->middleware(['auth'])
     ->name('billings.show');
 
+Route::namespace('Api')->prefix('api')->middleware(['auth'])->group(function () {
+    Route::get('products', 'ProductController@getAll');
+    Route::get('clients', 'ClientController@getAll');
+});

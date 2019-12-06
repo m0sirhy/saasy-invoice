@@ -5,6 +5,8 @@
  */
 
 require('./bootstrap');
+window.Vue = require('vue');
+import vSelect from 'vue-select'
 
     /*Toggle dropdown list*/
     function toggleDD(myDropMenu) {
@@ -37,3 +39,8 @@ require('./bootstrap');
             }
         }
     }
+Vue.component('invoice-form', require('./components/InvoiceForm.vue').default);
+Vue.component('v-select', vSelect);
+const app = new Vue({
+    el: '#app',
+});
