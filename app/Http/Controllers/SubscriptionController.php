@@ -27,7 +27,7 @@ class SubscriptionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Subscription $subscription) {
-    	return view('subscriptions.show', compact('subscription'));
+        return view('subscriptions.show', compact('subscription'));
     }
 
     /**

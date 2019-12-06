@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Invoice;
+use App\Client;
+use App\Product;
 use Illuminate\Http\Request;
 use App\DataTables\InvoicesDataTable;
 
@@ -25,7 +27,19 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        //
+        $clients = Client::all();
+        $clientsNames = ['Select Client'];
+        foreach ($clients as $client) {
+            $clientsNames[$client->id] = $client->name;
+        }
+        $products = Product::all();
+        $productsNames = ['Select Product'];
+        foreach ($products as $product) {
+            $productsNames[$product->id] = $product->name;
+        }
+        return view('invoices.new')
+            ->with('clients', $clientsNames)
+            ->with('products', $productsNames);
     }
 
     /**

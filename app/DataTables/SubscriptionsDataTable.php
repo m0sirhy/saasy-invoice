@@ -12,7 +12,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class SubscriptionsDataTable extends DataTable
 {
-	/**
+    /**
      * Build DataTable class.
      *
      * @param mixed $query Results from query() method.
@@ -26,23 +26,45 @@ class SubscriptionsDataTable extends DataTable
                 $url = route('subscriptions.show', ['subscription' => $data->id]);
                 return "<a href='$url' class='link'>" . $data->id . "</a>";
             })
+<<<<<<< HEAD
             ->editColumn('client_id', function ($data) {
                 $url = route('clients.view', ['client' => $data->client_id]);
                 return "<a href='$url' class = 'link'>" . $data->client_id . "</a>";
+=======
+            ->editColumn('client', function ($data) {
+                $url = route('clients.show', ['client' => $data->client_id]);
+                return "<a href='$url' class = 'link'>" . $data->client->name . "</a>";
+>>>>>>> dd426f9f564abe36cd21a3cd9371d105a6287f6f
             })
-            ->editColumn('billing_type_id', function ($data) {
+            ->editColumn('billing_type', function ($data) {
                 $url = route('billings.show', ['billing' => $data->billing_type_id]);
                 return "<a href='$url' class='link'>" . $data->billing_type_id . "</a>";
+<<<<<<< HEAD
+=======
             })
-            // ->editColumn('last_invoice_id', function ($data) {
-            //     $url = route('invoices.view', 'invoice' => $data->last_invoice_id);
-            //     return "<a href='$url' class='link'>" . $data->last_invoice_id . "</a>";
-            // })
+            ->editColumn('last_invoice', function ($data) {
+                $url = route('invoices.show', ['invoice' => $data->last_invoice_id]);
+                return "<a href='$url' class='link'>" . $data->last_invoice_id . "</a>";
+            })
+            ->editColumn('total_billed', function ($data) {
+                return '$' . money_format('%i', $data->total_billed);
+            })
+            ->editColumn('total_payed', function ($data) {
+                return '$' . money_format('%i', $data->total_payed);
+>>>>>>> dd426f9f564abe36cd21a3cd9371d105a6287f6f
+            })
             ->rawColumns([
                 'id',
+<<<<<<< HEAD
                 'client_id',
                 'billing_type_id',
                 // 'last_invoice_id',
+=======
+                'client',
+                'billing_type',
+                'last_invoice_id',
+                'last_invoice',
+>>>>>>> dd426f9f564abe36cd21a3cd9371d105a6287f6f
             ]);
             
     }
@@ -69,8 +91,15 @@ class SubscriptionsDataTable extends DataTable
                     ->setTableId('subscriptions-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    ->dom('ftiplrf')
-                    ->orderBy(0, 'asc');
+                    ->dom('Bftiplrf')
+                    ->orderBy(0, 'asc')
+                    ->buttons(
+                        Button::make('create'),
+                        Button::make('export'),
+                        Button::make('print'),
+                        Button::make('reset'),
+                        Button::make('reload')
+                    );
     }
 
     /**
@@ -82,10 +111,10 @@ class SubscriptionsDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('client_id'),
-            Column::make('billing_type_id'),
+            Column::make('client'),
+            Column::make('billing_type'),
             Column::make('last_invoice_date'),
-            Column::make('last_invoice_id'),
+            Column::make('last_invoice'),
             Column::make('next_invoice_date'),
             Column::make('total_invoices'),
             Column::make('total_billed'),
