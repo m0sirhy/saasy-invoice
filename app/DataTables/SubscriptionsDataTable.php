@@ -26,21 +26,13 @@ class SubscriptionsDataTable extends DataTable
                 $url = route('subscriptions.show', ['subscription' => $data->id]);
                 return "<a href='$url' class='link'>" . $data->id . "</a>";
             })
-<<<<<<< HEAD
-            ->editColumn('client_id', function ($data) {
-                $url = route('clients.view', ['client' => $data->client_id]);
-                return "<a href='$url' class = 'link'>" . $data->client_id . "</a>";
-=======
             ->editColumn('client', function ($data) {
                 $url = route('clients.show', ['client' => $data->client_id]);
                 return "<a href='$url' class = 'link'>" . $data->client->name . "</a>";
->>>>>>> dd426f9f564abe36cd21a3cd9371d105a6287f6f
             })
             ->editColumn('billing_type', function ($data) {
                 $url = route('billings.show', ['billing' => $data->billing_type_id]);
                 return "<a href='$url' class='link'>" . $data->billing_type_id . "</a>";
-<<<<<<< HEAD
-=======
             })
             ->editColumn('last_invoice', function ($data) {
                 $url = route('invoices.show', ['invoice' => $data->last_invoice_id]);
@@ -51,20 +43,13 @@ class SubscriptionsDataTable extends DataTable
             })
             ->editColumn('total_payed', function ($data) {
                 return '$' . money_format('%i', $data->total_payed);
->>>>>>> dd426f9f564abe36cd21a3cd9371d105a6287f6f
             })
             ->rawColumns([
                 'id',
-<<<<<<< HEAD
-                'client_id',
-                'billing_type_id',
-                // 'last_invoice_id',
-=======
                 'client',
                 'billing_type',
                 'last_invoice_id',
                 'last_invoice',
->>>>>>> dd426f9f564abe36cd21a3cd9371d105a6287f6f
             ]);
             
     }
