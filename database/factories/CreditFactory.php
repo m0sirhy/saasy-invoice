@@ -12,6 +12,7 @@ $factory->define(Credit::class, function (Faker $faker) {
         'credit_date' => now(),
         'amount' => $faker->randomFloat(2, 100, 5000),
         'balance' => 0,
-        'completed' => 0
+        'completed' => 0,
+        'notes' => ''
     ];
 });

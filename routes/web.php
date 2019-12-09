@@ -142,47 +142,41 @@ Route::get('credits/show/{credit}', 'CreditController@show')
     ->middleware(['auth'])
     ->name('credits.show');
 
-Route::get('credits/create', 'CreditController@create')
-    ->middleware(['auth'])
-    ->name('credits.create');
-
-Route::post('credits/store', 'CreditController@store')
-    ->middleware(['auth'])
-    ->name('credits.store');
-
-Route::post('credits/update/{credit}', 'CreditController@update')
-    ->middleware(['auth'])
-    ->name('credits.update');
-
-Route::get('credits/destroy/{credit}', 'CreditController@destroy')
-    ->middleware(['auth'])
-    ->name('credits.destroy');;
-
-Route::get('subscriptions/show/{subscription?}', 'SubscriptionController@show')
-    ->middleware(['auth'])
-    ->name('subscriptions.show');
-
-Route::post('subscriptions/save', 'SubscriptionController@save')
-    ->middleware(['auth'])
-    ->name('subscriptions.save');
-
-Route::get('subscriptions/create', 'SubscriptionController@create')
-    ->middleware(['auth'])
-    ->name('subscriptions.create');
-
-Route::post('subscriptions/store', 'SubscriptionController@store')
-    ->middleware(['auth'])
-    ->name('subscriptions.store');
-
 Route::get('subscriptions', 'SubscriptionController@index')
-    ->middleware(['auth'])
-    ->name('subscriptions');
+    ->middleware(['auth'])->name('subscriptions');
+Route::get('subscriptions/create', 'SubscriptionController@create')
+    ->middleware(['auth'])->name('subscriptions.create');
+Route::get('subscriptions/show/{subscription?}', 'SubscriptionController@show')
+    ->middleware(['auth'])->name('subscriptions.show');
+Route::post('subscriptions/save', 'SubscriptionController@save')
+    ->middleware(['auth'])->name('subscriptions.save');
+Route::post('subscriptions/store', 'SubscriptionController@store')
+    ->middleware(['auth'])->name('subscriptions.store');
 
 Route::get('billings/show/{subscription?}', 'BillingController@show')
     ->middleware(['auth'])
     ->name('billings.show');
 
-Route::namespace('Api')->prefix('api')->middleware(['auth'])->group(function () {
-    Route::get('products', 'ProductController@getAll');
-    Route::get('clients', 'ClientController@getAll');
-});
+Route::get('commissions', 'CommissionController@index')
+    ->middleware(['auth'])
+    ->name('commissions');
+
+Route::get('commissions/show/{commission}', 'CommissionController@show')
+    ->middleware(['auth'])
+    ->name('commissions.show');
+
+Route::get('commissions/create', 'CommissionController@create')
+    ->middleware(['auth'])
+    ->name('commissions.create');
+
+Route::post('commissions/store', 'CommissionController@store')
+    ->middleware(['auth'])
+    ->name('commissions.store');
+
+Route::post('commissions/update/{commission}', 'CommissionController@update')
+    ->middleware(['auth'])
+    ->name('commissions.update');
+
+Route::get('commissions/destroy/{commission}', 'CommissionController@destroy')
+    ->middleware(['auth'])
+    ->name('commissions.destroy');;
