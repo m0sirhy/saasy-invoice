@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Invoices')
+
 @section('content')
 <div class="bg-blue-800 p-2 shadow text-xl text-white">
     <h3 class="font-bold pl-2">Invoices</h3>

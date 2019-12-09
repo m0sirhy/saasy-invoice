@@ -157,7 +157,26 @@ Route::get('billings/show/{subscription?}', 'BillingController@show')
     ->middleware(['auth'])
     ->name('billings.show');
 
-Route::namespace('Api')->prefix('api')->middleware(['auth'])->group(function () {
-    Route::get('products', 'ProductController@getAll');
-    Route::get('clients', 'ClientController@getAll');
-});
+Route::get('commissions', 'CommissionController@index')
+    ->middleware(['auth'])
+    ->name('commissions');
+
+Route::get('commissions/show/{commission}', 'CommissionController@show')
+    ->middleware(['auth'])
+    ->name('commissions.show');
+
+Route::get('commissions/create', 'CommissionController@create')
+    ->middleware(['auth'])
+    ->name('commissions.create');
+
+Route::post('commissions/store', 'CommissionController@store')
+    ->middleware(['auth'])
+    ->name('commissions.store');
+
+Route::post('commissions/update/{commission}', 'CommissionController@update')
+    ->middleware(['auth'])
+    ->name('commissions.update');
+
+Route::get('commissions/destroy/{commission}', 'CommissionController@destroy')
+    ->middleware(['auth'])
+    ->name('commissions.destroy');;

@@ -13,6 +13,10 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+        $clients = \App\Client::count();
+        $newClients = \App\Client::where('created_at', '>=', now()->subDay())->count();
+        return view('dashboard')
+            ->with('clients', $clients)
+            ->with('newClients', $newClients);
     }
 }
