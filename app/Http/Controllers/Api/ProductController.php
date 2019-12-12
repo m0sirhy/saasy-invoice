@@ -10,7 +10,7 @@ class ProductController extends Controller
 {
     public function getAll(Request $request)
     {
-    	$products = Product::all();
-    	return response()->json($products);
+        $products = Product::all();
+        return response()->json($products);
     }
 }

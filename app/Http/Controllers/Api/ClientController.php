@@ -10,7 +10,7 @@ class ClientController extends Controller
 {
     public function getAll(Request $request)
     {
-    	$clients = Client::all();
-    	return response()->json($clients);
+        $clients = Client::all();
+        return response()->json($clients);
     }
 }
