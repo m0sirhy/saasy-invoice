@@ -22,14 +22,21 @@ class InvoicesDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->editColumn('id', function ($data) {
-                return "<a href='/invoices/view/$data->id' class='link'>" . $data->id . "</a>";
+                $url = route('invoices.show', ['invoice' => $data->id]);
+                return "<a href='$url' class='link'>" . $data->id . "</a>";
+            })
+            ->editColumn('client', function ($data) {
+                $url = route('clients.show', ['client' => $data->client_id]);
+                return "<a href='$url' class='link'>" . $data->client->name . "</a>";
             })
             ->editColumn('status', function ($data) {
-                return '<span class="bg-green-600 shadow-md rounded font-medium px-2 py-1 text-white">
-                <i class="fas fa-eye"></i> Viewed</span>';
+                return "<span class='bg-green-600 shadow-md rounded font-medium px-2 py-1 text-white'>
+                <i class='fas fa-eye'></i> " . $data->client->name . "</span>";
+            })->editColumn('amount', function ($data) {
+                return money_format('$%i', $data->balance);
             })->editColumn('balance', function ($data) {
                 return money_format('$%i', $data->balance);
-            })->rawColumns(['id', 'status']);
+            })->rawColumns(['id', 'status', 'client']);
     }
 
     /**
@@ -74,7 +81,7 @@ class InvoicesDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('client_id'),
+            Column::make('client'),
             Column::make('status'),
             Column::make('balance'),
             Column::make('amount'),

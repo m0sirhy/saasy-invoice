@@ -180,3 +180,10 @@ Route::post('commissions/update/{commission}', 'CommissionController@update')
 Route::get('commissions/destroy/{commission}', 'CommissionController@destroy')
     ->middleware(['auth'])
     ->name('commissions.destroy');
+
+Route::get('api/products', 'Api\ProductController@getAll')
+    ->middleware(['auth']);
+Route::get('api/clients', 'Api\ClientController@getAll')
+    ->middleware(['auth']);
+Route::post('api/invoice/create', 'Api\InvoiceController@create')
+    ->middleware(['auth']);

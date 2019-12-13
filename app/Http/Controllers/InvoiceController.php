@@ -61,7 +61,9 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
-        //
+        dump($invoice);
+        dump($invoice->Client);
+        dump($invoice->Status);
     }
 
     /**

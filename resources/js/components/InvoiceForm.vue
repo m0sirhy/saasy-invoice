@@ -144,7 +144,7 @@
 				if (!this.errors.length) {
 					axios.post('/api/invoice/create', params).then(response => {
 						if (response.data.status === 200) {
-							window.location.href = 'http://invoice2.test/invoices';
+							window.location.href = '/invoices';
 						}
 					}).catch(error => {
 						console.log(this.errors);
