@@ -18,11 +18,6 @@ class Invoice extends Model
         'end_date',
     ];
 
-    public function status()
-    {
-    	return $this->belongsTo('App\InvoiceStatus');
-    }
-
     public function products()
     {
         return $this->hasManyThrough('App\Product', 'App\InvoiceItem');
@@ -36,5 +31,10 @@ class Invoice extends Model
     public function client()
     {
         return $this->belongsTo('App\Client');
+    }
+
+    public function invoiceStatus()
+    {
+        return $this->belongsTo('App\InvoiceStatus');
     }
 }

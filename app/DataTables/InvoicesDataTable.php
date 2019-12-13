@@ -31,7 +31,7 @@ class InvoicesDataTable extends DataTable
             })
             ->editColumn('status', function ($data) {
                 return "<span class='bg-green-600 shadow-md rounded font-medium px-2 py-1 text-white'>
-                <i class='fas fa-eye'></i> " . $data->client->name . "</span>";
+                <i class='fas fa-eye'></i> " . $data->invoiceStatus->status . "</span>";
             })->editColumn('amount', function ($data) {
                 return money_format('$%i', $data->balance);
             })->editColumn('balance', function ($data) {

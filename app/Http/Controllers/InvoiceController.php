@@ -63,7 +63,7 @@ class InvoiceController extends Controller
     {
         dump($invoice);
         dump($invoice->Client);
-        dump($invoice->Status);
+        dump($invoice->InvoiceStatus);
     }
 
     /**
