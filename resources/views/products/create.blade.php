@@ -12,7 +12,7 @@
             </div>
             <div class="p-5">
                 <div class="w-full max-w-xl items-center">
-                    {!! Form::model(null, ['route' => ['products.save']]) !!}
+                    {!! Form::model(null, ['route' => ['products.create']]) !!}
                         <div class="mb-4">
                             {!! Form::label('name', 'Name', ['class' => 'form-label'])  !!}
                             {!! Form::text('name', null, ['class' => 'form-input leading-tight focus:outline-none focus:shadow-outline']) !!}

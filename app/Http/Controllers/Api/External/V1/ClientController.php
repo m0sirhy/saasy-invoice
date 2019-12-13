@@ -16,8 +16,14 @@ class ClientController extends Controller
 
     public function getAll(Request $request)
     {
-        $clients = Client::limit(5)->get();
+        $clients = Client::get();
         return response()->json($clients);
+    }
+
+    public function destroy(Client $client)
+    {
+        $client->delete();
+        return response()->json('Client deleted');
     }
 
     public function show(Client $client)
