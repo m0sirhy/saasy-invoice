@@ -1,119 +1,182 @@
 <template>
-    <div>
-        <div class="p-5">
-            <div class="w-full max-w-xl items-center">
-            <form>
-                <div class="mb-4">
-                    <label class="form-label">Client</label>
-                    <v-select :options="[{label: 'Canada', code: 'ca'}]"></v-select>
-                    <p class="text-right"><a class="text-blue-700" href="">Create Client</a></p>
-                </div>
-                <div class="mb-4">
-                    //invoice date field
-                </div>
-                <div class="mb-4">
-                    // due date field
-                </div>
-            </form>
-        </div>
-        <table class="table-auto w-full">
-        <thead class="bg-orange-500 text-white">
-            <tr>
-                <th class="px-4 py-2">Product</th>
-                <th class="px-4 py-2">Description</th>
-                <th class="px-4 py-2">Unit Price</th>
-                <th class="px-4 py-2">Quantity</th>
-                <th class="px-4 py-2 border-l-2 border-white bg-white"></th>
-                <th class="px-4 py-2 border-l-2 border-white">Line Total</th>
-            </tr>
-        </thead>
-            <tbody>
-                 <tr class="item" v-for="(item, index) in items">
-                  <td><v-select v-model="selected" :options="products"></v-select></td>
-                  <td><input class="form-input leading-tight focus:outline-none focus:shadow-outline" v-model="item.description" />{{ selected }}</td>
-                  <td><input class="form-input leading-tight focus:outline-none focus:shadow-outline" type="number" v-model="item.price" /></td>
-                  <td><input class="form-input leading-tight focus:outline-none focus:shadow-outline" type="number" v-model="item.quantity" /></td>
-                  <td class="text-center"><a @click="removeRow(index)"><i class="fa fa-times text-red-700"></i></a></td>
-                  <td>${{ item.price * item.quantity | currency }}</td>
-                </tr>
+	<div>
+		<form @submit.prevent="submitStep">
+			<div class="p-5">
+				<div class="flex items-center">
+					<div class="w-1/2 p-4">
+						<div class="mb-4">
+							<label class="form-label">Client</label>
+							<v-select v-model="form.client" :reduce="client_id => client_id.id" :options="clients"></v-select>
+							<p class="text-right"><a class="text-blue-700" href="/clients/create">Create Client</a></p>
+						</div>
+						<div class="mb-4">
+							<label class="form-label">Invoice Status</label>
+							<v-select  v-model="form.status" :reduce="invoice_status_id => invoice_status_id.id" :options="statuses"></v-select>
+						</div>
+					</div>
+					<div class="w-1/2 p-4">
+						<div class="flex items-center">
+							<div class="w-1/2 p-4">
+								<div class="mb-4">
+									<label class="form-label">Invoice Date</label>
+									<input v-model="form.invoice_date" class="form-input leading-tight focus:outline-none focus:shadow-outline" type="date">
+								</div>
+								<div class="mb-4">
+									<label class="form-label">Due Date</label>
+									<input class="form-input leading-tight focus:outline-none focus:shadow-outline" type="date" v-model="form.due_date">
+								</div>
+							</div>
+							<div class="w-1/2">
+								<div class="mb-4">
+									<label class="form-label">End Date</label>
+									<input class="form-input leading-tight focus:outline-none focus:shadow-outline" type="date" v-model="form.end_date">
+								</div>
+								<div class="mb-4">
+									<label class="form-label">Start Date</label>
+									<input v-model="form.start_date" class="form-input leading-tight focus:outline-none focus:shadow-outline" type="date">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<table class="table-auto w-full">
+					<thead class="bg-orange-100 border-b-4 border-orange-600 rounded-lg">
+						<tr>
+							<th class="px-4 py-2">Product</th>
+							<th class="px-4 py-2">Description</th>
+							<th class="px-4 py-2 w-1/6">Unit Price</th>
+							<th class="px-4 py-2 w-1/6">Quantity</th>
+							<th class="px-4 py-2"></th>
+							<th class="px-4 py-2 border-l-8 border-white">Line Total</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="item" v-for="(item, index) in items">
+							<td class="p-1"><v-select v-model="item.id" :reduce="id => id.id" :options="products" @input="populate"></v-select></td>
+							<td class="p-1"><input class="form-input leading-tight focus:outline-none focus:shadow-outline" v-model="item.description" /></td>
+							<td class="p-1"><input class="form-input leading-tight focus:outline-none focus:shadow-outline" type="number" step="0.01" min="0" v-model="item.price" /></td>
+							<td class="p-1"><input class="form-input leading-tight focus:outline-none focus:shadow-outline" type="number" min="0" v-model="item.quantity" /></td>
+							<td class="text-center"><a @click="removeRow(index)"><i class="fa fa-times text-red-700"></i></a></td>
+							<td class="text-center">${{ item.price * item.quantity | currency }}</td>
+						</tr>
 
-                <tr>
-                  <td colspan="4">
-                    <button class="btn-add-row" @click="addRow">Add row</button>
-                  </td>
-                </tr>
-
-                <tr class="total">
-                  <td colspan="3"></td>
-                  <td>Total: ${{ total | currency }}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+						<tr>
+							<td colspan="4 pt-4">
+								<button type="button" class="bg-grey-light hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded inline-flex items-center" @click="addRow">
+									<i class="fa fa-plus pr-0 md:pr-3"></i>
+									<span>Add Row</span>
+								</button>
+							</td>
+						</tr>
+						<tr class="total">
+							<td colspan="5"></td>
+							<td class="text-xl"><hr>Total: ${{ total | currency }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="text-right pt-4">
+				<button class="bg-blue-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Create</button>
+			</div>
+		</form>
+	</div>
 </template>
 
 <script>
-import 'vue-select/dist/vue-select.css';
-    export default {
-        data() {
-            return {
-                items: [
-                  { description: "", quantity: 0, price: 0 }
-                ],
-                products: [{label: '', id: null}],
-                clients: [{label: '', id: null}],
-                selected: null,
-                productData: null
-            }
-          },
-          computed: {
-            total() {
-              return this.items.reduce(
-                (acc, item) => acc + item.price * item.quantity,
-                0
-              );
-            }
-          },
-          methods: {
-            addRow() {
-              this.items.push({ description: "Hi Baby", quantity: 1, price: 0 });
-            },
-            removeRow(index) {
-              this.items.splice(index, 1);
-            }
-          },
-          filters: {
-            currency(value) {
-              return value.toFixed(2);
-            }
-          },
-          mounted: function () {
-            var self = this;
-            var productData = [];
-            axios
-              .get('/api/products')
-              .then(function(response) {
-                productData.push(response.data);
-                $.each(response.data, function(key, data)  {
-                  self.products.push({label: data.name, id: data.id})
-                })
-              });
-            axios
-              .get('/api/clients')
-              .then(function(response) {
-                $.each(response.data, function(key, data)  {
-                  self.clients.push({label: data.name, id: data.id})
-                })
-              });
-          },
-          // computed: {
-          //   populate: {
-          //     get: function() {
-
-          //       return //
-          //     }
-          //   }
-          // }
-    }
+	import 'vue-select/dist/vue-select.css';
+	export default {
+		data() {
+			return {
+				items: [
+					{id: 0, description: "", quantity: 0, price: 0, label: '', product_id: 0}
+				],
+				products: [{label: '', id: 0, price: 0, description: '', quantity: 0}],
+				clients: [{label: '', id: null}],
+				statuses: [
+					{label: 'Draft', id: 1},
+					{label: 'Sent', id: 2},
+					{label: 'Viewed', id: 3},
+					{label: 'Unpaid', id: 4},
+					{label: 'Over Due', id: 5},
+					{label: 'Paid', id: 6}
+				],
+				form: {
+					client: '',
+					invoice_date: '',
+					due_date: '',
+					status: '',
+					start_date: '',
+					end_date: ''
+				}
+			}
+		},
+		computed: {
+			total() {
+				let total = this.items.reduce(
+					(acc, item) => acc + item.price * item.quantity,
+					0
+					);
+				this.form.total = total
+				return total
+			}
+		},
+		methods: {
+			addRow() {
+				this.items.push({id: 0, description: "", quantity: 0, price: 0, label: '', product_id: 0});
+			},
+			removeRow(index) {
+				this.items.splice(index, 1);
+			},
+			populate(event) {
+				var item = this.items.find(item => item.id === event)
+				var product = this.products.find(product => product.id === event)
+				item.price = product.price
+				item.quantity = 1
+				item.description = product.description
+				item.label = product.label
+				item.product_id = product.id
+			},
+			submitStep: function (e) {
+				e.preventDefault();
+				this.errors = [];
+				var self = this;
+				let params = Object.assign({}, self.form, {items: self.items});
+				if (!this.errors.length) {
+					axios.post('/api/invoice/create', params).then(response => {
+						if (response.data.status === 200) {
+							window.location.href = 'http://invoice2.test/invoices';
+						}
+					}).catch(error => {
+						console.log(this.errors);
+						if (error.response.status === 422) {
+							this.errors = error.response.data.errors || {};
+						}
+					});
+				}
+				
+			}
+		},
+		filters: {
+			currency(value) {
+				return value.toFixed(2);
+			}
+		},
+		mounted: function () {
+			var self = this;
+			axios
+			.get('/api/products')
+			.then(function(response) {
+				response.data.map(function(data, key) {
+					self.products.push({label: data.name, id: data.id, price: data.cost, description: 'Poppy', quantity: 2})
+				});
+			});
+			axios
+			.get('/api/clients')
+			.then(function(response) {
+				$.each(response.data, function(key, data)  {
+					self.clients.push({label: data.name, id: data.id})
+				})
+			});
+		}
+	}
 </script>

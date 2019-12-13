@@ -179,4 +179,4 @@ Route::post('commissions/update/{commission}', 'CommissionController@update')
 
 Route::get('commissions/destroy/{commission}', 'CommissionController@destroy')
     ->middleware(['auth'])
-    ->name('commissions.destroy');;
+    ->name('commissions.destroy');
