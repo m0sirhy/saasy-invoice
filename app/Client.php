@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\Uuids;
 
 class Client extends Model
 {
+    use Uuids;
     protected $fillable = [
         'name',
         'email',
@@ -21,4 +23,6 @@ class Client extends Model
         'deleted_at',
         'invoice_key'
     ];
+
+    protected $mapUuid = 'uuid';
 }

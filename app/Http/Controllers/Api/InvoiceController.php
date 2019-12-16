@@ -15,14 +15,15 @@ class InvoiceController extends Controller
 {
     public function create(Request $request)
     {
-    	$invoice = Invoice::create([$request->all()]);
-    	foreach ($request->items as $item) {
-	    	InvoiceItem::create([$item]);
-    	}
-    	$invoice->amount = $this->getTotal($request->items);
+        $invoice = Invoice::create($request->all());
+        foreach ($request->items as $item) {
+            $item['invoice_id'] = $invoice->id;
+            InvoiceItem::create($item);
+        }
+        $invoice->amount = $this->getTotal($request->items);
         $invoice->balance = $this->getTotal($request->items);
         $invoice->save();
-    	return response()->json([
+        return response()->json([
             'status' => 200,
             'data' => $request->id
         ]);

@@ -2,7 +2,7 @@
 @section('title', 'New Invoice')
 @section('content')
 @php
-$url = 'api/invoice/store'
+$url = '/api/invoice/create'
 @endphp
 <div class="bg-blue-800 p-2 shadow text-xl text-white">
     <h3 class="font-bold pl-2"><a href="{{ route('invoices') }}">Invoices</a> / New Invoice</h3>

@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\Uuids;
 
 class Invoice extends Model
 {
+    use Uuids;
+
     protected $fillable = [
         'client_id',
         'invoice_status_id',
@@ -17,6 +20,8 @@ class Invoice extends Model
         'start_date',
         'end_date',
     ];
+
+    protected $mapUuid = 'public_id';
 
     public function products()
     {
