@@ -142,16 +142,33 @@ Route::get('credits/show/{credit}', 'CreditController@show')
     ->middleware(['auth'])
     ->name('credits.show');
 
+Route::get('credits/destroy/{credit}', 'CreditController@destroy')
+    ->middleware(['auth'])
+    ->name('credits.destroy');
+
+Route::post('credits/update/{credit}+', 'CreditController@update')
+    ->middleware(['auth'])
+    ->name('credits.update');
+
 Route::get('subscriptions', 'SubscriptionController@index')
-    ->middleware(['auth'])->name('subscriptions');
+    ->middleware(['auth'])
+    ->name('subscriptions');
+
 Route::get('subscriptions/create', 'SubscriptionController@create')
-    ->middleware(['auth'])->name('subscriptions.create');
+    ->middleware(['auth'])
+    ->name('subscriptions.create');
+
 Route::get('subscriptions/show/{subscription?}', 'SubscriptionController@show')
-    ->middleware(['auth'])->name('subscriptions.show');
+    ->middleware(['auth'])
+    ->name('subscriptions.show');
+
 Route::post('subscriptions/save', 'SubscriptionController@save')
-    ->middleware(['auth'])->name('subscriptions.save');
+    ->middleware(['auth'])
+    ->name('subscriptions.save');
+
 Route::post('subscriptions/store', 'SubscriptionController@store')
-    ->middleware(['auth'])->name('subscriptions.store');
+    ->middleware(['auth'])
+    ->name('subscriptions.store');
 
 Route::get('billings/show/{subscription?}', 'BillingController@show')
     ->middleware(['auth'])
