@@ -15,15 +15,13 @@ class InvoiceController extends Controller
 {
     public function create(Request $request)
     {
-    	$invoice = Invoice::updateOrCreate([
-            $request->all(),
-            'amount' => $request->total,
-            'balance' => $request->total
-        ]);
+    	$invoice = Invoice::create([$request->all()]);
     	foreach ($request->items as $item) {
 	    	InvoiceItem::create([$item]);
     	}
-    	
+    	$invoice->amount = $this->getTotal($request->items);
+        $invoice->balance = $this->getTotal($request->items);
+        $invoice->save();
     	return response()->json([
             'status' => 200,
             'data' => $request->id
@@ -39,6 +37,8 @@ class InvoiceController extends Controller
                 $item
             );
         }
+        $invoice->amount = $this->getTotal($request->items);
+        $invoice->save();
         return response()->json([
             'status' => 200
         ]);
@@ -49,5 +49,14 @@ class InvoiceController extends Controller
         InvoiceItem::where('invoice_id', $invoice->id)->delete();
         $invoice->delete();
         return redirect()->route('invoices');
+    }
+
+    public function getTotal($items)
+    {
+        $total = 0;
+        foreach ($items as $item) {
+            $total += $item['quantity'] * $item['unit_price'];
+        }
+        return $total;
     }
 }
