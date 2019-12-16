@@ -1,17 +1,17 @@
 <template>
 	<div>
 		<form @submit.prevent="submitStep">
-			<div class="p-5">
+			<div class="px-5">
 				<div class="flex items-center">
 					<div class="w-1/2 p-4">
 						<div class="mb-4">
 							<label class="form-label">Client</label>
-							<v-select v-model="form.client" :reduce="client_id => client_id.id" :options="clients"></v-select>
+							<v-select v-model="form.client_id" :reduce="client_id => client_id.id" :options="clients"></v-select>
 							<p class="text-right"><a class="text-blue-700" href="/clients/create">Create Client</a></p>
 						</div>
 						<div class="mb-4">
 							<label class="form-label">Invoice Status</label>
-							<v-select  v-model="form.status" :reduce="invoice_status_id => invoice_status_id.id" :options="statuses"></v-select>
+							<v-select  v-model="form.invoice_status_id" :reduce="invoice_status_id => invoice_status_id.id" :options="statuses"></v-select>
 						</div>
 					</div>
 					<div class="w-1/2 p-4">
@@ -52,12 +52,12 @@
 					</thead>
 					<tbody>
 						<tr class="item" v-for="(item, index) in items">
-							<td class="p-1"><v-select v-model="item.id" :reduce="id => id.id" :options="products" @input="populate"></v-select></td>
+							<td class="p-1"><v-select v-model="item.product_id" :reduce="product_id => product_id.id" :options="products" @input="populate"></v-select></td>
 							<td class="p-1"><input class="form-input leading-tight focus:outline-none focus:shadow-outline" v-model="item.description" /></td>
-							<td class="p-1"><input class="form-input leading-tight focus:outline-none focus:shadow-outline" type="number" step="0.01" min="0" v-model="item.price" /></td>
+							<td class="p-1"><input class="form-input leading-tight focus:outline-none focus:shadow-outline" type="number" step="0.01" min="0" v-model="item.unit_price" /></td>
 							<td class="p-1"><input class="form-input leading-tight focus:outline-none focus:shadow-outline" type="number" min="0" v-model="item.quantity" /></td>
 							<td class="text-center"><a @click="removeRow(index)"><i class="fa fa-times text-red-700"></i></a></td>
-							<td class="text-center">${{ item.price * item.quantity | currency }}</td>
+							<td class="text-center">${{ item.unit_price * item.quantity | currency }}</td>
 						</tr>
 
 						<tr>
@@ -75,8 +75,10 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="text-right pt-4">
-				<button class="bg-blue-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Create</button>
+			<div class="text-right p-3">
+				<button class="bg-blue-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">
+					<slot>Submit</slot>
+				</button>
 			</div>
 		</form>
 	</div>
@@ -85,12 +87,13 @@
 <script>
 	import 'vue-select/dist/vue-select.css';
 	export default {
+		props: ['invoiceModel', 'itemsModel', 'url'],
 		data() {
 			return {
 				items: [
-					{id: 0, description: "", quantity: 0, price: 0, label: '', product_id: 0}
+					{id: 0, description: "", quantity: 0, unit_price: 0, name: '', product_id: 0}
 				],
-				products: [{label: '', id: 0, price: 0, description: '', quantity: 0}],
+				products: [{name: '', id: 0, unit_price: 0, notes: '', label: ''}],
 				clients: [{label: '', id: null}],
 				statuses: [
 					{label: 'Draft', id: 1},
@@ -101,19 +104,20 @@
 					{label: 'Paid', id: 6}
 				],
 				form: {
-					client: '',
+					client_id: '',
 					invoice_date: '',
 					due_date: '',
-					status: '',
+					invoice_status_id: '',
 					start_date: '',
-					end_date: ''
-				}
+					end_date: '',
+					id: 0
+				},
 			}
 		},
 		computed: {
 			total() {
 				let total = this.items.reduce(
-					(acc, item) => acc + item.price * item.quantity,
+					(acc, item) => acc + item.unit_price * item.quantity,
 					0
 					);
 				this.form.total = total
@@ -122,19 +126,18 @@
 		},
 		methods: {
 			addRow() {
-				this.items.push({id: 0, description: "", quantity: 0, price: 0, label: '', product_id: 0});
+				this.items.push({id: 0, description: "", quantity: 0, unit_price: 0, name: '', product_id: 0});
 			},
 			removeRow(index) {
 				this.items.splice(index, 1);
 			},
 			populate(event) {
-				var item = this.items.find(item => item.id === event)
+				var item = this.items.find(item => item.product_id === event)
 				var product = this.products.find(product => product.id === event)
-				item.price = product.price
+				item.unit_price = product.unit_price
 				item.quantity = 1
-				item.description = product.description
-				item.label = product.label
-				item.product_id = product.id
+				item.description = product.notes
+				item.name = product.name
 			},
 			submitStep: function (e) {
 				e.preventDefault();
@@ -142,7 +145,7 @@
 				var self = this;
 				let params = Object.assign({}, self.form, {items: self.items});
 				if (!this.errors.length) {
-					axios.post('/api/invoice/create', params).then(response => {
+					axios.post(this.url, params).then(response => {
 						if (response.data.status === 200) {
 							window.location.href = '/invoices';
 						}
@@ -163,11 +166,18 @@
 		},
 		mounted: function () {
 			var self = this;
-			axios
-			.get('/api/products')
+			axios.get('/api/products')
 			.then(function(response) {
 				response.data.map(function(data, key) {
-					self.products.push({label: data.name, id: data.id, price: data.cost, description: 'Poppy', quantity: 2})
+					self.products.push(
+						{
+							name: data.name,
+							id: data.id,
+							unit_price: data.unit_price,
+							notes: data.notes,
+							label: data.name
+						}
+					)
 				});
 			});
 			axios
@@ -177,6 +187,10 @@
 					self.clients.push({label: data.name, id: data.id})
 				})
 			});
+			if (this.invoiceModel !== '' && this.itemsModel !== '') {
+				this.form = JSON.parse(this.invoiceModel);
+				this.items = JSON.parse(this.itemsModel);
+			}
 		}
 	}
 </script>

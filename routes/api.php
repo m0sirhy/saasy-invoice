@@ -13,8 +13,3 @@ use Illuminate\Http\Request;
 |
 */
 
-
-Route::get('products', 'ProductController@getAll');
-Route::get('clients', 'ClientController@getAll');
-Route::post('invoice/create', 'InvoiceController@create');
-

@@ -98,7 +98,11 @@ Route::get('invoices/create', 'InvoiceController@create')
     ->middleware(['auth'])
     ->name('invoices.create');
 
-Route::get('invoices/store', 'InvoiceController@store')
+Route::get('invoices/edit/{invoice}', 'InvoiceController@edit')
+    ->middleware(['auth'])
+    ->name('invoices.edit');
+
+Route::post('invoices/store', 'InvoiceController@store')
     ->middleware(['auth'])
     ->name('invoices.store');
 
@@ -203,4 +207,8 @@ Route::get('api/products', 'Api\ProductController@getAll')
 Route::get('api/clients', 'Api\ClientController@getAll')
     ->middleware(['auth']);
 Route::post('api/invoice/create', 'Api\InvoiceController@create')
+    ->middleware(['auth']);
+Route::post('api/invoice/update/{invoice}', 'Api\InvoiceController@update')
+    ->middleware(['auth']);
+Route::get('api/invoice/destroy/{invoice}', 'Api\InvoiceController@destroy')
     ->middleware(['auth']);
