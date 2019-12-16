@@ -15,28 +15,39 @@ class InvoiceController extends Controller
 {
     public function create(Request $request)
     {
-    	$invoice = Invoice::create([
-    		'client_id' => $request->client,
-    		'invoice_status_id' => $request->status,
-    		'balance' => $request->total,
-    		'amount' => $request->total,
-    		'due_date' => $request->due_date,
-    		'invoice_date' => $request->invoice_date,
-    		'start_date' => $request->start_date,
-    		'end_date' => $request->end_date,
-    		'public_id' => 5
-    	]);
+    	$invoice = Invoice::updateOrCreate([
+            $request->all(),
+            'amount' => $request->total,
+            'balance' => $request->total
+        ]);
     	foreach ($request->items as $item) {
-	    	InvoiceItem::create([
-	    		'invoice_id' => $invoice['id'],
-	    		'quantity' => $item['quantity'],
-	    		'product_id' => $item['product_id'],
-	    		'description' => $item['description']
-	    	]);
+	    	InvoiceItem::create([$item]);
     	}
     	
     	return response()->json([
+            'status' => 200,
+            'data' => $request->id
+        ]);
+    }
+
+    public function update(Request $request, Invoice $invoice)
+    {
+        $invoice->update($request->all());
+        foreach ($request->items as $item) {
+            InvoiceItem::updateOrCreate(
+                ['id' => $item['id'], 'invoice_id' => $invoice->id],
+                $item
+            );
+        }
+        return response()->json([
             'status' => 200
         ]);
+    }
+
+    public function destroy(Invoice $invoice)
+    {
+        InvoiceItem::where('invoice_id', $invoice->id)->delete();
+        $invoice->delete();
+        return redirect()->route('invoices');
     }
 }

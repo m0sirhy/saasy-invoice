@@ -10,6 +10,8 @@ class InvoiceItem extends Model
         'invoice_id',
         'product_id',
         'quantity',
-        'description'
+        'description',
+        'unit_price',
+        'name'
     ];  
 }

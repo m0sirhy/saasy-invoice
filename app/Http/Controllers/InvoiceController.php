@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Invoice;
 use App\Client;
 use App\Product;
+use App\InvoiceItem;
 use Illuminate\Http\Request;
 use App\DataTables\InvoicesDataTable;
 
@@ -27,30 +28,7 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        $clients = Client::all();
-        $clientsNames = ['Select Client'];
-        foreach ($clients as $client) {
-            $clientsNames[$client->id] = $client->name;
-        }
-        $products = Product::all();
-        $productsNames = ['Select Product'];
-        foreach ($products as $product) {
-            $productsNames[$product->id] = $product->name;
-        }
-        return view('invoices.new')
-            ->with('clients', $clientsNames)
-            ->with('products', $productsNames);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        return view('invoices.new');
     }
 
     /**
@@ -61,9 +39,7 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
-        dump($invoice);
-        dump($invoice->Client);
-        dump($invoice->InvoiceStatus);
+        return view('invoices.show');
     }
 
     /**
@@ -74,7 +50,10 @@ class InvoiceController extends Controller
      */
     public function edit(Invoice $invoice)
     {
-        //
+        $items = InvoiceItem::where('invoice_id', $invoice->id)->get()->toArray();
+        return view('invoices.edit')
+            ->with('invoice', $invoice->toArray())
+            ->with('items', $items);
     }
 
     /**
