@@ -1,9 +1,7 @@
 @extends('layouts.app')
 @section('title', 'New Invoice')
 @section('content')
-@php
-$url = '/api/invoice/create'
-@endphp
+
 <div class="bg-blue-800 p-2 shadow text-xl text-white">
     <h3 class="font-bold pl-2"><a href="{{ route('invoices') }}">Invoices</a> / New Invoice</h3>
 </div>
@@ -14,7 +12,7 @@ $url = '/api/invoice/create'
                 <h5 class="font-bold uppercase text-gray-600">Invoice Details</h5>
             </div>
             <div class="p-5" id="app">
-                <invoice-form invoice-model='' items-model='' url='{{ $url }}'>
+                <invoice-form invoice-model='' items-model='' url='{{ route('api.invoice.create') }}'>
                 </invoice-form>
             </div>
         </div>

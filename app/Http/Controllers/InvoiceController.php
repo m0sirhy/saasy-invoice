@@ -28,7 +28,7 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        return view('invoices.new');
+        return view('invoices.create');
     }
 
     /**
@@ -76,6 +76,7 @@ class InvoiceController extends Controller
      */
     public function destroy(Invoice $invoice)
     {
-        //
+        $invoice->delete();
+        return redirect()->route('invoices');
     }
 }

@@ -80,7 +80,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapExternalRoutes()
     {
-        Route::prefix('api/v1')
+        Route::prefix('api')
              ->middleware('api')
              ->namespace($this->namespace . '\Api\External\V1')
              ->group(base_path('routes/external_v1.php'));

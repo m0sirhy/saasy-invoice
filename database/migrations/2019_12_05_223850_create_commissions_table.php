@@ -20,7 +20,7 @@ class CreateCommissionsTable extends Migration
             $table->float('amount')->default(0);
             $table->datetime('paid_date');
             $table->integer('paid')->default(0);
-            $table->string('notes');
+            $table->string('notes')->nullable();
             $table->timestamps();
         });
     }

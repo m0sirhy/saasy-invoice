@@ -15,7 +15,7 @@ class CommissionController extends Controller
      */
     public function index(CommissionsDataTable $dataTable)
     {
-        return $dataTable->render('subscriptions.index');
+        return $dataTable->render('commissions.index');
     }
 
     /**
@@ -25,7 +25,7 @@ class CommissionController extends Controller
      */
     public function create()
     {
-        //
+        return view('commissions.create');
     }
 
     /**
@@ -40,17 +40,6 @@ class CommissionController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Commission  $commission
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Commission $commission)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Commission  $commission
@@ -58,7 +47,8 @@ class CommissionController extends Controller
      */
     public function edit(Commission $commission)
     {
-        //
+        return view('commissions.edit')
+            ->with('commission', $commission);
     }
 
     /**
@@ -81,6 +71,7 @@ class CommissionController extends Controller
      */
     public function destroy(Commission $commission)
     {
-        //
+        $commission->delete();
+        return redirect()->route('commissions');
     }
 }

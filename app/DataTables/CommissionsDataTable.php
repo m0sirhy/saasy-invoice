@@ -22,11 +22,16 @@ class CommissionsDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->editColumn('id', function ($data) {
-                $url = route('commissions.show', ['commission' => $data->id]);
+                $url = route('commissions.edit', ['commission' => $data->id]);
                 return "<a href='$url' class='link'>" . $data->id . "</a>";
             })
+            ->editColumn('invoice', function ($data) {
+                $url = route('invoices.edit', ['invoice' => $data->invoice_id]);
+                return "<a href='$url' class='link'>" . $data->invoice_id . "</a>";
+            })
             ->editColumn('user', function ($data) {
-                return $data->user->name;
+                $url = route('user.show', ['user' => $data->user_id]);
+                return "<a href='$url' class='link'>" . $data->user->name . "</a>";
             })
             ->editColumn('amount', function ($data) {
                 return '$' . money_format('%i', $data->amount);
@@ -37,7 +42,7 @@ class CommissionsDataTable extends DataTable
                 }
                 return "No";
             })
-            ->rawColumns(['id', 'user']);
+            ->rawColumns(['id', 'invoice', 'user']);
     }
 
     /**
@@ -82,6 +87,7 @@ class CommissionsDataTable extends DataTable
     {
         return [
             Column::make('id'),
+            Column::make('invoice'),
             Column::make('user'),
             Column::make('amount'),
             Column::make('paid'),
