@@ -31,53 +31,15 @@ class CreditController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $client = Client::findOrFail($request->client_id);
-        Credit::create([
-            'client_id' => $request->client_id,
-            'user_id' => Auth::user()->id,
-            'credit_date' => now(),
-            'amount' => $request->amount,
-            'balance' => $request->amount,
-            'notes' => $request->notes,
-            'completed' => 0
-        ]);
-        return redirect()->route('credits');
-    }
-
-    /**
-     * Display the specified resource.
+     * Show the form for editing the specified resource.
      *
      * @param  \App\Credit  $credit
      * @return \Illuminate\Http\Response
      */
-    public function show(Credit $credit)
+    public function edit(Credit $credit)
     {
-        return view('credits.show')
+        return view('credits.edit')
             ->with('credit', $credit);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Credit  $credit
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Credit $credit)
-    {
-        $credit->update($request->all());
-        if ($request->completed == 1) {
-            $credit->balance = 0;
-            $credit->save();
-        }
-        return redirect()->route('credits');
     }
 
     /**

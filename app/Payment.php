@@ -16,7 +16,7 @@ class Payment extends Model
         'amount',
         'deleted_at',
         'payment_at',
-        'refunbded',
+        'refunded',
         'auth_code'
     ];
 

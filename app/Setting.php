@@ -21,6 +21,7 @@ class Setting extends Model
         'city',
         'state',
         'zipcode',
-        'country'
+        'country',
+        'auto_credits'
     ];
 }

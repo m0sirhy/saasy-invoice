@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Client;
 use App\Invoice;
+use App\Events\InvoiceCreated;
 use App\InvoiceItem;
 use App\InvoiceStatus;
-use App\Client;
 use App\Product;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Log;
 
 class InvoiceController extends Controller
@@ -23,6 +24,7 @@ class InvoiceController extends Controller
         $invoice->amount = $this->getTotal($request->items);
         $invoice->balance = $this->getTotal($request->items);
         $invoice->save();
+        event(new InvoiceCreated($invoice));
         return response()->json([
             'status' => 200,
             'data' => $request->id

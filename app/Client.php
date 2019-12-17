@@ -25,4 +25,9 @@ class Client extends Model
     ];
 
     protected $mapUuid = 'uuid';
+
+    public function credits()
+    {
+        return $this->hasMany('App\Credit');
+    }
 }

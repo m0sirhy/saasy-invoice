@@ -21,6 +21,9 @@ class SettingController extends Controller
 
     public function save(Request $request)
     {
+        if (!isset($request->auto_credits)) {
+            $request->auto_credits = 0;
+        }
         Setting::updateOrCreate(
             ['id' => 1],
             $request->all()

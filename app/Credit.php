@@ -13,7 +13,8 @@ class Credit extends Model
         'amount',
         'balance',
         'completed',
-        'notes'
+        'notes',
+        'payment_type'
     ];
 
     protected $dates = [
