@@ -13,7 +13,7 @@
         "axios": "^0.19",
         "bootstrap": "^4.4.1",
         "cross-env": "^5.1",
-        "css-loader": "^3.3.0",
+        "css-loader": "^3.4.0",
         "laravel-mix": "^4.0.14",
         "laravel-mix-purgecss": "^4.1",
         "laravel-mix-tailwind": "^0.1.0",
@@ -23,8 +23,8 @@
         "sass": "^1.23.7",
         "sass-loader": "^7.1.0",
         "tailwindcss": "^1.1.4",
-        "vue": "^2.6.10",
-        "vue-template-compiler": "^2.6.10"
+        "vue": "^2.6.11",
+        "vue-template-compiler": "^2.6.11"
     },
     "dependencies": {
         "datatables.net": "^1.10.20",

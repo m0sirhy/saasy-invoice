@@ -17,6 +17,7 @@
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^6.0",
         "league/omnipay": "^3.0",
+        "omnipay/authorizenet": "3.x@dev",
         "yajra/laravel-datatables-buttons": "^4.8",
         "yajra/laravel-datatables-editor": "^1.17",
         "yajra/laravel-datatables-fractal": "^1.5",
