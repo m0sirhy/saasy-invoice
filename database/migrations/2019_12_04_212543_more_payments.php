@@ -14,9 +14,9 @@ class MorePayments extends Migration
     public function up()
     {
         Schema::table('payments', function (Blueprint $table) {
-            $table->datetime('payment_at');
-            $table->integer('refunded');
-            $table->string('auth_code');
+            $table->date('payment_at')->nullable();
+            $table->integer('refunded')->default(0);
+            $table->string('auth_code')->nullable();
         });
     }
 

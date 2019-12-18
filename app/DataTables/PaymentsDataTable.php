@@ -22,7 +22,7 @@ class PaymentsDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->editColumn('id', function ($data) {
-                $url = route('payments.show', ['payment' => $data->id]);
+                $url = route('payments.edit', ['payment' => $data->id]);
                 return "<a href='$url' class='link'>" . $data->id . "</a>";
             })
             ->editColumn('refunded', function ($data) {
@@ -37,7 +37,7 @@ class PaymentsDataTable extends DataTable
             })
             ->editColumn('invoice', function ($data) {
                 $url = route('invoices.show', ['invoice' => $data->invoice_id]);
-                return "<a href='$url' class='link'>" . $data->invoice_id . "</a>";
+                return "<a href='$url' class='link'>#" . $data->invoice_id . "</a>";
             })
             ->editColumn('amount', function ($data) {
                 return '$' . money_format('%i', $data->amount);
@@ -71,6 +71,7 @@ class PaymentsDataTable extends DataTable
                     ->dom('Bftiplrf')
                     ->orderBy(0, 'desc')
                     ->buttons(
+                        Button::make('create'),
                         Button::make('export'),
                         Button::make('print'),
                         Button::make('reset'),
@@ -92,7 +93,8 @@ class PaymentsDataTable extends DataTable
             Column::make('amount'),
             Column::make('created_at'),
             Column::make('payment_at'),
-            Column::make('refunded')
+            Column::make('refunded'),
+            Column::make('payment_type')
         ];
     }
 

@@ -23,7 +23,7 @@ class InvoicesDataTable extends DataTable
             ->eloquent($query)
             ->editColumn('id', function ($data) {
                 $url = route('invoices.edit', ['invoice' => $data->id]);
-                return "<a href='$url' class='link'>" . $data->id . "</a>";
+                return "<a href='$url' class='link'>#" . $data->id . "</a>";
             })
             ->editColumn('client', function ($data) {
                 $url = route('clients.show', ['client' => $data->client_id]);

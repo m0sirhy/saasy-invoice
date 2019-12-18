@@ -21,11 +21,8 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\InvoiceCreated' => [
             'App\Listeners\InvoiceApplyCredits',
         ],
-        'App\Events\AddPayment' => [
-            'App\Listeners\NewPayment',
-        ],
-        'App\Events\ApplyCreditPayment' => [
-            'App\Listeners\NewCreditPayment',
+        'App\Events\PaymentAdded' => [
+            'App\Listeners\PaymentAdded',
         ],
     ];
 
@@ -37,7 +34,5 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
-
-        //
     }
 }

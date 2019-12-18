@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 use App\Credit;
 use App\Setting;
-use App\Events\ApplyCreditPayment;
+use App\Events\PaymentAdded;
 use App\Events\InvoiceCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -43,20 +43,26 @@ class InvoiceApplyCredits
             }
             if ($credit->balance > $event->invoice->balance) {
                 $amount = $event->invoice->balance;
-                $credit->balance -= $event->invoice->balance;
-                $event->invoice->balance = 0;
-                $credit->save();
-                $event->invoice->save();
-                event(new ApplyCreditPayment($event->invoice, $amount));
+                $this->addPayment($event, $amount);
+                event(new PaymentAdded($event->invoice, $amount));
                 break;
             }
+            $this->addPayment($event, $amount);
             $amount = $credit->balance;
-            $event->invoice->balance = $credit->balance;
-            $credit->balance = 0;
-            $credit->completed = 1;
-            $credit->save();
-            $event->invoice->save();
-            event(new ApplyCreditPayment($event->invoice, $amount));
+            event(new PaymentAdded($event->invoice, $amount));
         }
+    }
+
+    public function addPayment($event, $amount)
+    {
+        Payment::create([
+            'invoice_id' => $event->invoice->id,
+            'client_id' => $event->invoice->client_id,
+            'amount' => $amount,
+            'refunded' => '0',
+            'auth_code' => '',
+            'payment_type' => 'credit',
+            'payment_at' => now()
+        ]);
     }
 }

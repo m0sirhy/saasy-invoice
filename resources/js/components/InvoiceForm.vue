@@ -159,11 +159,6 @@
                 
             }
         },
-        filters: {
-            currency(value) {
-                return value.toFixed(2);
-            }
-        },
         mounted: function () {
             var self = this;
             axios.get('/api/products')

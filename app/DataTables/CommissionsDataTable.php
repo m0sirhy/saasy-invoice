@@ -27,7 +27,7 @@ class CommissionsDataTable extends DataTable
             })
             ->editColumn('invoice', function ($data) {
                 $url = route('invoices.edit', ['invoice' => $data->invoice_id]);
-                return "<a href='$url' class='link'>" . $data->invoice_id . "</a>";
+                return "<a href='$url' class='link'>#" . $data->invoice_id . "</a>";
             })
             ->editColumn('user', function ($data) {
                 $url = route('user.show', ['user' => $data->user_id]);

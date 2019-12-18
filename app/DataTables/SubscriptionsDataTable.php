@@ -36,7 +36,7 @@ class SubscriptionsDataTable extends DataTable
             })
             ->editColumn('last_invoice', function ($data) {
                 $url = route('invoices.show', ['invoice' => $data->last_invoice_id]);
-                return "<a href='$url' class='link'>" . $data->last_invoice_id . "</a>";
+                return "<a href='$url' class='link'>#" . $data->last_invoice_id . "</a>";
             })
             ->editColumn('total_billed', function ($data) {
                 return '$' . money_format('%i', $data->total_billed);

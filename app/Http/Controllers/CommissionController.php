@@ -29,17 +29,6 @@ class CommissionController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Commission  $commission
@@ -49,18 +38,6 @@ class CommissionController extends Controller
     {
         return view('commissions.edit')
             ->with('commission', $commission);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Commission  $commission
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Commission $commission)
-    {
-        //
     }
 
     /**

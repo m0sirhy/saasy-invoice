@@ -30,4 +30,14 @@ class Client extends Model
     {
         return $this->hasMany('App\Credit');
     }
+
+    public function invoices()
+    {
+        return $this->hasMany('App\Invoice');
+    }
+
+    public function payments()
+    {
+        return $this->hasMany('App\Payment');
+    }
 }

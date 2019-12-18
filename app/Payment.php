@@ -17,12 +17,19 @@ class Payment extends Model
         'deleted_at',
         'payment_at',
         'refunded',
-        'auth_code'
+        'auth_code',
+        'payment_type'
     ];
 
     protected $dates = [
-        'deleted_at',
-        'payment_at'
+        'deleted_at'
+    ];
+
+    const TYPES = [
+        0 => 'Cash',
+        1 => 'Check',
+        2 => 'Site Credit',
+        3 => 'Credit Card'
     ];
 
     public function client()

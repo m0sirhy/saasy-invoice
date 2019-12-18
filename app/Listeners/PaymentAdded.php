@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Listeners;
+
+use App\Events\PaymentAdded as PA;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+
+class PaymentAdded
+{
+    /**
+     * Create the event listener.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        //
+    }
+
+    /**
+     * Handle the event.
+     *
+     * @param  AddPayment  $event
+     * @return void
+     */
+    public function handle(PA $event)
+    {
+        $event->invoice->balance -= $event->amount;
+        if ($event->invoice->balance == 0) {
+            $event->invoice_status_id = 6;
+        }
+        $event->invoice->save();
+        $paid = $event->invoice->client->payments
+            ->where('payment_type', '!=', 'Site Credit')
+            ->sum('balance');
+        $event->invoice->client->update([
+            'balance' => $event->invoice->client->invoices->sum('balance'),
+            'total_paid' => $paid,
+        ]);
+    }
+}

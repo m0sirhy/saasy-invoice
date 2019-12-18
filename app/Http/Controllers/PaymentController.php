@@ -20,10 +20,23 @@ class PaymentController extends Controller
         return $dataTable->render('payments.index');
     }
 
-    public function show(Payment $payment)
+    public function create()
     {
-        return view('payments.show')
-            ->with('payment', $payment);
+        return view('payments.create')
+            ->with('types', Payment::TYPES);
+    }
+
+        /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Payment  $payment
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Payment $payment)
+    {
+        return view('payments.edit')
+            ->with('payment', $payment)
+            ->with('types', Payment::TYPES);
     }
 
     /**
