@@ -26,7 +26,6 @@ class InvoiceController extends Controller
         $invoice->save();
         event(new InvoiceCreated($invoice));
         return response()->json([
-            'status' => 200,
             'data' => $request->id
         ]);
     }
@@ -43,7 +42,7 @@ class InvoiceController extends Controller
         $invoice->amount = $this->getTotal($request->items);
         $invoice->save();
         return response()->json([
-            'status' => 200
+            $invoice
         ]);
     }
 

@@ -10,8 +10,8 @@ class CommissionController extends Controller
 {
     public function create(Request $request)
     {
-        Commission::create($request->all());
-        return response()->json(['status' => 200]);
+        $commission = Commission::create($request->all());
+        return response()->json($commission);
     }
 
     public function getAll(Request $request)

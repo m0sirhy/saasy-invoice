@@ -78,7 +78,6 @@
                     axios.post(this.url, params).then(response => {
                         window.location.href = '/payments';
                     }).catch(error => {
-                        console.log(this.errors);
                         if (error.response.status === 422) {
                             this.errors = error.response.data.errors || {};
                         }
@@ -86,14 +85,11 @@
                 }
             },
             getInvoices: function (e) {
-                console.log('test')
-                console.log(e)
                 var self = this;
                 self.invoices = []
                 axios.get('/api/invoice/client/' + e)
                 .then(function(response) {
                     $.each(response.data, function(key, data)  {
-                        console.log(data)
                         self.invoices.push({label: '#' + data.id + ' $' + data.balance, id: data.id})
                     })
                 });
@@ -115,7 +111,6 @@
             if (this.paymentModel !== '') {
                 this.form = JSON.parse(this.paymentModel);
                 this.form.payment_at = JSON.parse(this.paymentModel).payment_at;
-                console.log();
             }
         }
     }

@@ -1916,14 +1916,8 @@ __webpack_require__.r(__webpack_exports__);
 
       if (!this.errors.length) {
         axios.post(this.url, params).then(function (response) {
-          console.log(response.data.status);
-
-          if (response.data.status === 200) {
-            window.location.href = '/commissions';
-          }
+          window.location.href = '/commissions';
         })["catch"](function (error) {
-          console.log(_this.errors);
-
           if (error.response.status === 422) {
             _this.errors = error.response.data.errors || {};
           }
@@ -2043,14 +2037,8 @@ __webpack_require__.r(__webpack_exports__);
 
       if (!this.errors.length) {
         axios.post(this.url, params).then(function (response) {
-          console.log(response.data.status);
-
-          if (response.data.status === 200) {
-            window.location.href = '/credits';
-          }
+          window.location.href = '/credits';
         })["catch"](function (error) {
-          console.log(_this.errors);
-
           if (error.response.status === 422) {
             _this.errors = error.response.data.errors || {};
           }
@@ -2280,12 +2268,8 @@ __webpack_require__.r(__webpack_exports__);
 
       if (!this.errors.length) {
         axios.post(this.url, params).then(function (response) {
-          if (response.data.status === 200) {
-            window.location.href = '/invoices';
-          }
+          window.location.href = '/invoices';
         })["catch"](function (error) {
-          console.log(_this.errors);
-
           if (error.response.status === 422) {
             _this.errors = error.response.data.errors || {};
           }
@@ -2423,8 +2407,6 @@ __webpack_require__.r(__webpack_exports__);
         axios.post(this.url, params).then(function (response) {
           window.location.href = '/payments';
         })["catch"](function (error) {
-          console.log(_this.errors);
-
           if (error.response.status === 422) {
             _this.errors = error.response.data.errors || {};
           }
@@ -2432,13 +2414,10 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     getInvoices: function getInvoices(e) {
-      console.log('test');
-      console.log(e);
       var self = this;
       self.invoices = [];
       axios.get('/api/invoice/client/' + e).then(function (response) {
         $.each(response.data, function (key, data) {
-          console.log(data);
           self.invoices.push({
             label: '#' + data.id + ' $' + data.balance,
             id: data.id
@@ -2466,7 +2445,6 @@ __webpack_require__.r(__webpack_exports__);
     if (this.paymentModel !== '') {
       this.form = JSON.parse(this.paymentModel);
       this.form.payment_at = JSON.parse(this.paymentModel).payment_at;
-      console.log();
     }
   }
 });

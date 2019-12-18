@@ -17,7 +17,7 @@ class CreditController extends Controller
             $completed = 1;
             $balance = 0;
         }
-        Credit::create([
+        $credit = Credit::create([
             'client_id' => $request->client_id,
             'user_id' => Auth::user()->id,
             'credit_date' => $request->credit_date,
@@ -26,7 +26,7 @@ class CreditController extends Controller
             'notes' => $request->notes,
             'completed' => $completed
         ]);
-        return response()->json(['status' => 200]);
+        return response()->json($credit);
     }
 
     /**

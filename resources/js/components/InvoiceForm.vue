@@ -146,11 +146,8 @@
                 let params = Object.assign({}, self.form, {items: self.items});
                 if (!this.errors.length) {
                     axios.post(this.url, params).then(response => {
-                        if (response.data.status === 200) {
-                            window.location.href = '/invoices';
-                        }
+                        window.location.href = '/invoices';
                     }).catch(error => {
-                        console.log(this.errors);
                         if (error.response.status === 422) {
                             this.errors = error.response.data.errors || {};
                         }

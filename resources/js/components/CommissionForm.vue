@@ -69,12 +69,8 @@
                 let params = Object.assign({}, self.form);
                 if (!this.errors.length) {
                     axios.post(this.url, params).then(response => {
-                        console.log(response.data.status);
-                        if (response.data.status === 200) {
-                            window.location.href = '/commissions';
-                        }
+                        window.location.href = '/commissions';
                     }).catch(error => {
-                        console.log(this.errors);
                         if (error.response.status === 422) {
                             this.errors = error.response.data.errors || {};
                         }
