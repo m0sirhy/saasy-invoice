@@ -26,7 +26,12 @@ class PaymentController extends Controller
             ->with('types', Payment::TYPES);
     }
 
-        /**
+    public function userCharge()
+    {
+        return view('payments.charge');
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Payment  $payment

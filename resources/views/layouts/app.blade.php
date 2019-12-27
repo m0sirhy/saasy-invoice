@@ -10,7 +10,9 @@
     <!-- Styles -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
     <link href="{{ mix('css/app.css') }}" rel="stylesheet"> 
-<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+</script>
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.20/af-2.3.4/b-1.6.1/b-html5-1.6.1/b-print-1.6.1/sc-2.0.1/sl-1.3.1/datatables.min.css"/>
  
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
@@ -78,7 +80,6 @@
         </div>
 
     </nav>
-
     <div class="flex flex-col md:flex-row">
         @include('includes.nav')
         <div class="main-content flex-1 bg-gray-100 mt-12 md:mt-2 pb-24 md:pb-5">
@@ -121,6 +122,9 @@
 </script>
 <script src="{{ mix('js/app.js') }}"></script>
 <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
+<script type="text/javascript"
+    src="https://js.authorize.net/v1/Accept.js"
+    charset="utf-8"></script>
 @stack('footerScripts')
 </body>
 </html>

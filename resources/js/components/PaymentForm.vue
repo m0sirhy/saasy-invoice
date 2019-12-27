@@ -2,6 +2,7 @@
     <div>
         <form @submit.prevent="submitStep">
             <div class="p-5">
+                <p class="text-left p-4"><a class="text-blue-700" href="/payments/charge">Charge Card</a></p>
                 <div class="flex items-center">
                     <div class="w-1/2 p-4">
                         <label class="form-label">Client</label>

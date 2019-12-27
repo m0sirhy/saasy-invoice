@@ -195,10 +195,11 @@ Route::get('commissions/destroy/{commission}', 'CommissionController@destroy')
 Route::prefix('payments')->middleware(['auth'])->group(function () {
     Route::get('/', 'PaymentController@index')->name('payments');
     Route::get('create', 'PaymentController@create')->name('payments.create');
-    Route::get('refund/{payment}', 'PaymentController@refund')->name('payments.refund');
     Route::get('edit/{payment}', 'PaymentController@edit')->name('payments.edit');
+    Route::get('refund/{payment}', 'PaymentController@refund')->name('payments.refund');
+    
 });
-
+Route::get('charge', 'PaymentController@userCharge')->name('payments.user.charge');
 Route::prefix('api')->middleware(['auth'])->namespace('Api')->group(function () {
     Route::get('clients', 'ClientController@getAll')->name('api.clients.get');
     Route::get('invoice/destroy/{invoice}', 'InvoiceController@destroy')->name('api.invoice.destroy');
@@ -213,5 +214,6 @@ Route::prefix('api')->middleware(['auth'])->namespace('Api')->group(function () 
     Route::post('invoice/update/{invoice}', 'InvoiceController@update')->name('api.invoice.update');
     Route::post('payment/create', 'PaymentController@create')->name('api.payment.create');
     Route::post('payment/update/{payment}', 'PaymentController@update')->name('api.payment.update');
+    Route::post('payment/charge', 'PaymentController@charge')->name('api.payment.user.charge');
 });
 
