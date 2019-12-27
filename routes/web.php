@@ -192,6 +192,22 @@ Route::get('commissions/destroy/{commission}', 'CommissionController@destroy')
     ->middleware(['auth'])
     ->name('commissions.destroy');
 
+
+Route::prefix('client')->namespace('Client')->group(function () {
+    Route::get('dashboard', 'DashboardController@index')->name('client.dashboard');
+    Route::get('invoice/show/{invoice}', 'DashboardController@showInvoice')
+        ->name('client.invoice.show')
+        ->middleware(['auth:client']);
+    Route::get('invoice/download/{invoice}', 'DashboardController@downloadInvoice')
+        ->name('client.invoice.download')
+        ->middleware(['auth:client']);
+
+    Route::namespace('Auth')->group(function(){
+        Route::get('/login/{uuid}','LoginController@login')->middleware(['guest:client']);
+        Route::post('/logout','LoginController@logout')->name('client.logout');
+    });
+});
+
 Route::prefix('payments')->middleware(['auth'])->group(function () {
     Route::get('/', 'PaymentController@index')->name('payments');
     Route::get('create', 'PaymentController@create')->name('payments.create');
