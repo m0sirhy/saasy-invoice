@@ -143,30 +143,24 @@ Route::post('subscriptions/store', 'SubscriptionController@store')
 Route::get('billings/show/{subscription?}', 'BillingController@show')
     ->middleware(['auth'])
     ->name('billings.show');
+Route::prefix('commissions')->middleware(['auth'])->group(function () {
+    Route::get('', 'CommissionController@index')
+        ->name('commissions');
+    Route::get('edit/{commission}', 'CommissionController@edit')
+        ->name('commissions.edit');
+    Route::get('create', 'CommissionController@create')
+        ->name('commissions.create');
+    Route::post('store', 'CommissionController@store')
+        ->name('commissions.store');
+    Route::post('update/{commission}', 'CommissionController@update')
+        ->name('commissions.update');
+    Route::get('destroy/{commission}', 'CommissionController@destroy')
+        ->name('commissions.destroy');
+});
 
-Route::get('commissions', 'CommissionController@index')
-    ->middleware(['auth'])
-    ->name('commissions');
-
-Route::get('commissions/edit/{commission}', 'CommissionController@edit')
-    ->middleware(['auth'])
-    ->name('commissions.edit');
-
-Route::get('commissions/create', 'CommissionController@create')
-    ->middleware(['auth'])
-    ->name('commissions.create');
-
-Route::post('commissions/store', 'CommissionController@store')
-    ->middleware(['auth'])
-    ->name('commissions.store');
-
-Route::post('commissions/update/{commission}', 'CommissionController@update')
-    ->middleware(['auth'])
-    ->name('commissions.update');
-
-Route::get('commissions/destroy/{commission}', 'CommissionController@destroy')
-    ->middleware(['auth'])
-    ->name('commissions.destroy');
+Route::prefix('activity')->group(function () {
+    Route::get('show', 'UserActivityLogController@index')->name('user.activity.show');
+});
 
 Route::prefix('client')->namespace('Client')->group(function () {
     Route::get('dashboard', 'DashboardController@index')->name('client.dashboard');

@@ -21,7 +21,7 @@ class PaymentAdded
     /**
      * Handle the event.
      *
-     * @param  AddPayment  $event
+     * @param  PaymentAdded  $event
      * @return void
      */
     public function handle(PA $event)

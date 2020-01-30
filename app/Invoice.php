@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Uuids;
+// use App\Events\InvoiceCreated;
+use App\Events\InvoiceUpdated;
 
 class Invoice extends Model
 {
@@ -42,4 +44,17 @@ class Invoice extends Model
     {
         return $this->belongsTo('App\InvoiceStatus');
     }
+
+    // public static function boot() {
+        // static::creating(function ($model) {
+            
+        // });
+        // static::created(function ($model) {
+        //     event(new InvoiceCreated($model));
+        // });
+        // static::updated(function ($model) {
+        //     event(new InvoiceUpdated($model));
+        // });
+        // parent::boot();
+    // }
 }

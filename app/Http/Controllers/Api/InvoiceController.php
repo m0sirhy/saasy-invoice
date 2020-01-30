@@ -8,9 +8,11 @@ use App\InvoiceItem;
 use App\InvoiceStatus;
 use App\Product;
 use App\Events\InvoiceCreated;
+use App\Events\InvoiceUpdated;
+use App\Events\InvoiceViewed;
+use App\Events\InvoiceDeleted;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Log;
 
 class InvoiceController extends Controller
 {
@@ -41,6 +43,7 @@ class InvoiceController extends Controller
         }
         $invoice->amount = $this->getTotal($request->items);
         $invoice->save();
+        event(new InvoiceUpdated($invoice));
         return response()->json([
             $invoice
         ]);
