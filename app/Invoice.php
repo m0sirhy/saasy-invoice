@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Uuids;
-// use App\Events\InvoiceCreated;
+use App\Events\InvoiceCreated;
 use App\Events\InvoiceUpdated;
 
 class Invoice extends Model

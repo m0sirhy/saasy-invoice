@@ -158,6 +158,26 @@ Route::prefix('commissions')->middleware(['auth'])->group(function () {
         ->name('commissions.destroy');
 });
 
+Route::prefix('commissions')->middleware(['auth'])->group(function () {
+    Route::get('', 'CommissionController@index')
+        ->name('commissions');
+    Route::get('owed/create', function () {
+        return redirect(route('commissions.create'));
+    });
+    Route::get('owed', 'CommissionController@owed')
+        ->name('commissions.owed');
+    Route::get('edit/{commission}', 'CommissionController@edit')
+        ->name('commissions.edit');
+    Route::get('create', 'CommissionController@create')
+        ->name('commissions.create');
+    Route::post('store', 'CommissionController@store')
+        ->name('commissions.store');
+    Route::post('update/{commission}', 'CommissionController@update')
+        ->name('commissions.update');
+    Route::get('destroy/{commission}', 'CommissionController@destroy')
+        ->name('commissions.destroy');
+});
+
 Route::prefix('activity')->group(function () {
     Route::get('show', 'UserActivityLogController@index')->name('user.activity.show');
 });
