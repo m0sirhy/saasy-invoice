@@ -2,14 +2,16 @@
 
 namespace App\DataTables;
 
-use App\Credit;
+use App\Invoice;
+use App\Client;
+use Illuminate\Http\Request;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class CreditsDataTable extends DataTable
+class ClientInvoicesDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -22,40 +24,39 @@ class CreditsDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->editColumn('id', function ($data) {
-                $url = route('credits.edit', ['credit' => $data->id]);
-                return "<a href='$url' class='link'>" . $data->id . "</a>";
+                $url = route('invoices.edit', ['invoice' => $data->id]);
+                return "<a href='$url' class='link'>#" . $data->id . "</a>";
             })
             ->editColumn('client', function ($data) {
                 $url = route('clients.show', ['client' => $data->client_id]);
                 return "<a href='$url' class='link'>" . $data->client->name . "</a>";
             })
-            ->editColumn('created_by', function ($data) {
-                return $data->user->name;
-            })
-            ->editColumn('amount', function ($data) {
-                return '$' . money_format('%i', $data->amount);
-            })
-            ->editColumn('balance', function ($data) {
-                return '$' . money_format('%i', $data->balance);
-            })
-            ->editColumn('completed', function ($data) {
-                if ($data->completed == 1) {
-                    return "Yes";
-                }
-                return "No";
-            })
-            ->rawColumns(['id', 'client', 'invoice']);
+            ->editColumn('status', function ($data) {
+                return "<span>" . $data->invoiceStatus->status . "</span>";
+            })->editColumn('amount', function ($data) {
+                return money_format('$%i', $data->amount);
+            })->editColumn('balance', function ($data) {
+                return money_format('$%i', $data->balance);
+            })->editColumn('due_date', function ($data) {
+                return $this->formatDate($data->due_date);
+            })->editColumn('invoice_date', function ($data) {
+                return $this->formatDate($data->invoice_date);
+            })->editColumn('start_date', function ($data) {
+                return $this->formatDate($data->start_date);
+            })->editColumn('end_date', function ($data) {
+                return $this->formatDate($data->end_date);
+            })->rawColumns(['id', 'status', 'client']);
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Credit $model
+     * @param \App\Invoice $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Credit $model)
+    public function query(Invoice $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->where('client_id', $this->client->id);
     }
 
     /**
@@ -66,13 +67,12 @@ class CreditsDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('payments-table')
+                    ->setTableId('invoices-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bftiplrf')
                     ->orderBy(0, 'desc')
                     ->buttons(
-                        Button::make('create'),
                         Button::make('export'),
                         Button::make('print'),
                         Button::make('reset'),
@@ -90,10 +90,13 @@ class CreditsDataTable extends DataTable
         return [
             Column::make('id'),
             Column::make('client'),
-            Column::make('created_by'),
-            Column::make('amount'),
+            Column::make('status'),
             Column::make('balance'),
-            Column::make('completed')
+            Column::make('amount'),
+            Column::make('due_date'),
+            Column::make('invoice_date'),
+            Column::make('start_date'),
+            Column::make('end_date')
         ];
     }
 
@@ -104,6 +107,12 @@ class CreditsDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Credits_' . date('YmdHis');
+        return $this->client->name . '_Invoices_' . date('YmdHis');
+    }
+
+    public function formatDate($date)
+    {
+        $date = date_create($date);
+        return date_format($date, "m/d/Y");
     }
 }

@@ -9,7 +9,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class CreditsDataTable extends DataTable
+class ClientCreditsDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -55,7 +55,7 @@ class CreditsDataTable extends DataTable
      */
     public function query(Credit $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->where('client_id', $this->client->id);
     }
 
     /**
@@ -72,7 +72,6 @@ class CreditsDataTable extends DataTable
                     ->dom('Bftiplrf')
                     ->orderBy(0, 'desc')
                     ->buttons(
-                        Button::make('create'),
                         Button::make('export'),
                         Button::make('print'),
                         Button::make('reset'),
@@ -104,6 +103,6 @@ class CreditsDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Credits_' . date('YmdHis');
+        return $this->client->name . '_Credits_' . date('YmdHis');
     }
 }

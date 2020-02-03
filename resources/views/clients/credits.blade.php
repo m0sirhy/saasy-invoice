@@ -28,34 +28,35 @@
 <div class="bg-gray-400 border-b-2 border-gray-500 p-2">
   <h5 class="font-bold uppercase text-gray-600">
     <ul class="flex flex-wrap justify-center">
-      <li class="mr-64">
-      <a href="#">
+      <li class="px-20">
+      <a href={{ route('clients.show', ['client' => $client->id]) }}>
         Invoices
       </a>
       </li>
-      <li class="mr-64">
-        <a href="#">
+      <li class="px-20">
+        <a href={{ route('clients.payments', ['client' => $client->id]) }}>
             Payments
         </a>
       </li>
-      <li class="mr-64">
+      <li class="px-20 bg-gray-500 rounded">
         <a href="#">
-          credits
+          Credits
         </a>
       </li>
     </ul>
   </h5>
 </div>
-<div class = "flex p-5">
-  <div>This is a test
+<div class="p-5">
+    {{$dataTable->table()}}
   </div>
 </div>
         </div>
     </div>
 </div>
-            
+
+
 @endsection
 
 @push('footerScripts')
-
+  {{$dataTable->scripts()}}
 @endpush

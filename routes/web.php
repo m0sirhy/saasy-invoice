@@ -70,7 +70,31 @@ Route::post('clients/save', 'ClientController@save')
     ->middleware(['auth'])
     ->name('clients.save');
 
-Route::get('clients/show/{client}', 'ClientController@show')
+Route::get('clients/credits/{client}/create', function() {
+        return redirect(route('credits.create'));
+    })
+    ->middleware(['auth']);
+
+
+Route::get('clients/credits/{client}', 'ClientController@creditsShow')
+    ->middleware(['auth'])
+    ->name('clients.credits');
+
+Route::get('clients/payments/{client}/create', function() {
+        return redirect(route('payments.create'));
+    })
+    ->middleware(['auth']);
+
+Route::get('clients/payments/{client}', 'ClientController@paymentsShow')
+    ->middleware(['auth'])
+    ->name('clients.payments');
+
+Route::get('clients/show/{client}/create', function() {
+        return redirect(route('invoices.create'));
+    })
+    ->middleware(['auth']);
+
+Route::get('clients/show/{client}', 'ClientController@invoicesShow')
     ->middleware(['auth'])
     ->name('clients.show');
 

@@ -28,34 +28,60 @@
 <div class="bg-gray-400 border-b-2 border-gray-500 p-2">
   <h5 class="font-bold uppercase text-gray-600">
     <ul class="flex flex-wrap justify-center">
-      <li class="mr-64">
+      <li class="px-20 bg-gray-500 rounded">
       <a href="#">
         Invoices
       </a>
       </li>
-      <li class="mr-64">
-        <a href="#">
+      <li class="px-20">
+        <a href={{ route('clients.payments', ['client' => $client->id]) }}>
             Payments
         </a>
       </li>
-      <li class="mr-64">
-        <a href="#">
-          credits
+      <li class="px-20">
+        <a href={{ route('clients.credits', ['client' => $client->id]) }}>
+          Credits
         </a>
       </li>
     </ul>
   </h5>
 </div>
-<div class = "flex p-5">
-  <div>This is a test
+<div class="modal fade focus:outline-none" id="myModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalCenterTitle" hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div id="app">
+          <invoice-form invoice-model='' items-model='' url='{{ route('api.invoice.create') }}'>
+          </invoice-form>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+<div class = "p-5">
+    {{$dataTable->table()}}
+</div>
+</div>
         </div>
+<div class="w-full md:w-1/2 xl:w-1/6 p-3">
+  <div class="p-5">
+    <a href="#" data-toggle="modal" data-target="#myModal">
+      <button class="px-6 bg-gray-500 rounded" id="test_modal">
+        <h5 class="font-bold uppercase text-gray-700">
+          Create An Invoice
+        </h5>
+      </button>
+    </a>
+  </div>
+</div>
     </div>
 </div>
-            
+
 @endsection
 
 @push('footerScripts')
-
+  {{$dataTable->scripts()}}
+  <script type="text/javascript">
+    
+  </script>
 @endpush
