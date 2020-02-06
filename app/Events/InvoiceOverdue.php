@@ -11,21 +11,20 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class InvoiceCreated
+class InvoiceOverdue
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $invoice;
 
-    public $mail;
     /**
      * Create a new event instance.
      *
+     * @param Invoice $invoice
      * @return void
      */
-    public function __construct(Invoice $invoice, $mail = null)
+    public function __construct(Invoice $invoice)
     {
         $this->invoice = $invoice;
-        $this->mail = $mail;
     }
 }

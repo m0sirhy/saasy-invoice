@@ -41,7 +41,6 @@
 						}
 					)
 				});
-				console.log(self.messages[1].invoiceUrl);
 			});
 		}
 	}

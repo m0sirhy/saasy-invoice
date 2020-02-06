@@ -31,7 +31,7 @@ class InvoiceApplyCredits
     public function handle(InvoiceCreated $event)
     {
         $applyCredits = Setting::where('id', 1)->first();
-        if ($applyCredits->auto_credits != 1) {
+        if (is_null($applyCredits) || $applyCredits->auto_credits != 1) {
             return;
         }
         $credits = Credit::where('client_id', $event->invoice->client_id)

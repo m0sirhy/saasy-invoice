@@ -20,6 +20,7 @@ class InvoiceUpdated
     /**
      * Create a new event instance.
      *
+     * @param Invoice $invoice
      * @return void
      */
     public function __construct(Invoice $invoice)

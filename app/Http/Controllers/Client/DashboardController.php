@@ -32,6 +32,10 @@ class DashboardController extends Controller
 
     public function showInvoice(Invoice $invoice)
     {
+        if($invoice->invoice_status_id < 3) {
+            $invoice->invoice_status_id = 3;
+            $invoice->save();
+        }
         return view('clients.portal.show')
             ->with('invoice', $invoice);
     }
