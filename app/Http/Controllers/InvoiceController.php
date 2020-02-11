@@ -7,6 +7,8 @@ use App\Client;
 use App\Product;
 use App\InvoiceItem;
 use Illuminate\Http\Request;
+use App\Events\InvoiceDeleted;
+use App\Events\InvoiceViewed;
 use App\DataTables\InvoicesDataTable;
 
 class InvoiceController extends Controller
@@ -51,6 +53,7 @@ class InvoiceController extends Controller
     public function edit(Invoice $invoice)
     {
         $items = InvoiceItem::where('invoice_id', $invoice->id)->get()->toArray();
+        event(new InvoiceViewed($invoice));
         return view('invoices.edit')
             ->with('invoice', $invoice->toArray())
             ->with('items', $items);
@@ -76,6 +79,7 @@ class InvoiceController extends Controller
      */
     public function destroy(Invoice $invoice)
     {
+        event(new InvoiceDeleted($invoice));
         $invoice->delete();
         return redirect()->route('invoices');
     }

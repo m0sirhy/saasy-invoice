@@ -11,7 +11,7 @@ $factory->define(Setting::class, function (Faker $faker) {
         'website' => 'http://' . $faker->domainName,
         'email' => $faker->email,
         'phone' => $faker->phoneNumber,
-        'address' => $faker->address,
+        'address' => $faker->streetAddress,
         'address2' => $faker->secondaryAddress,
         'city' => $faker->city,
         'state' => $faker->stateAbbr,

@@ -290,6 +290,18 @@
                     </div>
                     <!--/Template Card-->
                 </div>
-
+                    <div class="w-full md:w-1/2 xl:w-1/3 p-3">
+                        <div class="bg-white border-transparent rounded-lg shadow-lg">
+                            <div class="bg-gray-400 border-b-2 border-gray-500 rounded-tl-lg rounded-tr-lg p-2">
+                                <h5 class="font-bold uppercase text-gray-600">User Activity</h5>
+                            </div>
+                            <div id="app">
+                            <div class="p-5">
+                                <activity-table>
+                                </activity-table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 @endsection

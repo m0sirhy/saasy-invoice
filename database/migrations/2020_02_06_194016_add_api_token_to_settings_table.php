@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddBillingTypeTable extends Migration
+class AddApiTokenToSettingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class AddBillingTypeTable extends Migration
      */
     public function up()
     {
-        Schema::create('billing_types', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->decimal('monthly_fee', 6, 2);
-            $table->decimal('monthly_min', 6, 2);
+        Schema::table('settings', function (Blueprint $table) {
+            $table->string('api_token');
         });
     }
 
@@ -28,6 +25,10 @@ class AddBillingTypeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('billing_types');
+        if (Schema::hasColumn('settings', 'api_token')) {
+            Schema::table('settings', function (Blueprint $table) {
+                    $table->dropColumn('api_token');
+                });
+        };
     }
 }

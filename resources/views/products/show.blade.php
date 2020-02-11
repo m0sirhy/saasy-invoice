@@ -22,6 +22,10 @@
                             {!! Form::text('notes', null, ['class' => 'form-input leading-tight focus:outline-none focus:shadow-outline']) !!}
                         </div>
                         <div class="mb-4">
+                            {!! Form::label('unit_price', 'Unit Price', ['class' => 'form-label'])  !!}
+                            {!! Form::text('unit_price', null, ['class' => 'form-input leading-tight focus:outline-none focus:shadow-outline']) !!}
+                        </div>
+                        <div class="mb-4">
                             {!! Form::label('cost', 'Cost', ['class' => 'form-label'])  !!}
                             {!! Form::text('cost', null, ['class' => 'form-input leading-tight focus:outline-none focus:shadow-outline']) !!}
                         </div>

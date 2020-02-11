@@ -20,6 +20,20 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\InvoiceCreated' => [
             'App\Listeners\InvoiceApplyCredits',
+            'App\Listeners\UserActivityLogEntry@invoiceCreated',
+            'App\Listeners\SendInvoiceListener@sendInvoice',
+        ],
+        'App\Events\InvoiceViewed' => [
+            'App\Listeners\UserActivityLogEntry@invoiceViewed',
+        ],
+        'App\Events\InvoiceUpdated' => [
+            'App\Listeners\UserActivityLogEntry@invoiceUpdated',
+        ],
+        'App\Events\InvoiceDeleted' => [
+            'App\Listeners\UserActivityLogEntry@invoiceDeleted',
+        ],
+        'App\Events\InvoiceOverdue' => [
+            'App\Listeners\SendInvoiceListener@overdueInvoice',
         ],
         'App\Events\PaymentAdded' => [
             'App\Listeners\PaymentAdded',

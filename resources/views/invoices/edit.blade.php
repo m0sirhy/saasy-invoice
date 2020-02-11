@@ -1,9 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Edit Invoice #' . $invoice['id'])
 @section('content')
-@php
-$url = '/api/invoice/update/'. $invoice['id']
-@endphp
+
 <div class="bg-blue-800 p-2 shadow text-xl text-white">
     <h3 class="font-bold pl-2"><a href="{{ route('invoices') }}">Invoices</a> / Edit Invoice</h3>
 </div>

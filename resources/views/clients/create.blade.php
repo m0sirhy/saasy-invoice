@@ -57,8 +57,5 @@
             </div>
         </div>
     </div>
-    <div class="w-full md:w-1/2 xl:w-1/6 p-3">
-        @include('settings.nav')
-    </div>
 </div>
 @endsection

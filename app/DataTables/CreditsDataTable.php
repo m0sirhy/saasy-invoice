@@ -104,6 +104,6 @@ class CreditsDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Payments_' . date('YmdHis');
+        return 'Credits_' . date('YmdHis');
     }
 }

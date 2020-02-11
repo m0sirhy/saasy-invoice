@@ -70,7 +70,31 @@ Route::post('clients/save', 'ClientController@save')
     ->middleware(['auth'])
     ->name('clients.save');
 
-Route::get('clients/show/{client}', 'ClientController@show')
+Route::get('clients/credits/{client}/create', function() {
+        return redirect(route('credits.create'));
+    })
+    ->middleware(['auth']);
+
+
+Route::get('clients/credits/{client}', 'ClientController@creditsShow')
+    ->middleware(['auth'])
+    ->name('clients.credits');
+
+Route::get('clients/payments/{client}/create', function() {
+        return redirect(route('payments.create'));
+    })
+    ->middleware(['auth']);
+
+Route::get('clients/payments/{client}', 'ClientController@paymentsShow')
+    ->middleware(['auth'])
+    ->name('clients.payments');
+
+Route::get('clients/show/{client}/create', function() {
+        return redirect(route('invoices.create'));
+    })
+    ->middleware(['auth']);
+
+Route::get('clients/show/{client}', 'ClientController@invoicesShow')
     ->middleware(['auth'])
     ->name('clients.show');
 
@@ -120,30 +144,6 @@ Route::get('credits/destroy/{credit}', 'CreditController@destroy')
     ->middleware(['auth'])
     ->name('credits.destroy');
 
-Route::get('products', 'ProductController@index')
-    ->middleware(['auth'])
-    ->name('products');
-
-Route::get('products/show/{product}', 'ProductController@show')
-    ->middleware(['auth'])
-    ->name('products.show');
-
-Route::get('products/create', 'ProductController@create')
-    ->middleware(['auth'])
-    ->name('products.create');
-
-Route::get('products/destroy/{product}', 'ProductController@destroy')
-    ->middleware(['auth'])
-    ->name('products.destroy');;
-
-Route::post('products/store', 'ProductController@store')
-    ->middleware(['auth'])
-    ->name('products.store');
-
-Route::post('products/update/{product}', 'ProductController@update')
-    ->middleware(['auth'])
-    ->name('products.update');
-
 Route::get('subscriptions', 'SubscriptionController@index')
     ->middleware(['auth'])
     ->name('subscriptions');
@@ -167,30 +167,74 @@ Route::post('subscriptions/store', 'SubscriptionController@store')
 Route::get('billings/show/{subscription?}', 'BillingController@show')
     ->middleware(['auth'])
     ->name('billings.show');
+Route::prefix('commissions')->middleware(['auth'])->group(function () {
+    Route::get('', 'CommissionController@index')
+        ->name('commissions');
+    Route::get('edit/{commission}', 'CommissionController@edit')
+        ->name('commissions.edit');
+    Route::get('create', 'CommissionController@create')
+        ->name('commissions.create');
+    Route::post('store', 'CommissionController@store')
+        ->name('commissions.store');
+    Route::post('update/{commission}', 'CommissionController@update')
+        ->name('commissions.update');
+    Route::get('destroy/{commission}', 'CommissionController@destroy')
+        ->name('commissions.destroy');
+});
 
-Route::get('commissions', 'CommissionController@index')
-    ->middleware(['auth'])
-    ->name('commissions');
+Route::prefix('commissions')->middleware(['auth'])->group(function () {
+    Route::get('', 'CommissionController@index')
+        ->name('commissions');
+    Route::get('owed/create', function () {
+        return redirect(route('commissions.create'));
+    });
+    Route::get('owed', 'CommissionController@owed')
+        ->name('commissions.owed');
+    Route::get('edit/{commission}', 'CommissionController@edit')
+        ->name('commissions.edit');
+    Route::get('create', 'CommissionController@create')
+        ->name('commissions.create');
+    Route::post('store', 'CommissionController@store')
+        ->name('commissions.store');
+    Route::post('update/{commission}', 'CommissionController@update')
+        ->name('commissions.update');
+    Route::get('destroy/{commission}', 'CommissionController@destroy')
+        ->name('commissions.destroy');
+});
 
-Route::get('commissions/edit/{commission}', 'CommissionController@edit')
-    ->middleware(['auth'])
-    ->name('commissions.edit');
+Route::prefix('activity')->group(function () {
+    Route::get('show', 'UserActivityLogController@index')->name('user.activity.show');
+});
 
-Route::get('commissions/create', 'CommissionController@create')
-    ->middleware(['auth'])
-    ->name('commissions.create');
+Route::prefix('client')->namespace('Client')->group(function () {
+    Route::get('dashboard', 'DashboardController@index')->name('client.dashboard');
+    Route::get('invoice/show/{invoice}', 'DashboardController@showInvoice')
+        ->name('client.invoice.show')
+        ->middleware(['auth:client']);
+    Route::get('invoice/download/{invoice}', 'DashboardController@downloadInvoice')
+        ->name('client.invoice.download')
+        ->middleware(['auth:client']);
+    Route::namespace('Auth')->group(function(){
+        Route::get('/login/{uuid}','LoginController@login')->name('client.login')->middleware(['guest:client']);
+        Route::post('/logout','LoginController@logout')->name('client.logout');
+    });
+});
 
-Route::post('commissions/store', 'CommissionController@store')
-    ->middleware(['auth'])
-    ->name('commissions.store');
+Route::prefix('billings')->middleware(['auth'])->group(function () {
+    Route::get('/', 'BillingController@index')->name('billings');
+    Route::get('create', 'BillingController@create')->name('billings.create');
+    Route::get('edit/{billing}', 'BillingController@edit')->name('billings.edit');
+    Route::get('destroy/{billing}', 'BillingController@edit')->name('billings.destroy');
+});
 
-Route::post('commissions/update/{commission}', 'CommissionController@update')
-    ->middleware(['auth'])
-    ->name('commissions.update');
-
-Route::get('commissions/destroy/{commission}', 'CommissionController@destroy')
-    ->middleware(['auth'])
-    ->name('commissions.destroy');
+Route::prefix('products')->middleware(['auth'])->group(function () {
+    Route::get('/', 'ProductController@index')->name('products');
+    Route::get('show/{product}', 'ProductController@show')->name('products.show');
+    Route::get('create', 'ProductController@create')->name('products.create');
+    Route::get('destroy/{product}', 'ProductController@destroy')->name('products.destroy');;
+    Route::post('store', 'ProductController@store')->name('products.store');
+    Route::post('update/{product}', 'ProductController@update')->name('products.update');
+});
 
 Route::prefix('payments')->middleware(['auth'])->group(function () {
     Route::get('/', 'PaymentController@index')->name('payments');
@@ -202,10 +246,12 @@ Route::prefix('payments')->middleware(['auth'])->group(function () {
 Route::get('charge', 'PaymentController@userCharge')->name('payments.user.charge');
 Route::prefix('api')->middleware(['auth'])->namespace('Api')->group(function () {
     Route::get('clients', 'ClientController@getAll')->name('api.clients.get');
-    Route::get('invoice/destroy/{invoice}', 'InvoiceController@destroy')->name('api.invoice.destroy');
     Route::get('invoice/client/{client}', 'InvoiceController@getByClient')->name('api.invoice.client');
+    Route::get('invoice/destroy/{invoice}', 'InvoiceController@destroy')->name('api.invoice.destroy');
     Route::get('products', 'ProductController@getAll')->name('api.products.get');
     Route::get('users', 'UserController@getAll')->name('api.clients.get');
+    Route::post('billing/create', 'BillingController@create')->name('api.billing.create');
+    Route::post('billing/update/{billing}', 'BillingController@update')->name('api.billing.update');
     Route::post('commission/create', 'CommissionController@create')->name('api.commission.create');
     Route::post('commission/update/{commission}', 'CommissionController@update')->name('api.commission.update');
     Route::post('credit/create', 'CreditController@create')->name('api.credit.create');

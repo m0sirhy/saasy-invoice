@@ -13,6 +13,7 @@
         "barryvdh/laravel-snappy": "^0.4.6",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^6.4",
+        "h4cc/wkhtmltopdf-amd64": "0.12.x",
         "laravel/framework": "^6.2",
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^6.0",
