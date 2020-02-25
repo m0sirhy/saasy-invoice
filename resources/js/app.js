@@ -12,7 +12,6 @@ Vue.component('commission-form', require('./components/CommissionForm.vue').defa
 Vue.component('credit-form', require('./components/CreditForm.vue').default);
 Vue.component('payment-form', require('./components/PaymentForm.vue').default);
 Vue.component('billing-form', require('./components/BillingForm.vue').default);
-Vue.component('activity-table', require('./components/ActivityTable.vue').default);
 
 Vue.component('v-select', vSelect);
 const app = new Vue({
