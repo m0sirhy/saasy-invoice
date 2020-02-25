@@ -72,7 +72,8 @@ class ClientCreditsDataTable extends DataTable
                     ->dom('Bftiplrf')
                     ->orderBy(0, 'desc')
                     ->buttons(
-                        Button::make('export'),
+                        Button::make('csv'),
+                        Button::make('excel'),
                         Button::make('print'),
                         Button::make('reset'),
                         Button::make('reload')
