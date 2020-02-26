@@ -26,7 +26,7 @@ class CreditsDataTable extends DataTable
                 return "<a href='$url' class='link'>" . $data->id . "</a>";
             })
             ->editColumn('client', function ($data) {
-                $url = route('clients.show', ['client' => $data->client_id]);
+                $url = route('clients.credits', ['client' => $data->client_id]);
                 return "<a href='$url' class='link'>" . $data->client->name . "</a>";
             })
             ->editColumn('created_by', function ($data) {
@@ -73,7 +73,8 @@ class CreditsDataTable extends DataTable
                     ->orderBy(0, 'desc')
                     ->buttons(
                         Button::make('create'),
-                        Button::make('export'),
+                        Button::make('csv'),
+                        Button::make('excel'),
                         Button::make('print'),
                         Button::make('reset'),
                         Button::make('reload')

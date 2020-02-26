@@ -32,11 +32,11 @@ class ClientPaymentsDataTable extends DataTable
                 return "No";
             })
             ->editColumn('client', function ($data) {
-                $url = route('clients.show', ['client' => $data->client_id]);
+                $url = route('clients.payments', ['client' => $data->client_id]);
                 return "<a href='$url' class='link'>" . $data->client->name . "</a>";
             })
             ->editColumn('invoice', function ($data) {
-                $url = route('invoices.show', ['invoice' => $data->invoice_id]);
+                $url = route('invoices.edit', ['invoice' => $data->invoice_id]);
                 return "<a href='$url' class='link'>#" . $data->invoice_id . "</a>";
             })
             ->editColumn('amount', function ($data) {
@@ -71,7 +71,8 @@ class ClientPaymentsDataTable extends DataTable
                     ->dom('Bftiplrf')
                     ->orderBy(0, 'desc')
                     ->buttons(
-                        Button::make('export'),
+                        Button::make('csv'),
+                        Button::make('excel'),
                         Button::make('print'),
                         Button::make('reset'),
                         Button::make('reload')

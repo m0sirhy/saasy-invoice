@@ -1829,54 +1829,6 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ActivityTable.vue?vue&type=script&lang=js&":
-/*!************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ActivityTable.vue?vue&type=script&lang=js& ***!
-  \************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      messages: []
-    };
-  },
-  computed: {},
-  methods: {},
-  mounted: function mounted() {
-    var self = this;
-    axios.get('/activity/show/').then(function (response) {
-      $.each(response.data, function (key, data) {
-        console.log(data.created_at);
-        self.messages.push({
-          date: data.created_at,
-          user_name: data.name,
-          message: data.message,
-          invoiceUrl: '/invoices/edit/' + data.invoice_id.toString(),
-          invoice: data.invoice_id
-        });
-      });
-    });
-  }
-});
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BillingForm.vue?vue&type=script&lang=js&":
 /*!**********************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/BillingForm.vue?vue&type=script&lang=js& ***!
@@ -31843,60 +31795,6 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ActivityTable.vue?vue&type=template&id=1f58ee24&language=php&":
-/*!*****************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ActivityTable.vue?vue&type=template&id=1f58ee24&language=php& ***!
-  \*****************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "px-5" }, [
-      _c(
-        "ul",
-        { staticClass: "list-disc overflow-auto h-40" },
-        _vm._l(_vm.messages, function(message) {
-          return _c("div", [
-            _c("li", [
-              _c("b", [_vm._v(_vm._s(message.date))]),
-              _vm._v(
-                ": " +
-                  _vm._s(message.user_name) +
-                  " " +
-                  _vm._s(message.message) +
-                  " "
-              ),
-              _c(
-                "a",
-                {
-                  staticClass: "text-blue-500",
-                  attrs: { href: message.invoiceUrl }
-                },
-                [_c("b", [_vm._v("#" + _vm._s(message.invoice))])]
-              )
-            ])
-          ])
-        }),
-        0
-      )
-    ])
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-
-
-
-/***/ }),
-
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BillingForm.vue?vue&type=template&id=b8763d78&":
 /*!**************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/BillingForm.vue?vue&type=template&id=b8763d78& ***!
@@ -45882,7 +45780,6 @@ Vue.component('credit-form', __webpack_require__(/*! ./components/CreditForm.vue
 Vue.component('payment-form', __webpack_require__(/*! ./components/PaymentForm.vue */ "./resources/js/components/PaymentForm.vue")["default"]);
 Vue.component('user-charge-form', __webpack_require__(/*! ./components/UserChargeForm.vue */ "./resources/js/components/UserChargeForm.vue")["default"]);
 Vue.component('billing-form', __webpack_require__(/*! ./components/BillingForm.vue */ "./resources/js/components/BillingForm.vue")["default"]);
-Vue.component('activity-table', __webpack_require__(/*! ./components/ActivityTable.vue */ "./resources/js/components/ActivityTable.vue")["default"]);
 Vue.component('v-select', vue_select__WEBPACK_IMPORTED_MODULE_0___default.a);
 var app = new Vue({
   el: '#app'
@@ -45945,75 +45842,6 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
-
-/***/ }),
-
-/***/ "./resources/js/components/ActivityTable.vue":
-/*!***************************************************!*\
-  !*** ./resources/js/components/ActivityTable.vue ***!
-  \***************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ActivityTable_vue_vue_type_template_id_1f58ee24_language_php___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ActivityTable.vue?vue&type=template&id=1f58ee24&language=php& */ "./resources/js/components/ActivityTable.vue?vue&type=template&id=1f58ee24&language=php&");
-/* harmony import */ var _ActivityTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ActivityTable.vue?vue&type=script&lang=js& */ "./resources/js/components/ActivityTable.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _ActivityTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _ActivityTable_vue_vue_type_template_id_1f58ee24_language_php___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _ActivityTable_vue_vue_type_template_id_1f58ee24_language_php___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/ActivityTable.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/components/ActivityTable.vue?vue&type=script&lang=js&":
-/*!****************************************************************************!*\
-  !*** ./resources/js/components/ActivityTable.vue?vue&type=script&lang=js& ***!
-  \****************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ActivityTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ActivityTable.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ActivityTable.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ActivityTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/ActivityTable.vue?vue&type=template&id=1f58ee24&language=php&":
-/*!***********************************************************************************************!*\
-  !*** ./resources/js/components/ActivityTable.vue?vue&type=template&id=1f58ee24&language=php& ***!
-  \***********************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ActivityTable_vue_vue_type_template_id_1f58ee24_language_php___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ActivityTable.vue?vue&type=template&id=1f58ee24&language=php& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ActivityTable.vue?vue&type=template&id=1f58ee24&language=php&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ActivityTable_vue_vue_type_template_id_1f58ee24_language_php___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ActivityTable_vue_vue_type_template_id_1f58ee24_language_php___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
-
 
 /***/ }),
 
