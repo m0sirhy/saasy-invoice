@@ -208,12 +208,10 @@ Route::prefix('activity')->group(function () {
 
 Route::prefix('client')->namespace('Client')->group(function () {
     Route::get('dashboard', 'DashboardController@index')->name('client.dashboard');
-    Route::get('invoice/show/{invoice}', 'DashboardController@showInvoice')
-        ->name('client.invoice.show')
-        ->middleware(['auth:client']);
-    Route::get('invoice/download/{invoice}', 'DashboardController@downloadInvoice')
-        ->name('client.invoice.download')
-        ->middleware(['auth:client']);
+    Route::get('invoice/show/{invoice}', 'DashboardController@showInvoice')->name('client.invoice.show')->middleware(['auth:client']);
+    Route::get('invoice/download/{invoice}', 'DashboardController@downloadInvoice')->name('client.invoice.download')->middleware(['auth:client']);
+    Route::get('invoice/pay/{invoice}', 'DashboardController@payInvoice')->name('client.invoice.pay')->middleware(['auth:client']);
+    Route::post('invoice/payment/{invoice}', 'DashboardController@payment')->name('client.invoice.payment')->middleware(['auth:client']);
     Route::namespace('Auth')->group(function(){
         Route::get('/login/{uuid}','LoginController@login')->name('client.login')->middleware(['guest:client']);
         Route::post('/logout','LoginController@logout')->name('client.logout');
@@ -243,7 +241,10 @@ Route::prefix('payments')->middleware(['auth'])->group(function () {
     Route::get('refund/{payment}', 'PaymentController@refund')->name('payments.refund');
     
 });
+
 Route::get('charge', 'PaymentController@userCharge')->name('payments.user.charge');
+Route::post('charge/card', 'PaymentController@chargeCard')->name('payments.user.charge');
+
 Route::prefix('api')->middleware(['auth'])->namespace('Api')->group(function () {
     Route::get('clients', 'ClientController@getAll')->name('api.clients.get');
     Route::get('invoice/client/{client}', 'InvoiceController@getByClient')->name('api.invoice.client');

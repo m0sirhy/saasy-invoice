@@ -17,7 +17,6 @@ class Authenticate extends Middleware
     {
         if (! $request->expectsJson()) {
             if(Route::is('client.*')){
-                dd('works');
                 return route('client.login');
             }
             return route('login');

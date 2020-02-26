@@ -30,6 +30,7 @@
         "datatables.net": "^1.10.20",
         "datatables.net-buttons": "^1.6.1",
         "jquery": "^3.4.1",
+        "vue-interactive-paycard": "^1.0.0",
         "vue-select": "^3.4.0"
     }
 }

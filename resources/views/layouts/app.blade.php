@@ -113,9 +113,7 @@
 </script>
 <script src="{{ mix('js/app.js') }}"></script>
 <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
-<script type="text/javascript"
-    src="https://js.authorize.net/v1/Accept.js"
-    charset="utf-8"></script>
+
 @stack('footerScripts')
 </body>
 </html>

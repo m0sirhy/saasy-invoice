@@ -4,6 +4,8 @@
     </IfModule>
 
     RewriteEngine On
+    RewriteCond %{HTTP:X-Original-Host} \.ngrok\.io$ [NC]
+    RewriteRule .* - [E=HTTP_X_FORWARDED_HOST:%{HTTP:X-Original-Host}]
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .

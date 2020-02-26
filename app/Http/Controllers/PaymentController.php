@@ -7,6 +7,8 @@ use App\Payment;
 use App\PaymentGateway;
 use App\PaymentGatewaySetting;
 use App\DataTables\PaymentsDataTable;
+use Omnipay\Common\CreditCard;
+use Omnipay\Omnipay;
 
 class PaymentController extends Controller
 {
@@ -29,6 +31,69 @@ class PaymentController extends Controller
     public function userCharge()
     {
         return view('payments.charge');
+    }
+
+    public function chargeCard(Request $request)
+    {
+
+        // $gateway = Omnipay::create('AuthorizeNet_CIM');
+        // $gateway->setApiLoginId("4pQKd386");
+        // $gateway->setTransactionKey('7WS3x54w53PR2Vfu');
+        // $gateway->setDeveloperMode(true);
+
+        // $rrr = $gateway->purchase(
+        //     [
+        //         'notifyUrl' => 'https://www.monitorbase.com',
+        //         'amount' => 5,
+        //         'opaqueDataDescriptor' => $request->dataDescriptor,
+        //         'opaqueDataValue' => $request->dataValue,
+        //     ]
+        // );
+        // dump($rrr);
+        $gateway = Omnipay::create('AuthorizeNet_CIM');
+        $gateway->setApiLoginId("6Ux8Sw4m");
+        $gateway->setTransactionKey('2r5Xx43dB3Kc4N6K');
+        $gateway->setDeveloperMode(false);
+        $params = [
+            'card' => [
+                'billingFirstName' => 'Guy',
+                'billingLastName' => 'Warner',
+                'billingAddress1' => '1131 E Ridgedale Ln',
+                'billingCity' => 'Salt Lake City',
+                'billingState' => 'UT',
+                'billingPostcode' => '84106',
+                'billingPhone' => '',
+            ],
+            'opaqueDataDescriptor' => $request->dataDescriptor,
+            'opaqueDataValue' => $request->dataValue,
+            'name' => 'Guy',
+            'email' => 'warnerdata@gmail.com',
+            'customerType' => 'individual',
+            'customerId' => '3501',
+            'description' => 'MEMBER ID 3501',
+            'forceCardUpdate' => true
+        ];
+        $card = $gateway->createCard($params);
+        $response = $card->send();
+        $data = $response->getData();
+
+        $newData['customerProfileId'] = $data['paymentProfile']['customerProfileId'];
+        $newData['customerPaymentProfileId'] = $data['paymentProfile']['customerPaymentProfileId'];
+        dump($data);
+        
+        $request = $gateway->getPaymentProfile($newData);
+        $test = $request->send();
+        dump($test);
+        $cardRef = json_encode($newData);
+
+        $params = [
+            'cardReference' => $cardRef,
+            'amount' => 1,
+            'description' => 'Purchase'
+        ];
+        $request = $gateway->purchase($params)->send();
+
+        dd($request->getData());
     }
 
     /**

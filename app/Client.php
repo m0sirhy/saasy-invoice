@@ -44,4 +44,9 @@ class Client extends Model implements AuthenticatableContract
     {
         return $this->hasMany('App\Payment');
     }
+
+    public function clientToken()
+    {
+        return $this->hasOne('App\ClientToken');
+    }
 }
