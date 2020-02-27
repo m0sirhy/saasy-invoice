@@ -63,11 +63,11 @@
                                 <a href="#" class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i class="fa fa-user fa-fw"></i> Profile</a>
                                 <a href="#" class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i class="fa fa-cog fa-fw"></i> Settings</a>
                                 <div class="border border-gray-800"></div>
-                                <a href="{{ route('logout') }}"
+                                <a href="{{ route('client.logout') }}"
                                class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"
                                onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt fa-fw"></i> {{ __('Logout') }}</a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                <form id="logout-form" action="{{ route('client.logout') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>
                             </div>

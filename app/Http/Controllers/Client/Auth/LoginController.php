@@ -28,8 +28,9 @@ class LoginController extends Controller
     public function login($uuid)
     {
         $client = Client::where('uuid', $uuid)->first();
-	    if(!is_null($client) && Auth::guard('client')->login($client)) {
-	        return redirect()->route('client.home');
+        Auth::guard('client')->login($client);
+	    if (!is_null($client) && Auth::guard('client')->check()) {
+	        return redirect()->route('client.dashboard');
 	    }
 	    return $this->loginFailed();
     }
@@ -41,8 +42,13 @@ class LoginController extends Controller
     public function logout()
     {
       	Auth::guard('client')->logout();
+        if (Auth::guard('web')->check()) {
+            return redirect()
+                ->route('dashboard')
+                ->with('status', 'Client has been logged out!');
+        }
     	return redirect()
-        	->route('client.login')
+        	->route('client.loggedout')
         	->with('status','Client has been logged out!');
     }
     /**

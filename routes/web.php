@@ -217,6 +217,9 @@ Route::prefix('client')->namespace('Client')->group(function () {
         Route::post('/logout','LoginController@logout')->name('client.logout');
     });
 });
+Route::prefix('client')->namespace('Client')->group(function() {
+    Route::get('/loggedout', 'LoggedOutController@loggedOut')->name('client.loggedout');
+});
 
 Route::prefix('billings')->middleware(['auth'])->group(function () {
     Route::get('/', 'BillingController@index')->name('billings');
