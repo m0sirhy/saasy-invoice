@@ -8,6 +8,7 @@ use App\Product;
 use App\BillingItem;
 use Illuminate\Http\Request;
 use App\DataTables\BillingsDataTable;
+use Log;
 
 class BillingController extends Controller
 {
@@ -51,6 +52,10 @@ class BillingController extends Controller
     public function edit(Billing $billing)
     {
         $items = BillingItem::where('billing_id', $billing->id)->get()->toArray();
+        foreach($items as &$item) {
+            $item['unit_price'] = $item['price_per'];
+            unset($item['price_per']);
+        }
         return view('billings.edit')
             ->with('billing', $billing->toArray())
             ->with('items', $items);
@@ -76,7 +81,8 @@ class BillingController extends Controller
      */
     public function destroy(Billing $billing)
     {
+        BillingItem::where('billing_id', $billing->id)->delete();
         $billing->delete();
-        return redirect()->route('Billings');
+        return redirect()->route('billings');
     }
 }

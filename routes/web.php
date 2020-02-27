@@ -225,7 +225,7 @@ Route::prefix('billings')->middleware(['auth'])->group(function () {
     Route::get('/', 'BillingController@index')->name('billings');
     Route::get('create', 'BillingController@create')->name('billings.create');
     Route::get('edit/{billing}', 'BillingController@edit')->name('billings.edit');
-    Route::get('destroy/{billing}', 'BillingController@edit')->name('billings.destroy');
+    Route::get('destroy/{billing}', 'BillingController@destroy')->name('billings.destroy');
 });
 
 Route::prefix('products')->middleware(['auth'])->group(function () {

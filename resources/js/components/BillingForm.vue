@@ -96,12 +96,12 @@
                 this.items.splice(index, 1);
             },
             populate(event) {
-                var item = this.items.find(item => item.product_id === event)
-                var product = this.products.find(product => product.id === event)
-                item.unit_price = product.unit_price
-                item.quantity = 1
-                item.description = product.notes
-                item.name = product.name
+                var item = this.items.find(item => item.product_id === event);
+                var product = this.products.find(product => product.id === event);
+                item.unit_price = product.unit_price;
+                item.quantity = 1;
+                item.description = product.notes;
+                item.name = product.name;
             },
             submitStep: function (e) {
                 e.preventDefault();
@@ -117,7 +117,6 @@
                         }
                     });
                 }
-                
             }
         },
         mounted: function () {

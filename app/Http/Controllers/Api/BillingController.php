@@ -35,4 +35,23 @@ class BillingController extends Controller
     {
         return response()->json($billing);
     }
+
+    public function update(Request $request, Billing $billing)
+    {
+        $data = $request->all();
+        $billing = Billing::updateOrCreate(
+            ['id'=> $data['id']],
+            [
+               'name' => $data['name'],
+               'monthly_fee' => $data['monthly_fee'],
+               'monthly_min' => $data['monthly_min']
+            ]
+        );
+        BillingItem::where('billing_id', $billing->id)->delete();
+        foreach ($data['items'] as $item) {
+            $item['billing_id'] = $billing->id;
+            BillingItem::create($item);
+        }
+        return response()->json($billing);
+    }
 }

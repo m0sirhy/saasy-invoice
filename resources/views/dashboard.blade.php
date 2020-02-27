@@ -113,8 +113,8 @@
                         <div class="bg-gray-400 border-b-2 border-gray-500 rounded-tl-lg rounded-tr-lg p-2">
                             <h5 class="font-bold uppercase text-gray-600">User Activity</h5>
                         </div>
-                        <div class="p-3">
-                            <div class="px-3">
+                        <div class="p-2">
+                            <div class="px-1">
                                 <table class="w-full table-fixed">
                                     <thead class="flex w-full">
                                         <tr class="flex w-full">

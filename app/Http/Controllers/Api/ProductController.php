@@ -16,7 +16,7 @@ class ProductController extends Controller
 
     public function getAll(Request $request)
     {
-        $products = Product::limit(5)->get();
+        $products = Product::all();
         return response()->json($products);
     }
 
