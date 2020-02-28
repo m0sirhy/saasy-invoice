@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
-use App\DataTables\InvoicesDataTable;
+use App\DataTables\ClientDashboardDataTable;
 use Illuminate\Http\Request;
 use App\Subscription;
 use App\Invoice;
@@ -21,7 +21,7 @@ class DashboardController extends Controller
         $this->middleware('auth:client')->except('logout');
     }
 
-    public function index()
+    public function index(ClientDashboardDataTable $dataTable)
     {
     	$client = Auth::user();
 

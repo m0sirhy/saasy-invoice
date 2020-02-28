@@ -58,34 +58,7 @@
 			<div class="py-2">
 				<div class="w-full rounded overflow-hidden shadow-lg bg-white">
 					<div class="px-6 py-4">
-						<table class="table-auto w-full text-center">
-						  <thead>
-						    <tr class="bg-blue-800 text-white">
-						      <th class="px-4 py-2">Invoice</th>
-						      <th class="px-4 py-2">Invoice Date</th>
-						      <th class="px-4 py-2">Invoice Total</th>
-						      <th class="px-4 py-2">Balance</th>
-						      <th class="px-4 py-2">Due Date</th>
-						      <th class="px-4 py-2">Status</th>
-						    </tr>
-						  </thead>
-						  <tbody>
-						  	@foreach($invoices as $invoice)
-						    <tr class="border">
-						      <td class="px-4 py-2"><a title="View" class="link" href="{{ route('client.invoice.show', ['invoice' => $invoice->id]) }}">#{{ $invoice->id }}</a></td>
-						      <td class="px-4 py-2">
-						      	{{ date_format(date_create($invoice->invoice_date), 'm-d-Y') }}
-						      </td>
-						      <td class="px-4 py-2">{{ money_format('$%i', $invoice->amount) }}</td>
-						      <td class="px-4 py-2">{{ money_format('$%i', $invoice->balance) }}</td>
-						      <td class="px-4 py-2">
-						      	{{ date_format(date_create($invoice->due_date), 'm-d-Y') }}
-						      </td>
-						      <td class="px-4 py-2">{{ $invoice->InvoiceStatus->status }}</td>
-						    </tr>
-						    @endforeach
-						  </tbody>
-						</table>
+						{{$dataTable->table()}}
 					</div>
 				</div>
 			</div>
@@ -94,4 +67,11 @@
 </div>
 
 
+
 @endsection
+@push('footerScripts')
+  {{$dataTable->scripts()}}
+  <script type="text/javascript">
+    
+  </script>
+@endpush
