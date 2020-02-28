@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Credit;
 use App\Setting;
+use App\Payment;
 use App\Events\PaymentAdded;
 use App\Events\InvoiceCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;

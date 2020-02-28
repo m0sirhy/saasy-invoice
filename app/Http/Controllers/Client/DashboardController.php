@@ -8,9 +8,11 @@ use Illuminate\Http\Request;
 use App\Subscription;
 use App\Invoice;
 use App\ClientToken;
+use App\Payment;
 use App\Helpers\AuthNet;
 use PDF;
 use Auth;
+use App\Events\PaymentAdded;
 
 class DashboardController extends Controller
 {
@@ -28,9 +30,13 @@ class DashboardController extends Controller
 	    	->with('Items')
 	    	->get();
         $subscription = Subscription::where('client_id', $client->id)->first();
+        $payments = Payment::where('client_id', $client->id)
+            ->where('payment_type', '!=', 'credit')
+            ->sum('amount');
     	return view('clients.portal.dashboard')
             ->with('invoices', $invoices)
-            ->with('subscription', $subscription);
+            ->with('subscription', $subscription)
+            ->with('payments', $payments);
     }
 
     public function showInvoice(Invoice $invoice)
@@ -77,14 +83,29 @@ class DashboardController extends Controller
                 'customerId' => $invoice->Client->crm_id,
                 'description' => 'MEMBER ID ' . $invoice->client_id,
                 'forceCardUpdate' => true
-            ];                        
+            ];             
             $token = AuthNet::createCustomer($params);
             $invoice->Client->ClientToken = ClientToken::create([
                 'client_id' => $invoice->client_id,
                 'token' => $token
             ]);
         }
-        $paymentProfile = AuthNet::getPayment($invoice->Client->ClientToken->token);
-        dd($paymentProfile);
+        $token = $invoice->Client->ClientToken->token;
+        $paymentProfile = AuthNet::getPayment($token);
+        $payment = AuthNet::chargeProfile($token, $paymentProfile, $request->amount, $invoice->id);
+        if (!is_null($payment->transactionResponse->responseCode) && $payment->transactionResponse->responseCode == 1) {
+            Payment::create([
+                'invoice_id' => $invoice->id,
+                'client_id' => $invoice->client_id,
+                'amount' => $request->amount,
+                'refunded' => '0',
+                'auth_code' => $payment->transactionResponse->authCode,
+                'payment_type' => 'card',
+                'payment_at' => now()
+            ]);
+            event(new PaymentAdded($invoice, $request->amount));
+            return redirect()->route('client.dashboard')->with('message', 'Payment successful');
+        }
+        return redirect()-back()->with('errors', 'We are unable to process your payment.');
     }
 }

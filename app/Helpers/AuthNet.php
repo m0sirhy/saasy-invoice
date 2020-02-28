@@ -17,7 +17,7 @@ class AuthNet
 {
     protected $gateway;
 
-    protected static function setupGateway()
+    public static function setupGateway()
     {
         $gateway = Omnipay::create('AuthorizeNet_CIM');
         $gateway->setApiLoginId("6Ux8Sw4m");
@@ -42,7 +42,7 @@ class AuthNet
             'customerProfileId' => $token
         ])->send()
         ->getData();
-        return $data;
+        return $data['profile']['paymentProfiles']['customerPaymentProfileId'];
     }
 
     public static function checkErrors($data)
@@ -62,8 +62,10 @@ class AuthNet
         $params = [
             'cardReference' => json_encode($data),
             'amount' => $amount,
-            'description' => 'Purchase'
+            'description' => 'Purchase',
+            'invoiceNumber' => $invoice
         ];
-        $request = $this->gateway_auth->purchase($params);
+        $request = $gateway->purchase($params)->send()->getData();
+        return $request;
     }
 }

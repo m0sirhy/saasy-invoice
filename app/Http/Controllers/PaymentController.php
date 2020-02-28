@@ -9,6 +9,7 @@ use App\PaymentGatewaySetting;
 use App\DataTables\PaymentsDataTable;
 use Omnipay\Common\CreditCard;
 use Omnipay\Omnipay;
+use App\Helpers\AuthNet;
 
 class PaymentController extends Controller
 {
@@ -35,7 +36,6 @@ class PaymentController extends Controller
 
     public function chargeCard(Request $request)
     {
-
         // $gateway = Omnipay::create('AuthorizeNet_CIM');
         // $gateway->setApiLoginId("4pQKd386");
         // $gateway->setTransactionKey('7WS3x54w53PR2Vfu');
@@ -50,10 +50,10 @@ class PaymentController extends Controller
         //     ]
         // );
         // dump($rrr);
-        $gateway = Omnipay::create('AuthorizeNet_CIM');
-        $gateway->setApiLoginId("6Ux8Sw4m");
-        $gateway->setTransactionKey('2r5Xx43dB3Kc4N6K');
-        $gateway->setDeveloperMode(false);
+        // $gateway = Omnipay::create('AuthorizeNet_CIM');
+        // $gateway->setApiLoginId("6Ux8Sw4m");
+        // $gateway->setTransactionKey('2r5Xx43dB3Kc4N6K');
+        // $gateway->setDeveloperMode(false);
         $params = [
             'card' => [
                 'billingFirstName' => 'Guy',
@@ -73,27 +73,16 @@ class PaymentController extends Controller
             'description' => 'MEMBER ID 3501',
             'forceCardUpdate' => true
         ];
-        $card = $gateway->createCard($params);
-        $response = $card->send();
-        $data = $response->getData();
-
-        $newData['customerProfileId'] = $data['paymentProfile']['customerProfileId'];
-        $newData['customerPaymentProfileId'] = $data['paymentProfile']['customerPaymentProfileId'];
-        dump($data);
+        // $card = $gateway->createCard($params);
+        // $response = $card->send();
+        // $data = $response->getData();
+        $token = AuthNet::createCustomer($params);
+        info($token);
+        $payment = AuthNet::getPayment($token);
+        info($payment);
+        $charge = AuthNet::chargeProfile($token, $payment, .50, 123);
+        dd($charge);
         
-        $request = $gateway->getPaymentProfile($newData);
-        $test = $request->send();
-        dump($test);
-        $cardRef = json_encode($newData);
-
-        $params = [
-            'cardReference' => $cardRef,
-            'amount' => 1,
-            'description' => 'Purchase'
-        ];
-        $request = $gateway->purchase($params)->send();
-
-        dd($request->getData());
     }
 
     /**

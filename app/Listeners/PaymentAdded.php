@@ -28,7 +28,7 @@ class PaymentAdded
     {
         $event->invoice->balance -= $event->amount;
         if ($event->invoice->balance == 0) {
-            $event->invoice_status_id = 6;
+            $event->invoice->invoice_status_id = 6;
         }
         $event->invoice->save();
         $paid = $event->invoice->client->payments
