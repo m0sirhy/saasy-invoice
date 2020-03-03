@@ -36,24 +36,6 @@ class PaymentController extends Controller
 
     public function chargeCard(Request $request)
     {
-        // $gateway = Omnipay::create('AuthorizeNet_CIM');
-        // $gateway->setApiLoginId("4pQKd386");
-        // $gateway->setTransactionKey('7WS3x54w53PR2Vfu');
-        // $gateway->setDeveloperMode(true);
-
-        // $rrr = $gateway->purchase(
-        //     [
-        //         'notifyUrl' => 'https://www.monitorbase.com',
-        //         'amount' => 5,
-        //         'opaqueDataDescriptor' => $request->dataDescriptor,
-        //         'opaqueDataValue' => $request->dataValue,
-        //     ]
-        // );
-        // dump($rrr);
-        // $gateway = Omnipay::create('AuthorizeNet_CIM');
-        // $gateway->setApiLoginId("6Ux8Sw4m");
-        // $gateway->setTransactionKey('2r5Xx43dB3Kc4N6K');
-        // $gateway->setDeveloperMode(false);
         $params = [
             'card' => [
                 'billingFirstName' => 'Guy',
@@ -125,5 +107,27 @@ class PaymentController extends Controller
             $request->all()
         );
         return redirect()->route('settings.payment');
+    }
+
+    public function refund(Payment $payment)
+    {
+        $payment->Client->load('ClientToken');
+        
+        if ($payment->payment_type == 'Credit Card') {
+            $response = AuthNet::refund($payment->transaction_id, $payment->amount, $payment->Client->ClientToken->token);
+            if (!$response->isSuccessful()) {
+                return redirect()->back()->with('error', 'Refund not processed');
+            }
+            
+        }
+        $payment->refunded = 1;
+        $payment->save();
+        return redirect()->route('payments');
+    }
+
+    public function destroy(Payment $payment)
+    {
+        $payment->delete();
+        return redirect()->route('payments');
     }
 }

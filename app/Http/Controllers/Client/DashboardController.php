@@ -13,35 +13,39 @@ use App\Helpers\AuthNet;
 use PDF;
 use Auth;
 use App\Events\PaymentAdded;
+use stdClass;
 
 class DashboardController extends Controller
 {
-	public function __construct()
+    public function __construct()
     {
         $this->middleware('auth:client')->except('logout');
     }
 
     public function index(ClientDashboardDataTable $dataTable)
     {
-    	$client = Auth::user();
-
-    	$invoices = Invoice::where('client_id', $client->id)
-	    	->with('InvoiceStatus')
-	    	->with('Items')
-	    	->get();
-        $subscription = Subscription::where('client_id', $client->id)->first();
-        $payments = Payment::where('client_id', $client->id)
-            ->where('payment_type', '!=', 'credit')
+        $client = Auth::user();
+        $invoices = Invoice::where('client_id', $client->id)
+            ->with('InvoiceStatus')
+            ->with('Items')
+            ->get();
+        $total = Invoice::where('client_id', $client->id)
             ->sum('amount');
-    	return view('clients.portal.dashboard')
-            ->with('invoices', $invoices)
-            ->with('subscription', $subscription)
-            ->with('payments', $payments);
+        $balance = Invoice::where('client_id', $client->id)
+            ->sum('balance');
+        $paid = $total-$balance;
+        $subscription = json_encode(Subscription::where('client_id', $client->id)->first());
+        $data = new stdClass();
+        $data->total = $total;
+        $data->balance = $balance;
+        $data->paid = $paid;
+        $data->subscription = $subscription;
+        return $dataTable->with('client', $client)->render('clients.portal.dashboard', compact('data', $data));
     }
 
     public function showInvoice(Invoice $invoice)
     {
-        if($invoice->invoice_status_id < 3) {
+        if ($invoice->invoice_status_id < 3) {
             $invoice->invoice_status_id = 3;
             $invoice->save();
         }
@@ -100,8 +104,9 @@ class DashboardController extends Controller
                 'amount' => $request->amount,
                 'refunded' => '0',
                 'auth_code' => $payment->transactionResponse->authCode,
-                'payment_type' => 'card',
-                'payment_at' => now()
+                'payment_type' => 'Credit Card',
+                'payment_at' => now(),
+                'transaction_id' => $payment->transactionResponse->transId
             ]);
             event(new PaymentAdded($invoice, $request->amount));
             return redirect()->route('client.dashboard')->with('message', 'Payment successful');

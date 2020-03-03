@@ -45,6 +45,16 @@ class AuthNet
         return $data['profile']['paymentProfiles']['customerPaymentProfileId'];
     }
 
+    public static function getPaymentProfiles($token)
+    {
+        $gateway = self::setupGateway();
+        $data = $gateway->getCustomerProfile([
+            'customerProfileId' => $token
+        ])->send()
+        ->getData();
+        return $data['profile']['paymentProfiles'];
+    }
+
     public static function checkErrors($data)
     {
         if (isset($data['messages']['resultCode']) == 'Error') {
@@ -66,6 +76,28 @@ class AuthNet
             'invoiceNumber' => $invoice
         ];
         $request = $gateway->purchase($params)->send()->getData();
-        return $request;
+        
+        return $response;
+    }
+
+    public static function refund($transactionId, $amount, $token)
+    {
+        $data['customerProfileId'] = $token;
+        $data['customerPaymentProfileId'] = self::getPayment($token);
+        $gateway = self::setupGateway();
+        $transaction = [
+            'cardReference' => json_encode($data),
+            'transId' => $transactionId,
+        ];
+        $params = [
+            'amount' => $amount,
+            'transactionReference' => json_encode($transaction)
+        ];
+        $response = $gateway->void($params)->send();
+        if ($response->isSuccessful()) {
+            return $response;
+        }
+        $response = $gateway->refund($params)->send();
+        return $response;
     }
 }

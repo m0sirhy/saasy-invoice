@@ -242,7 +242,7 @@ Route::prefix('payments')->middleware(['auth'])->group(function () {
     Route::get('create', 'PaymentController@create')->name('payments.create');
     Route::get('edit/{payment}', 'PaymentController@edit')->name('payments.edit');
     Route::get('refund/{payment}', 'PaymentController@refund')->name('payments.refund');
-    
+    Route::get('destroy/{payment}', 'PaymentController@destroy')->name('payments.destroy');
 });
 
 Route::get('charge', 'PaymentController@userCharge')->name('payments.user.charge');

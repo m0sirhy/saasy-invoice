@@ -41,4 +41,10 @@ class PaymentController extends Controller
         $payment = Payment::where('crm_id', $crmId)->first();
         return response()->json($payment);
     }
+
+    public function update(Request $request, Payment $payment)
+    {
+        $payment->update($request->all());
+        return response()->json($payment);
+    }
 }

@@ -18,7 +18,8 @@ class Payment extends Model
         'payment_at',
         'refunded',
         'auth_code',
-        'payment_type'
+        'payment_type',
+        'transaction_id'
     ];
 
     protected $dates = [

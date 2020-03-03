@@ -62,7 +62,7 @@ class InvoiceApplyCredits
             'amount' => $amount,
             'refunded' => '0',
             'auth_code' => '',
-            'payment_type' => 'credit',
+            'payment_type' => 'Site Credit',
             'payment_at' => now()
         ]);
     }

@@ -16,7 +16,7 @@
 				</div>
 				<div class="flex-1 text-right md:text-center">
 					<h5 class="font-bold uppercase text-gray-600">Total Invoiced</h5>
-					<h3 class="font-bold text-3xl">${{ $invoices->sum('amount') }}</h3>
+					<h3 class="font-bold text-3xl">${{ $data->total }}</h3>
 				</div>
 			</div>
 		</div>
@@ -31,7 +31,7 @@
 				</div>
 				<div class="flex-1 text-right md:text-center">
 					<h5 class="font-bold uppercase text-gray-600">Paid to Date</h5>
-					<h3 class="font-bold text-3xl">${{ $payments }}</h3>
+					<h3 class="font-bold text-3xl">${{ $data->paid }}</h3>
 				</div>
 			</div>
 		</div>
@@ -46,7 +46,7 @@
 				</div>
 				<div class="flex-1 text-right md:text-center">
 					<h5 class="font-bold uppercase text-gray-600">Open Balance</h5>
-					<h3 class="font-bold text-3xl">${{ $invoices->sum('balance') }}</h3>
+					<h3 class="font-bold text-3xl">${{ $data->balance }}</h3>
 				</div>
 			</div>
 		</div>

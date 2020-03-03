@@ -9,7 +9,6 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
-        "academe/omnipay-authorizenetapi": " ~3.0",
         "barryvdh/laravel-snappy": "^0.4.6",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^6.4",
