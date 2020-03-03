@@ -45,6 +45,9 @@ class DashboardController extends Controller
 
     public function showInvoice(Invoice $invoice)
     {
+        if ($invoice->client_id !== Auth::user()->id) {
+            abort(413);
+        }
         if ($invoice->invoice_status_id < 3) {
             $invoice->invoice_status_id = 3;
             $invoice->save();
