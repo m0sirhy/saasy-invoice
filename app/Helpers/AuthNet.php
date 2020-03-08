@@ -42,6 +42,9 @@ class AuthNet
             'customerProfileId' => $token
         ])->send()
         ->getData();
+        if (!isset($data['profile']['paymentProfiles']['customerPaymentProfileId'])) {
+            return null;
+        }
         return $data['profile']['paymentProfiles']['customerPaymentProfileId'];
     }
 
@@ -53,6 +56,18 @@ class AuthNet
         ])->send()
         ->getData();
         return $data['profile']['paymentProfiles'];
+    }
+    public static function getCardData($token)
+    {
+        $gateway = self::setupGateway();
+        $data = $gateway->getCustomerProfile([
+            'customerProfileId' => $token
+        ])->send()
+        ->getData();
+        if (!isset($data['profile']['paymentProfiles']['payment']['creditCard'])) {
+            return null;
+        }
+        return $data['profile']['paymentProfiles']['payment']['creditCard'];
     }
 
     public static function checkErrors($data)
@@ -77,7 +92,7 @@ class AuthNet
         ];
         $request = $gateway->purchase($params)->send()->getData();
         
-        return $response;
+        return $request;
     }
 
     public static function refund($transactionId, $amount, $token)
@@ -99,5 +114,42 @@ class AuthNet
         }
         $response = $gateway->refund($params)->send();
         return $response;
+    }
+
+    public static function deleteAndUpdateCard($token, $profile, $params) {
+        $data['customerProfileId'] = $token;
+        $data['customerPaymentProfileId'] = $profile;
+        $gateway = self::setupGateway();
+        $params['customerProfileId'] = $token;
+        $params['customerPaymentProfileId'] = $profile;
+        $request = $gateway->updateCard($params)->send();
+        $code = $request->getData()['messages']['resultCode'];
+        if ($code == "Error") {
+            return $code;
+        }
+        return $request;
+    }
+
+    public static function setParams($request, $invoice, $name) {
+        $params = [
+            'card' => [
+                'billingFirstName' => $name[0],
+                'billingLastName' => $name[1],
+                'billingAddress1' => $invoice->Client->address,
+                'billingCity' => $invoice->Client->city,
+                'billingState' => $invoice->Client->state,
+                'billingPostcode' => $invoice->Client->zipcode,
+                'billingPhone' => '',
+            ],
+            'opaqueDataDescriptor' => $request->dataDescriptor,
+            'opaqueDataValue' => $request->dataValue,
+            'name' => $request->name,
+            'email' => $invoice->Client->email,
+            'customerType' => 'individual',
+            'customerId' => $invoice->Client->crm_id,
+            'description' => 'MEMBER ID ' . $invoice->client_id,
+            'forceCardUpdate' => true
+        ];
+        return $params;
     }
 }

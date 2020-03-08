@@ -65,32 +65,20 @@ class DashboardController extends Controller
 
     public function payInvoice(Invoice $invoice)
     {
+        $client = Auth::user();
+        $cardData = null;
+        if (!is_null($client->clientToken)) {
+            $cardData = AuthNet::getCardData($client->ClientToken->token);
+        }
         return view('clients.portal.pay')
-            ->with('invoice', $invoice);
+            ->with('invoice', $invoice)
+            ->with('cardData', $cardData);
     }
 
     public function payment(Request $request, Invoice $invoice) {
         if (is_null($invoice->Client->ClientToken)) {
             $name = explode(' ', $invoice->Client->name , 2);
-            $params = [
-                'card' => [
-                    'billingFirstName' => $name[0],
-                    'billingLastName' => $name[1],
-                    'billingAddress1' => $invoice->Client->address,
-                    'billingCity' => $invoice->Client->city,
-                    'billingState' => $invoice->Client->state,
-                    'billingPostcode' => $invoice->Client->zipcode,
-                    'billingPhone' => '',
-                ],
-                'opaqueDataDescriptor' => $request->dataDescriptor,
-                'opaqueDataValue' => $request->dataValue,
-                'name' => $request->name,
-                'email' => $invoice->Client->email,
-                'customerType' => 'individual',
-                'customerId' => $invoice->Client->crm_id,
-                'description' => 'MEMBER ID ' . $invoice->client_id,
-                'forceCardUpdate' => true
-            ];             
+            $params = AuthNet::setParams($request, $invoice, $name);
             $token = AuthNet::createCustomer($params);
             $invoice->Client->ClientToken = ClientToken::create([
                 'client_id' => $invoice->client_id,
@@ -99,6 +87,17 @@ class DashboardController extends Controller
         }
         $token = $invoice->Client->ClientToken->token;
         $paymentProfile = AuthNet::getPayment($token);
+        if (isset($request->all()['updated']) && $request->all()['updated'] == 1) {
+            $name = explode(' ', $invoice->Client->name , 2);
+            $params = AuthNet::setParams($request, $invoice, $name);
+            $response = AuthNet::deleteAndupdateCard($token, $paymentProfile, $params);
+            if ($response == 'Error') {
+                return redirect()->back()->with('errors', 'We were unable to process your updated card information.');
+            }
+        }
+        if (is_null($paymentProfile)) {
+            return redirect()->back()->with('message', 'Something went wrong getting your payment profile.');
+        }
         $payment = AuthNet::chargeProfile($token, $paymentProfile, $request->amount, $invoice->id);
         if (!is_null($payment->transactionResponse->responseCode) && $payment->transactionResponse->responseCode == 1) {
             Payment::create([
@@ -114,6 +113,6 @@ class DashboardController extends Controller
             event(new PaymentAdded($invoice, $request->amount));
             return redirect()->route('client.dashboard')->with('message', 'Payment successful');
         }
-        return redirect()-back()->with('errors', 'We are unable to process your payment.');
+        return redirect()->back()->with('errors', 'We are unable to process your payment.');
     }
 }

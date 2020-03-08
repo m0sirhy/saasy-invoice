@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\DashboardRepository;
+use Auth;
 
 class DashboardController extends Controller
 {
