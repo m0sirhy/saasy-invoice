@@ -11,4 +11,9 @@ class UserActivityLog extends Model
     	'message',
     	'invoice_id'
     ];
+
+    public function client()
+    {
+    	return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }

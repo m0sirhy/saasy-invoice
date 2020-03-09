@@ -1,0 +1,189 @@
+<?php
+
+namespace App\Console\Commands;
+
+use App\Client;
+use App\Invoice;
+use App\Payment;
+use App\Product;
+use App\InvoiceItem;
+use Illuminate\Console\Command;
+use DB;
+
+class MigrateNinja extends Command
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'move:ninja';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Migration from InvoiceNinja';
+
+    /**
+     * Execute the console command.
+     *
+     * @return mixed
+     */
+    public function handle()
+    {
+        $this->clients();
+        $this->invoices();
+        $this->invoiceItems();
+        $this->payments();
+    }
+
+    public function clients()
+    {
+        $clients = DB::connection('invoice')->select('
+            SELECT c.id, cs.first_name, cs.last_name, cs.email,
+            c.address1, c.address2, c.city, c.state, c.postal_code,
+            c.balance, c.paid_to_date
+            FROM clients c
+            JOIN contacts cs ON cs.client_id = c.id
+        ');
+        foreach ($clients as $client) {
+            $paid = $client->paid_to_date;
+            if (is_null($paid)) {
+                $paid = 0;
+            }
+
+            $balance = $client->balance;
+            if (is_null($balance)) {
+                $balance = 0;
+            }
+            try {
+                Client::create([
+                    'id' => $client->id,
+                    'name' => $client->first_name . ' ' . $client->last_name,
+                    'email' => $client->email,
+                    'address' => $client->address1,
+                    'address2' => $client->address2,
+                    'city' => $client->city,
+                    'state' => $client->state,
+                    'zipcode' => $client->postal_code,
+                    'balance' => $balance,
+                    'total_paid' => $paid,
+                    'crm_id' => 0
+                ]);
+            } catch (\Exception $e) {
+                info('Client failed: #' . $client->id . ' - ' . $e->getMessage());
+                $this->info('Client failed: #' . $client->id . ' - ' . $e->getMessage());
+            }
+        }
+    }
+
+    public function invoices()
+    {
+        $invoices = DB::connection('invoice')->select('
+            select * from invoices where deleted_at is null
+        ');
+        foreach ($invoices as $invoice) {
+            $status = $invoice->invoice_status_id;
+            if ($status == 4 || $status == 5) {
+                $status = 2;
+            }
+            $id = (int) $invoice->invoice_number;
+            if ($id == 0) {
+                continue;
+            }
+            try {
+                Invoice::create([
+                    'id' => $invoice->invoice_number,
+                    'client_id' => $invoice->client_id,
+                    'balance' => $invoice->balance,
+                    'amount' => $invoice->amount,
+                    'due_date' => $invoice->due_date,
+                    'invoice_date' => $invoice->invoice_date,
+                    'private_notes' => $invoice->private_notes,
+                    'public_notes' => $invoice->private_notes,
+                    'invoice_status_id' => $status
+                ]);
+            } catch (\Exception $e) {
+                info('Invoice failed: #' . $invoice->id . ' - ' . $e->getMessage());
+                $this->info('Invoice failed: #' . $invoice->id . ' - ' . $e->getMessage());
+            }   
+        }
+    }
+
+    public function invoiceItems()
+    {
+        $items = DB::connection('invoice')->select('
+            SELECT invoice_number, product_key, notes, cost, qty, it.id  FROM invoice_items it
+            JOIN invoices i ON i.id = it.invoice_id
+        ');
+        foreach ($items as $item) {
+            $product = Product::firstOrCreate([
+                'name' => $item->product_key,
+                'notes' => $item->notes,
+                'unit_price' => $item->cost,
+                'cost' => 0
+            ]);
+           try {
+                InvoiceItem::create([
+                    'invoice_id' => $item->invoice_number,
+                    'product_id' => $product->id,
+                    'quantity' => $item->qty,
+                    'unit_price' => $item->cost,
+                    'quantity' => $item->qty,
+                    'name' => $item->product_key,
+                    'description' => $item->notes
+                ]);
+            } catch (\Exception $e) {
+                info('Invoice Item failed: #' . $item->id . ' - ' . $e->getMessage());
+                $this->info('Invoice Item failed: #' . $item->id . ' - ' . $e->getMessage());
+            }
+        }
+    }
+
+    public function payments()
+    {
+        $payments = DB::connection('invoice')->select('
+            SELECT it.id, invoice_number, it.client_id, it.amount, payment_type_id, it.payment_date, it.created_at, it.transaction_reference
+            FROM payments it
+            JOIN invoices i ON i.id = it.invoice_id
+            WHERE it.is_deleted=0;
+        ');
+        foreach ($payments as $payment) {
+            $refunded = 0;
+            if ($payment->payment_type_id == 6) {
+                $refunded = 0;
+            }
+            if ($payment->payment_date == '0000-00-00') {
+                continue;
+            }
+            $type = 3;
+            if ($payment->payment_type_id == 1) {
+                $type = 2;
+            } elseif ($payment->payment_type_id == 5) {
+                $type = 4;
+            } elseif ($payment->payment_type_id == 16) {
+                $type = 1;
+            } elseif ($payment->payment_type_id == 3) {
+                $type = 0;
+            }
+
+            try {
+                Payment::create([
+                    'invoice_id' => $payment->invoice_number,
+                    'client_id' => $payment->client_id,
+                    'amount' => $payment->amount,
+                    'refunded' => $refunded,
+                    'payment_at' => $payment->payment_date,
+                    'id' => $payment->id,
+                    'payment_type' => $type,
+                    'auth_code' => $payment->transaction_reference
+                ]);
+            } catch (\Exception $e) {
+                info('Payment failed: #' . $payment->id . ' - ' . $e->getMessage());
+                $this->info('Payment failed: #' . $payment->id . ' - ' . $e->getMessage());
+            }
+        }
+    }
+}

@@ -12,6 +12,7 @@ class Invoice extends Model
     use Uuids;
 
     protected $fillable = [
+        'id',
         'client_id',
         'invoice_status_id',
         'public_id',
@@ -21,6 +22,12 @@ class Invoice extends Model
         'invoice_date',
         'start_date',
         'end_date',
+        'private_notes',
+        'public_notes'
+    ];
+
+    protected $dates = [
+        'due_date'
     ];
 
     protected $mapUuid = 'public_id';

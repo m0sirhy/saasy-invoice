@@ -18,7 +18,7 @@
                                 </div>
                                 <div class="flex-1 text-right md:text-center">
                                     <h5 class="font-bold uppercase text-gray-600">Total Revenue</h5>
-                                    <h3 class="font-bold text-3xl">${{ $revenue }} <span class="text-green-500"><i class="fas fa-caret-up"></i></span></h3>
+                                    <h3 class="font-bold text-3xl">${{ number_format($revenue) }}</h3>
                                 </div>
                             </div>
                         </div>
@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="flex-1 text-right md:text-center">
                                     <h5 class="font-bold uppercase text-gray-600">Total Clients</h5>
-                                    <h3 class="font-bold text-3xl">{{ $clients }} <span class="text-orange-500"><i class="fas fa-exchange-alt"></i></span></h3>
+                                    <h3 class="font-bold text-3xl">{{ number_format($clients) }}</h3>
                                 </div>
                             </div>
                         </div>
@@ -52,7 +52,7 @@
                                 </div>
                                 <div class="flex-1 text-right md:text-center">
                                     <h5 class="font-bold uppercase text-gray-600">New Clients</h5>
-                                    <h3 class="font-bold text-3xl">{{ $newClients }} <span class="text-yellow-600"><i class="fas fa-caret-up"></i></span></h3>
+                                    <h3 class="font-bold text-3xl">{{ number_format($newClients) }}</h3>
                                 </div>
                             </div>
                         </div>
@@ -129,14 +129,14 @@
                                         @foreach($userActivities as $userActivity)
                                             <tr class= "flex w-full border text-left border py-2">
                                                 <td class="w-5/12 px-2">
-                                                    <b>{{$userActivity['created_at']}}:</b>
+                                                    <b>{{ $userActivity->created_at->format('m/d/y') }}</b>
                                                 </td>
                                                 <td class="w-1/2 text-left">
-                                                     {{$userActivity['name']}} {{$userActivity['message']}}
+                                                     <a class="text-blue-500" href={{route('clients.show', ['client' => $userActivity->client->id])}} ><b>{{$userActivity->client->name}}</b></a>  {{ $userActivity->message }}
                                                 </td>
                                                 <td class="w-1/6">
                                                     <div class="text-right pr-2">
-                                                    <a class="text-blue-500" href={{route("invoices.edit", ["invoice" =>$userActivity['invoice_id']])}} ><b>#{{$userActivity['invoice_id']}}</b></a>
+                                                    <a class="text-blue-500" href={{ route("invoices.edit", ["invoice" => $userActivity->invoice_id] )}} ><b>#{{ $userActivity->invoice_id }}</b></a>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -169,13 +169,13 @@
                                             @foreach($recents as $recent)
                                                 <tr class= "flex w-full border py-2">
                                                     <td class="w-1/3 pl-2 px-2">
-                                                    <b>{{$recent->payment_at}}</b>
+                                                    <b>{{ $recent->payment_at->format('m/d/y') }}</b>
                                                     </td>
                                                     <td class="w-1/2 px-2">
                                                         <a class="text-blue-500" href={{route('clients.show', ['client' => $recent->client->id])}} ><b>{{$recent->client->name}}</b></a> payed:
                                                     </td>
                                                     <td class="w-1/3 pr-3 text-right">
-                                                        <a class="text-blue-500" href={{ route('payments.edit', ['payment' => $recent->id]) }}><b>${{ $recent->amount }}</b></a>
+                                                        <a class="text-blue-500" href={{ route('payments.edit', ['payment' => $recent->id]) }}><b>${{ number_format($recent->amount, 2) }}</b></a>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -190,7 +190,7 @@
                     <div class="w-full bg-white border-transparent rounded-lg shadow-lg">
                         <div class="flex bg-gray-400 border-b-2 border-gray-500 rounded-tl-lg rounded-tr-lg p-2">
                             <div class="w-1/2 font-bold uppercase text-gray-600">Overdue Invoices</div>
-                            <div class="w-1/2 font-bold uppercase text-gray-600 text-right">Total: ${{$overdueTotal}}</div>
+                            <div class="w-1/2 font-bold uppercase text-gray-600 text-right">Total: ${{ number_format($overdueTotal, 2) }}</div>
                         </div>
                         <div class="p-2">
                             <div class="px-1">
@@ -208,13 +208,13 @@
                                         @foreach($overdues as $overdue)
                                             <tr class= "flex w-full border py-2">
                                                 <td class="w-1/3 pl-2">
-                                                <b>{{$overdue->due_date}}</b>
+                                                <b>{{ $overdue->due_date->format('m/d/y') }}</b>
                                                 </td>
-                                                <td class="w-1/3 text-center">
+                                                <td class="w-1/3">
                                                     <a class="text-blue-500" href={{route('clients.show', ['client' => $overdue->client->id])}} ><b>{{$overdue->client->name}}</b></a> 
                                                 </td>
                                                 <td class="w-1/3 text-right pr-2">
-                                                    <a class="text-blue-500" href={{ route('invoices.edit', ['invoice' => $overdue->id]) }}><b>${{ $overdue->balance }}</b></a>
+                                                    <a class="text-blue-500" href={{ route('invoices.edit', ['invoice' => $overdue->id]) }}><b>${{ number_format($overdue->balance, 2) }}</b></a>
                                                 </td>
                                             </tr>
                                         @endforeach

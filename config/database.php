@@ -90,6 +90,17 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
         ],
+        'invoice' => [
+            'host'      => env('DB_HOST_INVOICE', '127.0.0.1'),
+            'driver'    => 'mysql',
+            'database'  => env('DB_INVOICE', 'ninja'),
+            'username'  => env('DB_INVOICE_USERNAME', 'homestead'),
+            'password'  => env('DB_INVOICE_PASSWORD', 'secret'),
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+            'strict'    => false,
+        ],
 
     ],
 

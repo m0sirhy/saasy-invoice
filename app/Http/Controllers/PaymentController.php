@@ -18,9 +18,12 @@ class PaymentController extends Controller
      *
      * @return [type] [description]
      */
-    public function index(PaymentsDataTable $dataTable)
+    public function index()
     {
-        return $dataTable->render('payments.index');
+        $payments = Payment::with('client')->orderBy('id', 'desc')->get();
+        return view('payments.index', [
+            'payments' => $payments
+        ]);
     }
 
     public function create()

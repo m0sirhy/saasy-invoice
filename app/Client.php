@@ -10,7 +10,9 @@ use App\Traits\Uuids;
 class Client extends Model implements AuthenticatableContract
 {
     protected $guard = 'client';
+
     use Uuids, Authenticatable;
+
     protected $fillable = [
         'name',
         'email',
@@ -25,7 +27,8 @@ class Client extends Model implements AuthenticatableContract
         'terms_accepted_at',
         'deleted_at',
         'invoice_key',
-        'uuid'
+        'uuid',
+        'id'
     ];
 
     protected $mapUuid = 'uuid';
