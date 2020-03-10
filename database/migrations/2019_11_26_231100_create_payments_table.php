@@ -19,6 +19,11 @@ class CreatePaymentsTable extends Migration
             $table->bigInteger('client_id');
             $table->float('amount', 10,2)->default(0.00);
             $table->date('deleted_at')->nullable();
+            $table->date('payment_at')->nullable();
+            $table->integer('refunded')->default(0);
+            $table->string('auth_code')->nullable();
+            $table->string('payment_type')->nullable();
+            $table->string('transaction_id')->nullable();
             $table->timestamps();
         });
     }

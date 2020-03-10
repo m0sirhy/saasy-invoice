@@ -28,7 +28,7 @@ class CreateBillingsTable extends Migration
             $table->integer('product_id');
             $table->string('alt_id');
             $table->decimal('price_per', 6, 2)->default(0);
-            $table->integer('after_min');
+            $table->integer('after_min')->default(0);
             $table->decimal('price_after', 6, 2)->default(0);
             $table->decimal('costs', 6, 2)->default(0);
             $table->timestamps();
