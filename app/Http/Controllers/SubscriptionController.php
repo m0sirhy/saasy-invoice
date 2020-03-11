@@ -27,7 +27,8 @@ class SubscriptionController extends Controller
      * @param String $subscription
      * @return \Illuminate\Http\Response
      */
-    public function show(Subscription $subscription) {
+    public function show(Subscription $subscription)
+    {
         return view('subscriptions.show')
             ->with('subscription', $subscription);
     }
