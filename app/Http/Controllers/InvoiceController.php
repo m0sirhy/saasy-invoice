@@ -41,7 +41,8 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
-        return view('invoices.show');
+        return view('invoices.show')
+            ->with('invoice', $invoice);
     }
 
     /**

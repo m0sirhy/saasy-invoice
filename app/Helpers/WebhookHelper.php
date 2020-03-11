@@ -15,7 +15,7 @@ use Log;
 class WebHookHelper
 {
     /**
-     *  
+     *
      * @param string $route
      * @param Array $options
      * @return void
@@ -30,7 +30,7 @@ class WebHookHelper
             return;
         }
         $client = new Guzzle([
-            'base_uri' => $url, 
+            'base_uri' => $url,
             'headers' => ['x-api-key' => $settings->api_token],
         ]);
         $options = array([
@@ -43,11 +43,12 @@ class WebHookHelper
     }
 
     /**
-     *  
+     *
      * @param Invoice $invoice
      * @return void
      */
-    public static function postInvoiceOverdue(Invoice $invoice) {
+    public static function postInvoiceOverdue(Invoice $invoice)
+    {
         $invoice = Invoice::where('id', $invoice->id)
             ->with('Client')
             ->first();
@@ -65,7 +66,8 @@ class WebHookHelper
         self::postRequest('/api/v1/invoice/overdue', $options);
     }
 
-    public static function postInvoicePayment(Payment $payment) {
+    public static function postInvoicePayment(Payment $payment)
+    {
         $invoice = Invoice::where('id', $payment->invoice_id)
             ->with('Client')
             ->first();
@@ -78,12 +80,14 @@ class WebHookHelper
         ]);
         self::postrequest('/api/v1/invoice/payment', $options);
     }
+
     /**
-     *  
+     *
      * @param Invoice $invoice
      * @return void
      */
-    public static function postInvoiceCreated(Invoice $invoice) {
+    public static function postInvoiceCreated(Invoice $invoice)
+    {
         $invoice = Invoice::where('id', $invoice->id)
             ->with('Client')
             ->first();
@@ -102,11 +106,12 @@ class WebHookHelper
     }
 
     /**
-     *  
+     *
      * @param Invoice $invoice
      * @return void
      */
-    public static function postInvoiceUpdated(Invoice $invoice) {
+    public static function postInvoiceUpdated(Invoice $invoice)
+    {
         $invoice = Invoice::where('id', $invoice->id)
             ->with('Client')
             ->first();
@@ -125,11 +130,12 @@ class WebHookHelper
     }
 
     /**
-     *  
+     *
      * @param Invoice $invoice
      * @return void
      */
-    public static function postInvoiceViewedUser(Invoice $invoice) {
+    public static function postInvoiceViewedUser(Invoice $invoice)
+    {
         $authId = 9999999;
         if (Auth::check()) {
             $authId = Auth::id();

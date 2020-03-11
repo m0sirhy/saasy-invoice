@@ -7,8 +7,8 @@ use App\Http\Controllers\Controller;
 
 class LoggedOutController extends Controller
 {
-	public function loggedOut()
-	{
-		return view('clients.portal.logged-out');
-	}
+    public function loggedOut()
+    {
+        return view('clients.portal.logged-out');
+    }
 }

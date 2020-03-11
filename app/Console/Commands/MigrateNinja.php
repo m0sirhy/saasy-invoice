@@ -108,7 +108,7 @@ class MigrateNinja extends Command
             } catch (\Exception $e) {
                 info('Invoice failed: #' . $invoice->id . ' - ' . $e->getMessage());
                 $this->info('Invoice failed: #' . $invoice->id . ' - ' . $e->getMessage());
-            }   
+            }
         }
     }
 
@@ -125,7 +125,7 @@ class MigrateNinja extends Command
                 'unit_price' => $item->cost,
                 'cost' => 0
             ]);
-           try {
+            try {
                 InvoiceItem::create([
                     'invoice_id' => $item->invoice_number,
                     'product_id' => $product->id,
@@ -145,7 +145,8 @@ class MigrateNinja extends Command
     public function payments()
     {
         $payments = DB::connection('invoice')->select('
-            SELECT it.id, invoice_number, it.client_id, it.amount, payment_type_id, it.payment_date, it.created_at, it.transaction_reference
+            SELECT it.id, invoice_number, it.client_id, it.amount, payment_type_id,
+            it.payment_date, it.created_at, it.transaction_reference
             FROM payments it
             JOIN invoices i ON i.id = it.invoice_id
             WHERE it.is_deleted=0;

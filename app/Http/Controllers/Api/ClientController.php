@@ -14,7 +14,7 @@ class ClientController extends Controller
         return response()->json($client);
     }
 
-    public function getAll(Request $request)
+    public function getAll()
     {
         $clients = Client::orderBy('name')->get();
         return response()->json($clients);

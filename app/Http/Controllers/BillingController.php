@@ -52,7 +52,7 @@ class BillingController extends Controller
     public function edit(Billing $billing)
     {
         $items = BillingItem::where('billing_id', $billing->id)->get()->toArray();
-        foreach($items as &$item) {
+        foreach ($items as &$item) {
             $item['unit_price'] = $item['price_per'];
             unset($item['price_per']);
         }

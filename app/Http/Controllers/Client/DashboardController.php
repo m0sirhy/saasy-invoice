@@ -75,9 +75,10 @@ class DashboardController extends Controller
             ->with('cardData', $cardData);
     }
 
-    public function payment(Request $request, Invoice $invoice) {
+    public function payment(Request $request, Invoice $invoice)
+    {
         if (is_null($invoice->Client->ClientToken)) {
-            $name = explode(' ', $invoice->Client->name , 2);
+            $name = explode(' ', $invoice->Client->name, 2);
             $params = AuthNet::setParams($request, $invoice, $name);
             $token = AuthNet::createCustomer($params);
             $invoice->Client->ClientToken = ClientToken::create([
@@ -88,7 +89,7 @@ class DashboardController extends Controller
         $token = $invoice->Client->ClientToken->token;
         $paymentProfile = AuthNet::getPayment($token);
         if (isset($request->all()['updated']) && $request->all()['updated'] == 1) {
-            $name = explode(' ', $invoice->Client->name , 2);
+            $name = explode(' ', $invoice->Client->name, 2);
             $params = AuthNet::setParams($request, $invoice, $name);
             $response = AuthNet::deleteAndupdateCard($token, $paymentProfile, $params);
             if ($response == 'Error') {
@@ -111,8 +112,8 @@ class DashboardController extends Controller
                 'transaction_id' => $payment->transactionResponse->transId
             ]);
             event(new PaymentAdded($invoice, $request->amount));
-            return redirect()->route('client.dashboard')->with('message', 'Payment successful');
+            return redirect()->route('client.dashboard')->withSuccess('Payment successful');
         }
-        return redirect()->back()->with('errors', 'We are unable to process your payment.');
+        return redirect()-back()->withError('We are unable to process your payment.');
     }
 }

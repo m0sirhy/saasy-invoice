@@ -10,7 +10,6 @@ use App\Events\InvoiceCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-
 class InvoiceApplyCredits
 {
     /**

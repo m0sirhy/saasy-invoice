@@ -115,13 +115,12 @@ class PaymentController extends Controller
     public function refund(Payment $payment)
     {
         $payment->Client->load('ClientToken');
-        
         if ($payment->payment_type == 'Credit Card') {
-            $response = AuthNet::refund($payment->transaction_id, $payment->amount, $payment->Client->ClientToken->token);
+            $token = $payment->Client->ClientToken->token;
+            $response = AuthNet::refund($payment->transaction_id, $payment->amount, $token);
             if (!$response->isSuccessful()) {
-                return redirect()->back()->with('error', 'Refund not processed');
+                return redirect()->back()->withError('Refund not processed');
             }
-            
         }
         $payment->refunded = 1;
         $payment->save();

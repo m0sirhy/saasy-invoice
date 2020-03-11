@@ -19,7 +19,7 @@ class BillingController extends Controller
         return response()->json($billing);
     }
 
-    public function getAll(Request $request)
+    public function getAll()
     {
         $billings = Billing::orderBy('name')->get();
         return response()->json($billings);

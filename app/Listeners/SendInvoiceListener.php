@@ -10,7 +10,7 @@ use App\Mail\OverdueInvoice;
 use App\Events\InvoiceCreated;
 use App\Events\InvoiceOverdue;
 use App\Client;
-Use Log;
+use Log;
 
 class SendInvoiceListener
 {
@@ -30,7 +30,8 @@ class SendInvoiceListener
      * @return void
      *
      */
-    public function sendInvoice(InvoiceCreated $event) {
+    public function sendInvoice(InvoiceCreated $event)
+    {
         $client = Client::where('id', $event->invoice->client_id)->first();
         if ($event->mail == 1 && $client != null) {
             Mail::to($client->email)->send(new NewInvoice($event->invoice, $client));
@@ -48,7 +49,8 @@ class SendInvoiceListener
      * @return void
      *
      */
-    public function overdueInvoice(InvoiceOverdue $event) {
+    public function overdueInvoice(InvoiceOverdue $event)
+    {
         $client = Client::where('id', $event->invoice->client_id)->first();
         if ($client != null) {
             Mail::to($client->email)->send(new OverdueInvoice($event->invoice, $client));

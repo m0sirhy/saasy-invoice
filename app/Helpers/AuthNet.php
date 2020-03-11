@@ -116,7 +116,8 @@ class AuthNet
         return $response;
     }
 
-    public static function deleteAndUpdateCard($token, $profile, $params) {
+    public static function deleteAndUpdateCard($token, $profile, $params)
+    {
         $data['customerProfileId'] = $token;
         $data['customerPaymentProfileId'] = $profile;
         $gateway = self::setupGateway();
@@ -130,7 +131,8 @@ class AuthNet
         return $request;
     }
 
-    public static function setParams($request, $invoice, $name) {
+    public static function setParams($request, $invoice, $name)
+    {
         $params = [
             'card' => [
                 'billingFirstName' => $name[0],

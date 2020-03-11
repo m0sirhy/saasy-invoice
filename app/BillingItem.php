@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class BillingItem extends Model
 {
     protected $fillable = [
-    	'billing_id',
-    	'product_id',
-    	'alt_id',
-    	'price_per',
-    	'after_min',
-    	'price_after'
+        'billing_id',
+        'product_id',
+        'alt_id',
+        'price_per',
+        'after_min',
+        'price_after'
     ];
 
     public function billing()

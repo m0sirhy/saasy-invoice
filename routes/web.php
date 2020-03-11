@@ -70,9 +70,9 @@ Route::post('clients/save', 'ClientController@save')
     ->middleware(['auth'])
     ->name('clients.save');
 
-Route::get('clients/credits/{client}/create', function() {
+Route::get('clients/credits/{client}/create', function () {
         return redirect(route('credits.create'));
-    })
+})
     ->middleware(['auth']);
 
 
@@ -80,18 +80,18 @@ Route::get('clients/credits/{client}', 'ClientController@creditsShow')
     ->middleware(['auth'])
     ->name('clients.credits');
 
-Route::get('clients/payments/{client}/create', function() {
+Route::get('clients/payments/{client}/create', function () {
         return redirect(route('payments.create'));
-    })
+})
     ->middleware(['auth']);
 
 Route::get('clients/payments/{client}', 'ClientController@paymentsShow')
     ->middleware(['auth'])
     ->name('clients.payments');
 
-Route::get('clients/show/{client}/create', function() {
+Route::get('clients/show/{client}/create', function () {
         return redirect(route('invoices.create'));
-    })
+})
     ->middleware(['auth']);
 
 Route::get('clients/show/{client}', 'ClientController@invoicesShow')
@@ -208,16 +208,26 @@ Route::prefix('activity')->group(function () {
 
 Route::prefix('client')->namespace('Client')->group(function () {
     Route::get('dashboard', 'DashboardController@index')->name('client.dashboard');
-    Route::get('invoice/show/{invoice:public_id}', 'DashboardController@showInvoice')->name('client.invoice.show')->middleware(['auth:client']);
-    Route::get('invoice/download/{invoice}', 'DashboardController@downloadInvoice')->name('client.invoice.download')->middleware(['auth:client']);
-    Route::get('invoice/pay/{invoice}', 'DashboardController@payInvoice')->name('client.invoice.pay')->middleware(['auth:client']);
-    Route::post('invoice/payment/{invoice}', 'DashboardController@payment')->name('client.invoice.payment')->middleware(['auth:client']);
-    Route::namespace('Auth')->group(function(){
-        Route::get('/login/{uuid}','LoginController@login')->name('client.login')->middleware(['guest:client']);
-        Route::post('/logout','LoginController@logout')->name('client.logout');
+    Route::get('invoice/show/{invoice:public_id}', 'DashboardController@showInvoice')
+        ->name('client.invoice.show')
+        ->middleware(['auth:client']);
+    Route::get('invoice/download/{invoice}', 'DashboardController@downloadInvoice')
+        ->name('client.invoice.download')
+        ->middleware(['auth:client']);
+    Route::get('invoice/pay/{invoice}', 'DashboardController@payInvoice')
+        ->name('client.invoice.pay')
+        ->middleware(['auth:client']);
+    Route::post('invoice/payment/{invoice}', 'DashboardController@payment')
+        ->name('client.invoice.payment')
+        ->middleware(['auth:client']);
+    Route::namespace('Auth')->group(function () {
+        Route::get('/login/{uuid}', 'LoginController@login')
+            ->name('client.login')
+            ->middleware(['guest:client']);
+        Route::post('/logout', 'LoginController@logout')->name('client.logout');
     });
 });
-Route::prefix('client')->namespace('Client')->group(function() {
+Route::prefix('client')->namespace('Client')->group(function () {
     Route::get('/loggedout', 'LoggedOutController@loggedOut')->name('client.loggedout');
 });
 
@@ -232,7 +242,8 @@ Route::prefix('products')->middleware(['auth'])->group(function () {
     Route::get('/', 'ProductController@index')->name('products');
     Route::get('show/{product}', 'ProductController@show')->name('products.show');
     Route::get('create', 'ProductController@create')->name('products.create');
-    Route::get('destroy/{product}', 'ProductController@destroy')->name('products.destroy');;
+    Route::get('destroy/{product}', 'ProductController@destroy')->name('products.destroy');
+    ;
     Route::post('store', 'ProductController@store')->name('products.store');
     Route::post('update/{product}', 'ProductController@update')->name('products.update');
 });
@@ -266,4 +277,3 @@ Route::prefix('api')->middleware(['auth'])->namespace('Api')->group(function () 
     Route::post('payment/update/{payment}', 'PaymentController@update')->name('api.payment.update');
     Route::post('payment/charge', 'PaymentController@charge')->name('api.payment.user.charge');
 });
-

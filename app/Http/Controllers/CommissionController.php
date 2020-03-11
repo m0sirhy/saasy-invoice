@@ -24,7 +24,7 @@ class CommissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function owed(CommissionsOwedDataTable $dataTable) 
+    public function owed(CommissionsOwedDataTable $dataTable)
     {
         return $dataTable->render('commissions.owed');
     }
