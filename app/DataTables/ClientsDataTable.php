@@ -25,7 +25,9 @@ class ClientsDataTable extends DataTable
                 $url = route('clients.show', ['client' => $data->id]);
                 return "<a href='$url' class='link'>" . $data->id . "</a>";
             })->editColumn('balance', function ($data) {
-                return money_format('$%i', $data->balance);
+                return number_format($data->balance, 2);
+            })->editColumn('created_at', function ($data) {
+                return date('d/m/y', strtotime($data->created_at));
             })->rawColumns(['id']);
     }
 

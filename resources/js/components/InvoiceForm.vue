@@ -28,12 +28,12 @@
                             </div>
                             <div class="w-1/2">
                                 <div class="mb-4">
-                                    <label class="form-label">End Date</label>
-                                    <input class="form-input leading-tight focus:outline-none focus:shadow-outline" type="date" v-model="form.end_date">
-                                </div>
-                                <div class="mb-4">
                                     <label class="form-label">Start Date</label>
                                     <input v-model="form.start_date" class="form-input leading-tight focus:outline-none focus:shadow-outline" type="date">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label">End Date</label>
+                                    <input class="form-input leading-tight focus:outline-none focus:shadow-outline" type="date" v-model="form.end_date">
                                 </div>
                             </div>
                         </div>
@@ -57,7 +57,7 @@
                             <td class="p-1"><input class="form-input leading-tight focus:outline-none focus:shadow-outline" type="number" step="0.01" min="0" v-model="item.unit_price" /></td>
                             <td class="p-1"><input class="form-input leading-tight focus:outline-none focus:shadow-outline" type="number" min="0" v-model="item.quantity" /></td>
                             <td class="text-center"><a @click="removeRow(index)"><i class="fa fa-times text-red-700"></i></a></td>
-                            <td class="text-center">${{ item.unit_price * item.quantity | currency }}</td>
+                            <td class="text-center">${{ (item.unit_price * item.quantity).toFixed(2) }}</td>
                         </tr>
 
                         <tr>
@@ -70,7 +70,11 @@
                         </tr>
                         <tr class="total">
                             <td colspan="5"></td>
-                            <td class="text-xl"><hr>Total: ${{ total | currency }}</td>
+                            <td class="text-xl"><hr>Total: ${{ total.toFixed(2) }}</td>
+                        </tr>
+                        <tr class="total">
+                            <td colspan="5"></td>
+                            <td class="text-xl"><hr>Balance: ${{ form.balance.toFixed(2) }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -113,6 +117,7 @@
                     start_date: '',
                     end_date: '',
                     id: 0,
+                    balance: 0
                 },
                 mail: {
                     mail: '',

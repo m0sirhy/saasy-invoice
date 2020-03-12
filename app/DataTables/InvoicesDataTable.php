@@ -113,6 +113,6 @@ class InvoicesDataTable extends DataTable
     public function formatDate($date)
     {
         $date = date_create($date);
-        return date_format($date, "m/d/Y");
+        return date_format($date, "m/d/y");
     }
 }

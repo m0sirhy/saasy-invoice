@@ -16,15 +16,6 @@ class Payments extends Component
     public $sortAsc = false;
     public $search = '';
 
-    public function sortBy($field)
-    {
-        $this->sortAsc = true;
-        if ($this->sortField === $field) {
-            $this->sortAsc = ! $this->sortAsc;
-        }
-        $this->sortField = $field;
-    }
-
     public function render()
     {
         $cols = ['id', 'invoice_id', 'auth_code', 'amount'];
@@ -37,5 +28,14 @@ class Payments extends Component
             'payments' => $payments,
             'types' => Payment::TYPES
         ]);
+    }
+
+    public function sortBy($field)
+    {
+        $this->sortAsc = true;
+        if ($this->sortField === $field) {
+            $this->sortAsc = ! $this->sortAsc;
+        }
+        $this->sortField = $field;
     }
 }

@@ -23,11 +23,8 @@ class Invoice extends Model
         'start_date',
         'end_date',
         'private_notes',
-        'public_notes'
-    ];
-
-    protected $dates = [
-        'due_date'
+        'public_notes',
+        'queue'
     ];
 
     protected $mapUuid = 'public_id';

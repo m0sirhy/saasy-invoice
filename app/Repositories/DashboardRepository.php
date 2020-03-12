@@ -28,6 +28,7 @@ class DashboardRepository
             $paymentByMonth[$month] = round(\App\Payment::where('refunded', 0)
                 ->whereMonth('payment_at', $now->format('m'))
                 ->whereYear('payment_at', $now->format('Y'))
+                ->where('payment_type', '!=', 2)
                 ->sum('amount'), 2);
                 $now->subMonth('1');
         }
@@ -53,6 +54,7 @@ class DashboardRepository
         $now = now();
         $recent = Payment::where('refunded', 0)
             ->where('payment_at', '>=', $now->subMonth())
+            ->where('payment_type', '!=', 2)
             ->orderBy('payment_at', 'desc')
             ->get();
         return $recent;
