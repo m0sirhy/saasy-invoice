@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Payment;
+use App\Invoice;
+use App\Client;
 use App\PaymentGateway;
 use App\PaymentGatewaySetting;
 use App\DataTables\PaymentsDataTable;
-use Omnipay\Common\CreditCard;
-use Omnipay\Omnipay;
+use App\Events\PaymentAdded;
 use App\Helpers\AuthNet;
 
 class PaymentController extends Controller
@@ -32,42 +33,87 @@ class PaymentController extends Controller
             ->with('types', Payment::TYPES);
     }
 
-    public function userCharge()
+    public function userCharge(Invoice $invoice)
     {
-        return view('payments.charge');
+        $client = $invoice->Client;
+        $cardData = null;
+        if (!is_null($client) && !is_null($client->ClientToken)) {
+            $cardData = AuthNet::getCardData($client->ClientToken->token);
+        }
+        return view('payments.charge')
+            ->with('invoice', $invoice)
+            ->with('cardData', $cardData);
     }
 
-    public function chargeCard(Request $request)
+    public function chargeCard(Request $request, Invoice $invoice)
     {
-        $params = [
-            'card' => [
-                'billingFirstName' => 'Guy',
-                'billingLastName' => 'Warner',
-                'billingAddress1' => '1131 E Ridgedale Ln',
-                'billingCity' => 'Salt Lake City',
-                'billingState' => 'UT',
-                'billingPostcode' => '84106',
-                'billingPhone' => '',
-            ],
-            'opaqueDataDescriptor' => $request->dataDescriptor,
-            'opaqueDataValue' => $request->dataValue,
-            'name' => 'Guy',
-            'email' => 'warnerdata@gmail.com',
-            'customerType' => 'individual',
-            'customerId' => '3501',
-            'description' => 'MEMBER ID 3501',
-            'forceCardUpdate' => true
-        ];
-        // $card = $gateway->createCard($params);
-        // $response = $card->send();
-        // $data = $response->getData();
-        $token = AuthNet::createCustomer($params);
-        info($token);
-        $payment = AuthNet::getPayment($token);
-        info($payment);
-        $charge = AuthNet::chargeProfile($token, $payment, .50, 123);
-        dd($charge);
-        
+        if (!is_null($invoice->id)) {
+            $new = null;
+
+            if (is_null($invoice->Client->clientToken)) {
+                $new = 1;
+                $name = explode(' ', $invoice->Client->name, 2);
+                $params = AuthNet::setParams($request, $invoice, $name);
+                $token = AuthNet::createCustomer($params);
+                $invoice->Client->ClientToken = ClientToken::create([
+                    'client_id' => $invoice->client_id,
+                    'token' => $token
+                ]);
+            }
+            $token = $invoice->Client->ClientToken->token;
+            $paymentProfile = AuthNet::getPayment($token);
+            if (is_null($paymentProfile)) {
+                return redirect()->back()->with('message', 'Something went wrong getting your payment profile.');
+            }
+            if (is_null($new) && isset($request->all()['updated']) && $request->all()['updated'] == 1) {
+                $name = explode(' ', $invoice->Client->name, 2);
+                $params = AuthNet::setParams($request, $invoice, $name);
+                $response = AuthNet::deleteAndUpdateCard($token, $paymentProfile, $params);
+                if ($response == 'Error') {
+                    $message = 'We were unable to process your updated card information.';
+                    return redirect()->back()->with('errors', $message);
+                }
+            }
+            $id = $invoice->id;
+            $amount = $request->amount;
+            $payment = AuthNet::chargeProfile($token, $paymentProfile, $amount, $id);
+            if (!is_null($payment->transactionResponse->responseCode) && $payment->transactionResponse->responseCode == 1) {
+                Payment::create([
+                    'invoice_id' => $invoice->id,
+                    'client_id' => $invoice->client_id,
+                    'amount' => $request->amount,
+                    'refunded' => '0',
+                    'auth_code' => $payment->transactionResponse->authCode,
+                    'payment_type' => 'Credit Card',
+                    'payment_at' => now(),
+                    'transaction_id' => $payment->transactionResponse->transId
+                ]);
+                event(new PaymentAdded($invoice, $request->amount));
+                return redirect()->route('payments')->with('message', 'Payment successful');
+            }
+            return redirect()->back()->with('errors', 'We are unable to process your payment.');
+        }
+        $name = explode(' ', $request->name, 2);
+        $params = AuthNet::setParamsSingle($request, $name);
+        $payment = AuthNet::chargeCard($params);
+        if (is_null($payment->getResultCode()) || $payment->getResultCode() != 1) {
+            return redirect()->back()->with('errors', 'We were unable to process the request');
+        }
+        if (!is_null($payment->getResultCode()) && $payment->getResultCode() == 1) {
+            Payment::create([
+                'invoice_id' => '0',
+                'client_id' => '0',
+                'amount' => $request->amount,
+                'refunded' => '0',
+                'auth_code' => $payment->getAuthorizationCode(),
+                'payment_type' => 'Credit Card',
+                'payment_at' => now(),
+                'transaction_id' => json_decode($payment->getTransactionReference())->transId
+            ]);
+            // event(new PaymentAdded(0, $request->amount));
+            return redirect()->route('payments.user.card')->with('message', 'Payment successful');
+        }
+        return redirect()->back()->with('errors', 'We are unable to process your payment.');
     }
 
     /**
@@ -78,9 +124,15 @@ class PaymentController extends Controller
      */
     public function edit(Payment $payment)
     {
+        $invoices = Invoice::get()
+            ->where('client_id', $payment->client_id)
+            ->pluck('id')
+            ->toArray();
+        $payment->payment_at = $payment->payment_at->format('Y-m-d');
         return view('payments.edit')
             ->with('payment', $payment)
-            ->with('types', Payment::TYPES);
+            ->with('types', Payment::TYPES)
+            ->with('invoices', $invoices);
     }
 
     /**

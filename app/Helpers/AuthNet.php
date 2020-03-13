@@ -26,6 +26,15 @@ class AuthNet
         return $gateway;
     }
 
+    public static function setupGatewayAIM()
+    {
+        $gateway = Omnipay::create('AuthorizeNet_AIM');
+        $gateway->setApiLoginId("6Ux8Sw4m");
+        $gateway->setTransactionKey('2r5Xx43dB3Kc4N6K');
+        $gateway->setDeveloperMode(false);
+        return $gateway;
+    }
+
     public static function createCustomer($params)
     {
         $gateway = self::setupGateway();
@@ -150,6 +159,44 @@ class AuthNet
             'customerType' => 'individual',
             'customerId' => $invoice->Client->crm_id,
             'description' => 'MEMBER ID ' . $invoice->client_id,
+            'forceCardUpdate' => true
+        ];
+        return $params;
+    }
+
+    public static function chargeCard($params)
+    {
+        $gateway = self::setupGatewayAIM();
+        $response = $gateway->purchase($params)->send();
+        return $response;
+    }
+    public static function setParamsSingle($request, $name)
+    {
+        $params = [
+            'card' => [
+                'billingFirstName' => $name[0],
+                'billingLastName' => $name[1],
+                'billingAddress1' => $request->address,
+                'billingCity' => $request->city,
+                'billingState' => $request->state,
+                'billingPostcode' => $request->zip,
+                'billingPhone' => '',
+            ],
+            'transactionRequest' => [
+                'transactionType' => "authCaptureTransaction",
+                'payment' => [
+                    'dataDescriptor' => $request->dataDescriptor,
+                    'dataValue' => $request->dataValue,
+                ],
+            ],
+            'amount' => $request->amount,
+            'opaqueDataDescriptor' => $request->dataDescriptor,
+            'opaqueDataValue' => $request->dataValue,
+            'name' => $request->name,
+            'email' => $request->email,
+            'customerType' => 'individual',
+            'customerId' => 01,
+            'description' => 'MEMBER ID SINGLE',
             'forceCardUpdate' => true
         ];
         return $params;

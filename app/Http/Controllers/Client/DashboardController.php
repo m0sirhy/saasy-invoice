@@ -88,16 +88,16 @@ class DashboardController extends Controller
         }
         $token = $invoice->Client->ClientToken->token;
         $paymentProfile = AuthNet::getPayment($token);
+        if (is_null($paymentProfile)) {
+            return redirect()->back()->with('message', 'Something went wrong getting your payment profile.');
+        }
         if (isset($request->all()['updated']) && $request->all()['updated'] == 1) {
             $name = explode(' ', $invoice->Client->name, 2);
             $params = AuthNet::setParams($request, $invoice, $name);
-            $response = AuthNet::deleteAndupdateCard($token, $paymentProfile, $params);
+            $response = AuthNet::deleteAndUpdateCard($token, $paymentProfile, $params);
             if ($response == 'Error') {
                 return redirect()->back()->with('errors', 'We were unable to process your updated card information.');
             }
-        }
-        if (is_null($paymentProfile)) {
-            return redirect()->back()->with('message', 'Something went wrong getting your payment profile.');
         }
         $payment = AuthNet::chargeProfile($token, $paymentProfile, $request->amount, $invoice->id);
         if (!is_null($payment->transactionResponse->responseCode) && $payment->transactionResponse->responseCode == 1) {

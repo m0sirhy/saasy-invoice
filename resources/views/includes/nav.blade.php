@@ -33,6 +33,11 @@
                 </a>
             </li>
             <li class="mr-3 flex-1">
+                <a href="{{ route('payments.user.card') }}" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 {{ Request::is('payments/card') ? 'border-blue-800' : 'border-gray-800' }} hover:border-blue-800">
+                    <i class="fa fa-credit-card pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block">Charge Card</span>
+                </a>
+            </li>
+            <li class="mr-3 flex-1">
                 <a href="{{ route('products') }}" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 {{ Request::is('products') ? 'border-blue-800' : 'border-gray-800' }} hover:border-blue-800">
                     <i class="fa fa-boxes pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block">Products</span>
                 </a>

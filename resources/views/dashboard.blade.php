@@ -113,8 +113,8 @@
                         <div class="bg-gray-400 border-b-2 border-gray-500 rounded-tl-lg rounded-tr-lg p-2">
                             <h5 class="font-bold uppercase text-gray-600">User Activity</h5>
                         </div>
-                     <div class="p-3">
-                            <div class="px-3">
+                     <div class="p-2">
+                            <div class="px-1">
                                 <table class="w-full table-fixed">
                                     <thead class="flex w-full">
                                         <tr class="flex w-full">
@@ -172,7 +172,7 @@
                                                     <b>{{ $recent->payment_at->format('m/d/y') }}</b>
                                                     </td>
                                                     <td class="w-1/2 px-2">
-                                                        <a class="text-blue-500" href={{route('clients.show', ['client' => $recent->client->id])}} ><b>{{$recent->client->name}}</b></a> payed:
+                                                        <a class="text-blue-500" href=@if(isset($recent->client->id)){{route('clients.show', ['client' => $recent->client->id])}}@endif ><b>{{$recent->client->name ?? 'Credit Card'}}</b></a> payed:
                                                     </td>
                                                     <td class="w-1/3 pr-3 text-right">
                                                         <a class="text-blue-500" href={{ route('payments.edit', ['payment' => $recent->id]) }}><b>${{ number_format($recent->amount, 2) }}</b></a>

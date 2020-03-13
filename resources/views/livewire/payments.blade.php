@@ -62,13 +62,13 @@
                             <td class="py-4 px-6 border-b border-grey-light">
                                 <a class="link" href="{{ route('payments.edit', ['payment' => $payment->id]) }}">{{ $payment->id }}</a>
                             </td>
-                            <td class="py-4 px-6 border-b border-grey-light"><a class="link" href="{{ route('clients.show', ['client' => $payment->client_id]) }}">{{ $payment->client->name }}</a></td>
+                            <td class="py-4 px-6 border-b border-grey-light"><a class="link" href=@if($payment->client_id != 0){{ route('clients.show', ['client' => $payment->client_id]) }}@endif>{{ $payment->client->name ?? 'Credit Card' }}</a></td>
                             <td class="py-4 px-6 border-b border-grey-light">
                                 <a class="link" href="{{ route('invoices.edit', ['invoice' => $payment->invoice_id]) }}">{{ $payment->invoice_id }}</a>
                             </td>
                             <td class="py-4 px-6 border-b border-grey-light">${{ number_format($payment->amount, 2) }}</td>
                             <td class="py-4 px-6 border-b border-grey-light">{{ $payment->payment_at->format('m/d/y') }}</td>
-                            <td class="py-4 px-6 border-b border-grey-light">{{ $types[$payment->payment_type] }}</td>
+                            <td class="py-4 px-6 border-b border-grey-light">{{ $payment->payment_type ?? 'Unknown' }}</td>
                         </tr>
                     @endforeach
                 </tbody>

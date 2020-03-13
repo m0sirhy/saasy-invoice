@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Edit Payment')
 @section('content')
-
+@livewireStyles
 <div class="bg-blue-800 p-2 shadow text-xl text-white">
     <h3 class="font-bold pl-2"><a href="{{ route('credits') }}">Payments</a> / Edit Payment</h3>
 </div>
@@ -11,14 +11,8 @@
             <div class="bg-gray-400 border-b-2 border-gray-500 rounded-tl-lg rounded-tr-lg p-2">
                 <h5 class="font-bold uppercase text-gray-600">Payment Details</h5>
             </div>
-            <div class="p-5" id="app">
-                <payment-form 
-                    payment-model='@json($payment)'
-                    url='{{ route('api.payment.update', ['payment' => $payment['id']]) }}'
-                    payment-types='@json($types)'
-                >
-                Update
-                </payment-form>
+            <div class="p-5">
+                @livewire('payment-form', ['payment' => $payment, 'types'=> $types, 'invoices' => $invoices])
             </div>
         </div>
     </div>
@@ -37,3 +31,7 @@
     </div>
 </div>
 @endsection
+@livewireScripts
+@push('footerScripts')
+
+@endpush

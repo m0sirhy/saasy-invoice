@@ -254,10 +254,9 @@ Route::prefix('payments')->middleware(['auth'])->group(function () {
     Route::get('edit/{payment}', 'PaymentController@edit')->name('payments.edit');
     Route::get('refund/{payment}', 'PaymentController@refund')->name('payments.refund');
     Route::get('destroy/{payment}', 'PaymentController@destroy')->name('payments.destroy');
+    Route::get('card/{invoice?}', 'PaymentController@userCharge')->name('payments.user.card');
+    Route::post('charge/card/{invoice?}', 'PaymentController@chargeCard')->name('payments.user.charge.card');
 });
-
-Route::get('charge', 'PaymentController@userCharge')->name('payments.user.charge');
-Route::post('charge/card', 'PaymentController@chargeCard')->name('payments.user.charge');
 
 Route::prefix('api')->middleware(['auth'])->namespace('Api')->group(function () {
     Route::get('clients', 'ClientController@getAll')->name('api.clients.get');
