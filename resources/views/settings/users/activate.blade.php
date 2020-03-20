@@ -12,7 +12,7 @@
             </div>
             <div class="p-5">
                 <div class="w-full max-w-xl items-center">
-                    {!! Form::model($user, ['route' => ['user.save', 'user' => $user->id]]) !!}
+                    {!! Form::model($user, ['route' => ['user.update', 'user' => $user->id]]) !!}
                     {!! Form::hidden('activate', 1) !!}
                     <div class="mb-4">
                         {!! Form::label('name', 'Name', ['class' => 'form-label'])  !!}

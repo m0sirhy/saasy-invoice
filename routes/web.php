@@ -47,9 +47,8 @@ Route::post('settings/save', 'SettingController@save')
     ->middleware(['auth'])
     ->name('settings.save');
 
-Route::post('settings/user/save', 'UserController@save')
-    ->middleware(['auth'])
-    ->name('user.save');
+Route::post('settings/user/update/{user}', 'UserController@update')
+    ->name('user.update');
 
 Route::post('settings/user/store/{user}', 'UserController@save')
     ->middleware(['auth'])

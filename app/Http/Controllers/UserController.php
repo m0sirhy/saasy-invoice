@@ -34,6 +34,13 @@ class UserController extends Controller
         return view('settings.users.create');
     }
 
+    /**
+     * Update a user
+     *
+     * @param User $user
+     * @param Request $request
+     * @return redirect
+     */
     public function update(User $user, Request $request)
     {
         $this->validate(request(), [
@@ -43,13 +50,20 @@ class UserController extends Controller
         $user->update($request->all());
         if (isset($request->activate) && $request->activate == 1) {
             $user->token = '';
+            $user->password = Hash::make($request->password);
             $user->save();
             Auth::login($user);
-            return redirect()->route('dashboard');
+            return redirect()->route('dashboard')->withSuccess('Welcome!');
         }
         return redirect()->route('users');
     }
 
+    /**
+     * Save a user
+     *
+     * @param Request $request
+     * @return redirect
+     */
     public function save(Request $request)
     {
         $this->validate(request(), [
@@ -67,6 +81,12 @@ class UserController extends Controller
         return redirect()->route('users');
     }
 
+    /**
+     * Activate a user
+     *
+     * @param stromg $token
+     * @return view
+     */
     public function activate($token)
     {
         $user = User::where('token', $token)->first();
