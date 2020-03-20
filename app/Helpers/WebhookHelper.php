@@ -12,7 +12,7 @@ use App\UserActivityLog;
 use GuzzleHttp\Psr7\Request;
 use Log;
 
-class WebHookHelper
+class WebhookHelper
 {
     /**
      *

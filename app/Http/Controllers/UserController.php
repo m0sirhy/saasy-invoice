@@ -70,7 +70,7 @@ class UserController extends Controller
     public function activate($token)
     {
         $user = User::where('token', $token)->first();
-        if (is_null($user)) {
+        if (is_null($user) || $token = '') {
             abort(404);
         }
         return view('settings.users.activate')
