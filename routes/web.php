@@ -52,7 +52,7 @@ Route::post('settings/user/update/{user}', 'UserController@update')
 
 Route::post('settings/user/store/{user}', 'UserController@save')
     ->middleware(['auth'])
-    ->name('user.store');
+    ->name('user.save');
 
 Route::get('user/{token}', 'UserController@activate')
     ->name('user.activate');
