@@ -39,6 +39,7 @@ class MigrateNinja extends Command
         $this->payments();
     }
 
+    
     public function clients()
     {
         $clients = DB::connection('invoice')->select('
@@ -126,7 +127,7 @@ class MigrateNinja extends Command
                 'cost' => 0
             ]);
             try {
-                InvoiceItem::create([
+                InvoiceItem::updateOrCreate([
                     'invoice_id' => $item->invoice_number,
                     'product_id' => $product->id,
                     'quantity' => $item->qty,

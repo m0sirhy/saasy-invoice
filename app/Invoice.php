@@ -27,6 +27,11 @@ class Invoice extends Model
         'queue'
     ];
 
+    protected $dates = [
+        'due_dates',
+        'invoice_date'
+    ];
+
     protected $mapUuid = 'public_id';
 
     public function products()

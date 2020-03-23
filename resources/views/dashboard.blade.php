@@ -208,10 +208,18 @@
                                         @foreach($overdues as $overdue)
                                             <tr class= "flex w-full border py-2">
                                                 <td class="w-1/3 pl-2">
-                                                <b>{{ $overdue->due_date->format('m/d/y') }}</b>
+                                                <b>{{ date('m/d/y', strtotime($overdue->due_date)) }}</b>
                                                 </td>
                                                 <td class="w-1/3">
-                                                    <a class="text-blue-500" href={{route('clients.show', ['client' => $overdue->client->id])}} ><b>{{$overdue->client->name}}</b></a> 
+                                                    <a class="text-blue-500" href={{ route('clients.show', ['client' => $overdue->client->id]) }} >
+                                                        <b>
+                                                            @if ($overdue->client->name != '' && $overdue->client->name != ' ')
+                                                                {{ $overdue->client->name }}
+                                                            @else
+                                                                Unknown
+                                                            @endif
+                                                        </b>
+                                                    </a> 
                                                 </td>
                                                 <td class="w-1/3 text-right pr-2">
                                                     <a class="text-blue-500" href={{ route('invoices.edit', ['invoice' => $overdue->id]) }}><b>${{ number_format($overdue->balance, 2) }}</b></a>

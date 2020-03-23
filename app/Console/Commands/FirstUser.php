@@ -47,7 +47,8 @@ class FirstUser extends Command
             'name' => $name,
             'email' => $email,
             'password' => Hash::make($password),
-            'token' => md5(rand(1000, 5000))
+            'token' => '',
+            'active' => 1
         ]);
         $this->info('User created. Visit site to login and get started!');
     }
