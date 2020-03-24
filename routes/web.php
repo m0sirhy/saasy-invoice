@@ -13,7 +13,7 @@
 
 Route::redirect('/', '/dashboard');
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::get('dashboard', 'DashboardController@index')
     ->middleware(['auth'])
