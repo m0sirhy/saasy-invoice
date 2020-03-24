@@ -132,7 +132,11 @@
                                                     <b>{{ $userActivity->created_at->format('m/d/y') }}</b>
                                                 </td>
                                                 <td class="w-1/2 text-left">
-                                                     <a class="text-blue-500" href={{route('clients.show', ['client' => $userActivity->client->id])}} ><b>{{$userActivity->client->name}}</b></a>  {{ $userActivity->message }}
+                                                    @if (is_null($userActivity->client))
+                                                        <a class="text-blue-500" href="#"><b>System</b></a>  {{ $userActivity->message }}
+                                                    @else
+                                                    <a class="text-blue-500" href={{route('clients.show', ['client' => $userActivity->client->id])}} ><b>{{$userActivity->client->name}}</b></a>  {{ $userActivity->message }}
+                                                    @endif
                                                 </td>
                                                 <td class="w-1/6">
                                                     <div class="text-right pr-2">
@@ -197,7 +201,7 @@
                                 <table class="w-full table-fixed">
                                     <thead class="flex flex-col w-full">
                                         <tr class="flex w-full">
-                                            <th class="w-1/3 p-2">Date</th>
+                                            <th class="w-1/3 p-2">Due Date</th>
                                             <th class="w-1/3 p-2">
                                                 Client
                                             </th>

@@ -48,8 +48,8 @@ class DashboardController extends Controller
         if ($invoice->client_id !== Auth::user()->id) {
             abort(413);
         }
-        if ($invoice->invoice_status_id < 3) {
-            $invoice->invoice_status_id = 3;
+        if ($invoice->invoice_status_id < VIEWED) {
+            $invoice->invoice_status_id = VIEWED;
             $invoice->save();
         }
         return view('clients.portal.show')

@@ -29,7 +29,8 @@ class OverDue extends Command
     public function handle()
     {
         $invoices = Invoice::where('balance', '>', 0)
-            ->where('invoice_status_id', '!=', 5)
+            ->where('invoice_status_id', '!=', OVER_DUE)
+            ->where('invoice_status_id', '!=', DRAFT)
             ->where('due_date', '<=', now())
             ->get();
         foreach ($invoices as $invoice) {

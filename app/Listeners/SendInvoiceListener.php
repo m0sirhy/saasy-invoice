@@ -35,8 +35,8 @@ class SendInvoiceListener
         $client = Client::where('id', $event->invoice->client_id)->first();
         if ($event->mail == 1 && $client != null) {
             Mail::to($client->email)->send(new NewInvoice($event->invoice, $client));
-            if ($event->invoice->invoice_status_id == 1) {
-                $event->invoice->invoice_status_id = 2;
+            if ($event->invoice->invoice_status_id == DRAFT) {
+                $event->invoice->invoice_status_id = SENT;
                 $event->invoice->save();
             }
         }

@@ -39,7 +39,6 @@ class MigrateNinja extends Command
         $this->payments();
     }
 
-    
     public function clients()
     {
         $clients = DB::connection('invoice')->select('

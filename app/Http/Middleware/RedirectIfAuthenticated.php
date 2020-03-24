@@ -21,7 +21,7 @@ class RedirectIfAuthenticated
             if ($guard == 'client') {
                 return redirect()->route('client.dashboard');
             }
-            return redirect('/home');
+            return redirect('/dashboard');
         }
 
         return $next($request);
