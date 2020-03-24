@@ -12,11 +12,11 @@
 		<div class="bg-green-100 border-b-4 border-green-600 rounded-lg shadow-lg p-5">
 			<div class="flex flex-row items-center">
 				<div class="flex-shrink pr-4">
-					<div class="rounded-full p-5 bg-green-600"><i class="fa fa-wallet fa-2x fa-inverse"></i></div>
+					<div class="rounded-full p-5 bg-green-600"><i class="fa fa-dollar-sign fa-2x fa-inverse"></i></div>
 				</div>
 				<div class="flex-1 text-right md:text-center">
 					<h5 class="font-bold uppercase text-gray-600">Total Invoiced</h5>
-					<h3 class="font-bold text-3xl">${{ $data->total }}</h3>
+					<h3 class="font-bold text-3xl">${{ number_format($data->total, 2) }}</h3>
 				</div>
 			</div>
 		</div>
@@ -27,11 +27,11 @@
 		<div class="bg-orange-100 border-b-4 border-orange-500 rounded-lg shadow-lg p-5">
 			<div class="flex flex-row items-center">
 				<div class="flex-shrink pr-4">
-					<div class="rounded-full p-5 bg-orange-600"><i class="fas fa-users fa-2x fa-inverse"></i></div>
+					<div class="rounded-full p-5 bg-orange-600"><i class="fas fa-dollar-sign fa-2x fa-inverse"></i></div>
 				</div>
 				<div class="flex-1 text-right md:text-center">
 					<h5 class="font-bold uppercase text-gray-600">Paid to Date</h5>
-					<h3 class="font-bold text-3xl">${{ $data->paid }}</h3>
+					<h3 class="font-bold text-3xl">${{ number_format($data->paid, 2) }}</h3>
 				</div>
 			</div>
 		</div>
@@ -42,11 +42,11 @@
 		<div class="bg-yellow-100 border-b-4 border-yellow-600 rounded-lg shadow-lg p-5">
 			<div class="flex flex-row items-center">
 				<div class="flex-shrink pr-4">
-					<div class="rounded-full p-5 bg-yellow-600"><i class="fas fa-user-plus fa-2x fa-inverse"></i></div>
+					<div class="rounded-full p-5 bg-yellow-600"><i class="fas fa-dollar-sign fa-2x fa-inverse"></i></div>
 				</div>
 				<div class="flex-1 text-right md:text-center">
 					<h5 class="font-bold uppercase text-gray-600">Open Balance</h5>
-					<h3 class="font-bold text-3xl">${{ $data->balance }}</h3>
+					<h3 class="font-bold text-3xl">${{ number_format($data->balance, 2) }}</h3>
 				</div>
 			</div>
 		</div>
