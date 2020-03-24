@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\User;
+use Auth;
 use Hash;
 use Mail;
+use App\User;
+use App\Mail\UserCreate;
 use App\Mail\UserInvite;
-use Auth;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -23,12 +24,23 @@ class UserController extends Controller
             ->with('users', $users);
     }
 
+    /**
+     * Show a user
+     *
+     * @param User $user
+     * @return view
+     */
     public function show(User $user)
     {
         return view('settings.users.show')
             ->with('user', $user);
     }
 
+    /**
+     * Create a new user
+     *
+     * @return view
+     */
     public function create()
     {
         return view('settings.users.create');
@@ -53,7 +65,11 @@ class UserController extends Controller
             $user->password = Hash::make($request->password);
             $user->save();
             Auth::login($user);
-            return redirect()->route('dashboard')->withSuccess('Welcome!');
+            Mail::to($user->email)
+                ->send(new UserCreated($user));
+            return redirect()
+                ->route('dashboard')
+                ->withSuccess('Welcome!');
         }
         return redirect()->route('users');
     }
@@ -91,7 +107,7 @@ class UserController extends Controller
     {
         $user = User::where('token', $token)->first();
         if (is_null($user) || $token = '') {
-            abort(404);
+            redirect()->route('dashboard')->withError('Token expired or invalid.');
         }
         return view('settings.users.activate')
             ->with('user', $user);

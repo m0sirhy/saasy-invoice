@@ -2,32 +2,25 @@
 
 namespace App\Mail;
 
-use App\Client;
-use App\Invoice;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class OverdueInvoice extends Mailable
+class UserCreate extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $invoice;
-
-    public $client;
+    public $user;
 
     /**
      * Create a new message instance.
      *
-     * @param Invoice $invoice
-     * @param Client $client
      * @return void
      */
-    public function __construct(Invoice $invoice, Client $client)
+    public function __construct($user)
     {
-        $this->invoice = $invoice;
-        $this->client = $client;
+        $this->user = $user;
     }
 
     /**
@@ -37,6 +30,7 @@ class OverdueInvoice extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.invoices.sendoverdue')->subject('Overdue Invoice From SaasyInvoice');
+        return $this->markdown('emails.users.create')
+            ->subject('Registration to SaasyInvoice completed.');
     }
 }
