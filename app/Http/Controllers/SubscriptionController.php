@@ -16,7 +16,8 @@ class SubscriptionController extends Controller
      * @param \App\Datatables\SubsctiptionsDataTable $dataTable
      * @return \Illuminate\Http\Response
      */
-    public function index(SubscriptionsDataTable $dataTable) {
+    public function index(SubscriptionsDataTable $dataTable)
+    {
         return $dataTable->render('subscriptions.index');
     }
 
@@ -26,8 +27,10 @@ class SubscriptionController extends Controller
      * @param String $subscription
      * @return \Illuminate\Http\Response
      */
-    public function show(Subscription $subscription) {
-        return view('subscriptions.show', compact('subscription'));
+    public function show(Subscription $subscription)
+    {
+        return view('subscriptions.show')
+            ->with('subscription', $subscription);
     }
 
     /**
@@ -35,7 +38,8 @@ class SubscriptionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
+    public function create()
+    {
         return view('subscriptions.new');
     }
 
@@ -45,7 +49,8 @@ class SubscriptionController extends Controller
      * @return App\Http\Controllers\Redirect
      *
      */
-    public function save(Request $request) {
+    public function save(Request $request)
+    {
         $parameters = array_diff_key($request->all(), ['_token' => '']);
         Subscription::updateOrCreate([
             'id' => $parameters['id']
@@ -61,8 +66,9 @@ class SubscriptionController extends Controller
      *
      */
 
-    public function store(Request $request) {
-        $parameters = array_diff_key($request->all(), ['_token' => '']); 
+    public function store(Request $request)
+    {
+        $parameters = array_diff_key($request->all(), ['_token' => '']);
         Subscription::create($parameters);
         return redirect()->route('subscriptions');
     }

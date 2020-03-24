@@ -4,11 +4,11 @@ namespace App\Listeners;
 
 use App\Credit;
 use App\Setting;
+use App\Payment;
 use App\Events\PaymentAdded;
 use App\Events\InvoiceCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-
 
 class InvoiceApplyCredits
 {
@@ -31,7 +31,7 @@ class InvoiceApplyCredits
     public function handle(InvoiceCreated $event)
     {
         $applyCredits = Setting::where('id', 1)->first();
-        if ($applyCredits->auto_credits != 1) {
+        if (is_null($applyCredits) || $applyCredits->auto_credits != 1) {
             return;
         }
         $credits = Credit::where('client_id', $event->invoice->client_id)
@@ -61,7 +61,7 @@ class InvoiceApplyCredits
             'amount' => $amount,
             'refunded' => '0',
             'auth_code' => '',
-            'payment_type' => 'credit',
+            'payment_type' => 'Site Credit',
             'payment_at' => now()
         ]);
     }

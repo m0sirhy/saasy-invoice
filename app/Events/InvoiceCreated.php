@@ -17,13 +17,15 @@ class InvoiceCreated
 
     public $invoice;
 
+    public $mail;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Invoice $invoice)
+    public function __construct(Invoice $invoice, $mail = null)
     {
         $this->invoice = $invoice;
+        $this->mail = $mail;
     }
 }

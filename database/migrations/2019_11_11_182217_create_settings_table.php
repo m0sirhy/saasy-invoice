@@ -25,6 +25,8 @@ class CreateSettingsTable extends Migration
             $table->string('state');
             $table->string('zipcode');
             $table->string('country');
+            $table->integer('auto_credits')->default(0);
+            $table->string('api_token');
             $table->timestamps();
         });
     }

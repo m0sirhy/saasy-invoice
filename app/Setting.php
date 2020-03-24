@@ -22,6 +22,7 @@ class Setting extends Model
         'state',
         'zipcode',
         'country',
-        'auto_credits'
+        'auto_credits',
+        'api_token'
     ];
 }

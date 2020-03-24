@@ -9,31 +9,28 @@ window._ = require('lodash');
 try {
     window.Popper = require('popper.js').default;
     window.$ = window.jQuery = require('jquery');
+
     require('bootstrap');
 } catch (e) {}
+
+try {	
+    window.$ = window.jQuery = require('jquery');	
+} catch (e) {}
+
+require('datatables.net');	
+require('datatables.net-buttons');
+
+
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
-try {
-    window.$ = window.jQuery = require('jquery');
-} catch (e) {}
 
-require('datatables.net');
-require('datatables.net-buttons');
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
-let token = document.head.querySelector('meta[name="csrf-token"]');
-
-if (token) {
-    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-} else {
-    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
-}
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -41,7 +38,7 @@ if (token) {
  * allows your team to easily build robust real-time web applications.
  */
 
-// import Echo from 'laravel-echo'
+// import Echo from 'laravel-echo';
 
 // window.Pusher = require('pusher-js');
 
@@ -51,3 +48,11 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+// 
+let token = document.head.querySelector('meta[name="csrf-token"]');	
+
+if (token) {	
+    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;	
+} else {	
+    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');	
+}

@@ -54,7 +54,15 @@
                         {!! Form::text('country', null, ['class' => 'form-input leading-tight focus:outline-none focus:shadow-outline']) !!}
                     </div>
                     <div class="mb-4">
-                        {!! Form::submit('Save', ['class' => 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded']) !!}
+                        {!! Form::label('api_token', 'API Token', ['class' => 'form-label']) !!}
+                        {!! Form::text('api_token', null, ['class' => 'form-input leading-tight focus:outline-none focus:shadow-outline', 'id' => 'token']) !!}
+                        <br>
+                    </div>
+                    <div class="mb-4">
+                        <button type="button" class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' id="generate-api">Generate Token</button>
+                    </div>
+                    <div class="mb-4">
+                        {!! Form::submit('Save', ['class' => 'bg-blue-500 hover:bg-blue-700 text-white font-bold mt-2 py-2 px-4 rounded']) !!}
                     </div>
                 </div>
                 <div class="w-1/4 items-center p-5">
@@ -71,4 +79,14 @@
         @include('settings.nav')
     </div>
 </div>
+<script>
+    $('#generate-api').click(function() {
+        var $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_';
+        var $random = '';
+        for (var $i = 0; $i < 64; $i++) {
+            $random = $random + $characters.charAt(Math.random()*64);
+        }
+        $('#token').val($random); 
+    });
+</script>
 @endsection

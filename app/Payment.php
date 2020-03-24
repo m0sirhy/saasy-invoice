@@ -18,27 +18,31 @@ class Payment extends Model
         'payment_at',
         'refunded',
         'auth_code',
-        'payment_type'
+        'payment_type',
+        'transaction_id',
+        'id'
     ];
 
     protected $dates = [
-        'deleted_at'
+        'deleted_at',
+        'payment_at'
     ];
 
     const TYPES = [
         0 => 'Cash',
         1 => 'Check',
         2 => 'Site Credit',
-        3 => 'Credit Card'
+        3 => 'Credit Card',
+        4 => 'ACH'
     ];
 
     public function client()
     {
-        return $this->belongsTo('App\Client');
+        return $this->belongsTo(Client::class);
     }
 
     public function invoice()
     {
-        return $this->belongsTo('App\Invoice');
+        return $this->belongsTo(Invoice::class);
     }
 }

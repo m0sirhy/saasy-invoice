@@ -13,5 +13,5 @@ class InvoiceItem extends Model
         'description',
         'unit_price',
         'name'
-    ];  
+    ];
 }

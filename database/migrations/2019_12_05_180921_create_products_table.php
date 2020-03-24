@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->string('notes');
             $table->float('cost');
+            $table->float('unit_price');
             $table->timestamps();
         });
     }

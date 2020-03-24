@@ -40,7 +40,7 @@
                       Inactive
                       @endif
                     </td> 
-                    <td class="border px-4 py-2">858</td>
+                    <td class="border px-4 py-2"></td>
                   </tr>
                   @endforeach
                 </tbody>

@@ -24,6 +24,9 @@ class CreateInvoicesTable extends Migration
             $table->date('invoice_date')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
+            $table->text('public_notes')->nullable();
+            $table->text('private_notes')->nullable();
+            $table->integer('invoice_number')->nullable();
             $table->timestamps();
         });
     }

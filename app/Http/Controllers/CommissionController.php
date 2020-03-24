@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Commission;
 use Illuminate\Http\Request;
 use App\DataTables\CommissionsDataTable;
+use App\DataTables\CommissionsOwedDataTable;
 
 class CommissionController extends Controller
 {
@@ -16,6 +17,16 @@ class CommissionController extends Controller
     public function index(CommissionsDataTable $dataTable)
     {
         return $dataTable->render('commissions.index');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function owed(CommissionsOwedDataTable $dataTable)
+    {
+        return $dataTable->render('commissions.owed');
     }
 
     /**

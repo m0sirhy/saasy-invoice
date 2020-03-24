@@ -36,6 +36,9 @@ class CommissionsDataTable extends DataTable
             ->editColumn('amount', function ($data) {
                 return '$' . money_format('%i', $data->amount);
             })
+            ->editColumn('paid_date', function ($data) {
+                return $data->paid_date->format('m/d/y');
+            })
             ->editColumn('paid', function ($data) {
                 if ($data->paid == 1) {
                     return "Yes";
@@ -71,7 +74,8 @@ class CommissionsDataTable extends DataTable
                     ->orderBy(0, 'desc')
                     ->buttons(
                         Button::make('create'),
-                        Button::make('export'),
+                        Button::make('csv'),
+                        Button::make('excel'),
                         Button::make('print'),
                         Button::make('reset'),
                         Button::make('reload')

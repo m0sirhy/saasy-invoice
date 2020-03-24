@@ -12,7 +12,7 @@
             </div>
             <div class="p-5">
                 <div class="w-full max-w-xl items-center">
-                    {!! Form::model(null, ['route' => ['products.create']]) !!}
+                    {!! Form::model(null, ['route' => ['products.store']]) !!}
                         <div class="mb-4">
                             {!! Form::label('name', 'Name', ['class' => 'form-label'])  !!}
                             {!! Form::text('name', null, ['class' => 'form-input leading-tight focus:outline-none focus:shadow-outline']) !!}
@@ -20,6 +20,10 @@
                         <div class="mb-4">
                             {!! Form::label('notes', 'Notes', ['class' => 'form-label'])  !!}
                             {!! Form::text('notes', null, ['class' => 'form-input leading-tight focus:outline-none focus:shadow-outline']) !!}
+                        </div>
+                        <div class="mb-4">
+                            {!! Form::label('unit_price', 'Unit Price', ['class' => 'form-label'])  !!}
+                            {!! Form::text('unit_price', null, ['class' => 'form-input leading-tight focus:outline-none focus:shadow-outline']) !!}
                         </div>
                         <div class="mb-4">
                             {!! Form::label('cost', 'Cost', ['class' => 'form-label'])  !!}

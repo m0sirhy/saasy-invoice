@@ -2,12 +2,17 @@
 
 namespace App;
 
+use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use App\Traits\Uuids;
 
-class Client extends Model
+class Client extends Model implements AuthenticatableContract
 {
-    use Uuids;
+    protected $guard = 'client';
+
+    use Uuids, Authenticatable;
+
     protected $fillable = [
         'name',
         'email',
@@ -21,7 +26,9 @@ class Client extends Model
         'crm_id',
         'terms_accepted_at',
         'deleted_at',
-        'invoice_key'
+        'invoice_key',
+        'uuid',
+        'id'
     ];
 
     protected $mapUuid = 'uuid';
@@ -39,5 +46,10 @@ class Client extends Model
     public function payments()
     {
         return $this->hasMany('App\Payment');
+    }
+
+    public function clientToken()
+    {
+        return $this->hasOne('App\ClientToken');
     }
 }

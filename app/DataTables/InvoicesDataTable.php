@@ -72,7 +72,8 @@ class InvoicesDataTable extends DataTable
                     ->orderBy(0, 'desc')
                     ->buttons(
                         Button::make('create'),
-                        Button::make('export'),
+                        Button::make('csv'),
+                        Button::make('excel'),
                         Button::make('print'),
                         Button::make('reset'),
                         Button::make('reload')
@@ -112,6 +113,6 @@ class InvoicesDataTable extends DataTable
     public function formatDate($date)
     {
         $date = date_create($date);
-        return date_format($date, "m/d/Y");
+        return date_format($date, "m/d/y");
     }
 }

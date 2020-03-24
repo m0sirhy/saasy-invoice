@@ -4,12 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Uuids;
+use App\Events\InvoiceCreated;
+use App\Events\InvoiceUpdated;
 
 class Invoice extends Model
 {
     use Uuids;
 
     protected $fillable = [
+        'id',
         'client_id',
         'invoice_status_id',
         'public_id',
@@ -19,6 +22,14 @@ class Invoice extends Model
         'invoice_date',
         'start_date',
         'end_date',
+        'private_notes',
+        'public_notes',
+        'queue'
+    ];
+
+    protected $dates = [
+        'due_dates',
+        'invoice_date'
     ];
 
     protected $mapUuid = 'public_id';

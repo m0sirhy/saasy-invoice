@@ -8,7 +8,6 @@ use App\Events\PaymentAdded;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-
 class PaymentController extends Controller
 {
     public function create(Request $request)
@@ -39,6 +38,12 @@ class PaymentController extends Controller
     public function showCrm($crmId)
     {
         $payment = Payment::where('crm_id', $crmId)->first();
+        return response()->json($payment);
+    }
+
+    public function update(Request $request, Payment $payment)
+    {
+        $payment->update($request->all());
         return response()->json($payment);
     }
 }

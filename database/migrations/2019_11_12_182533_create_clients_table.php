@@ -26,6 +26,7 @@ class CreateClientsTable extends Migration
             $table->float('total_paid', 10,2)->default(0.00);
             $table->string('crm_id')->default('');
             $table->datetime('terms_accepted_at')->nullable();
+            $table->uuid('uuid');
             $table->datetime('deleted_at')->nullable();;
             $table->timestamps();
         });

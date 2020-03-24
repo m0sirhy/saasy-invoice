@@ -21,14 +21,14 @@ class PaymentAdded
     /**
      * Handle the event.
      *
-     * @param  AddPayment  $event
+     * @param  PaymentAdded  $event
      * @return void
      */
     public function handle(PA $event)
     {
         $event->invoice->balance -= $event->amount;
         if ($event->invoice->balance == 0) {
-            $event->invoice_status_id = 6;
+            $event->invoice->invoice_status_id = PAID;
         }
         $event->invoice->save();
         $paid = $event->invoice->client->payments

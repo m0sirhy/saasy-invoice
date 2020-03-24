@@ -8,7 +8,7 @@ use App\User;
 
 class UserController extends Controller
 {
-    public function getAll(Request $request)
+    public function getAll()
     {
         $clients = User::orderBy('name')->get();
         return response()->json($clients);

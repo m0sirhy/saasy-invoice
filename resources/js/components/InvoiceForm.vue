@@ -28,12 +28,12 @@
                             </div>
                             <div class="w-1/2">
                                 <div class="mb-4">
-                                    <label class="form-label">End Date</label>
-                                    <input class="form-input leading-tight focus:outline-none focus:shadow-outline" type="date" v-model="form.end_date">
-                                </div>
-                                <div class="mb-4">
                                     <label class="form-label">Start Date</label>
                                     <input v-model="form.start_date" class="form-input leading-tight focus:outline-none focus:shadow-outline" type="date">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label">End Date</label>
+                                    <input class="form-input leading-tight focus:outline-none focus:shadow-outline" type="date" v-model="form.end_date">
                                 </div>
                             </div>
                         </div>
@@ -57,7 +57,7 @@
                             <td class="p-1"><input class="form-input leading-tight focus:outline-none focus:shadow-outline" type="number" step="0.01" min="0" v-model="item.unit_price" /></td>
                             <td class="p-1"><input class="form-input leading-tight focus:outline-none focus:shadow-outline" type="number" min="0" v-model="item.quantity" /></td>
                             <td class="text-center"><a @click="removeRow(index)"><i class="fa fa-times text-red-700"></i></a></td>
-                            <td class="text-center">${{ item.unit_price * item.quantity | currency }}</td>
+                            <td class="text-center">${{ (item.unit_price * item.quantity).toFixed(2) }}</td>
                         </tr>
 
                         <tr>
@@ -70,10 +70,16 @@
                         </tr>
                         <tr class="total">
                             <td colspan="5"></td>
-                            <td class="text-xl"><hr>Total: ${{ total | currency }}</td>
+                            <td class="text-xl"><hr>Total: ${{ total.toFixed(2) }}</td>
+                        </tr>
+                        <tr class="total">
+                            <td colspan="5"></td>
+                            <td class="text-xl"><hr>Balance: ${{ form.balance.toFixed(2) }}</td>
                         </tr>
                     </tbody>
                 </table>
+                <label class="form-label">
+                <input type="checkbox" id="mail" v-model="mail.mail" @click="checked()">Mail Invoice</label>
             </div>
             <div class="text-right p-3">
                 <button class="bg-blue-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">
@@ -110,7 +116,11 @@
                     invoice_status_id: '',
                     start_date: '',
                     end_date: '',
-                    id: 0
+                    id: 0,
+                    balance: 0
+                },
+                mail: {
+                    mail: '',
                 },
             }
         },
@@ -125,6 +135,10 @@
             }
         },
         methods: {
+            checked() {
+                this.mail.mail = $('#mail').prop('checked');
+                console.log(this.mail);
+            },
             addRow() {
                 this.items.push({id: 0, description: "", quantity: 0, unit_price: 0, name: '', product_id: 0});
             },
@@ -143,7 +157,7 @@
                 e.preventDefault();
                 this.errors = [];
                 var self = this;
-                let params = Object.assign({}, self.form, {items: self.items});
+                let params = Object.assign({}, self.form, {items: self.items}, self.mail);
                 if (!this.errors.length) {
                     axios.post(this.url, params).then(response => {
                         window.location.href = '/invoices';
