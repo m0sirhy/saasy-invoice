@@ -167,6 +167,14 @@ Route::post('subscriptions/store', 'SubscriptionController@store')
     ->middleware(['auth'])
     ->name('subscriptions.store');
 
+Route::get('danger', 'SettingController@danger')
+    ->middleware(['auth'])
+    ->name('danger');
+
+Route::get('danger/delete', 'SettingController@delete')
+    ->middleware(['auth'])
+    ->name('danger.delete');
+
 Route::get('billings/show/{subscription?}', 'BillingController@show')
     ->middleware(['auth'])
     ->name('billings.show');
