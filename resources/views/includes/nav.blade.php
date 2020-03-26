@@ -42,11 +42,11 @@
                     <i class="fa fa-boxes pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block">Products</span>
                 </a>
             </li>
-            <li class="mr-3 flex-1">
+            <!--<li class="mr-3 flex-1">
                 <a href="{{ route('commissions') }}" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 {{ Request::is('commissions') ? 'border-blue-800' : 'border-gray-800' }} hover:border-blue-800">
                     <i class="fa fa-hand-holding-usd pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block">Commissions</span>
                 </a>
-            </li>
+            </li> -->
             <li class="mr-3 flex-1">
                 <a href="{{ route('credits') }}" class="block py-1 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 {{ Request::is('credits') ? 'border-blue-800' : 'border-gray-800' }} hover:border-blue-800">
                     <i class="fa fa-plus pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block">Credits</span>
