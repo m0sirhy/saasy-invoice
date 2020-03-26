@@ -37,6 +37,9 @@ class InvoiceController extends Controller
     {
         $invoice->update($request->all());
         foreach ($request->items as $item) {
+            if (!isset($item['description'])) {
+                $item['description'] = "";
+            }
             InvoiceItem::updateOrCreate(
                 ['id' => $item['id'], 'invoice_id' => $invoice->id],
                 $item

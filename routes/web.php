@@ -214,13 +214,13 @@ Route::prefix('client')->namespace('Client')->group(function () {
     Route::get('invoice/show/{invoice:public_id}', 'DashboardController@showInvoice')
         ->name('client.invoice.show')
         ->middleware(['auth:client']);
-    Route::get('invoice/download/{invoice}', 'DashboardController@downloadInvoice')
+    Route::get('invoice/download/{invoice:public_id}', 'DashboardController@downloadInvoice')
         ->name('client.invoice.download')
         ->middleware(['auth:client']);
-    Route::get('invoice/pay/{invoice}', 'DashboardController@payInvoice')
+    Route::get('invoice/pay/{invoice:public_id}', 'DashboardController@payInvoice')
         ->name('client.invoice.pay')
         ->middleware(['auth:client']);
-    Route::post('invoice/payment/{invoice}', 'DashboardController@payment')
+    Route::post('invoice/payment/{invoice:public_id}', 'DashboardController@payment')
         ->name('client.invoice.payment')
         ->middleware(['auth:client']);
     Route::namespace('Auth')->group(function () {

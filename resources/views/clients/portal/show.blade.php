@@ -73,14 +73,22 @@
 					</tr>
 					<tr>
 						<td colspan="2" class="px-4 py-2 text-left">
-							<a href="{{ route('client.invoice.download', ['invoice' => $invoice->id]) }}"><button class="bg-blue-800 text-sm hover:bg-blue-700 text-white font-bold py-1 px-3 rounded" type="button"><i class="fa fa-download"></i> Download</button></a>
+							<a href="{{ route('client.invoice.download', ['invoice' => $invoice->public_id]) }}"><button class="bg-blue-800 text-sm hover:bg-blue-700 text-white font-bold py-1 px-3 rounded" type="button"><i class="fa fa-download"></i> Download</button></a>
 							@if ($invoice->balance > 0)
-							<a href="{{ route('client.invoice.pay', ['invoice' => $invoice->id]) }}"><button class="bg-green-800 text-sm hover:bg-green-700 text-white font-bold py-1 px-3 rounded" type="button"><i class="fa fa-money-bill"></i> Make Payment</button></a>
+							<a href="{{ route('client.invoice.pay', ['invoice' => $invoice->public_id]) }}"><button class="bg-green-800 text-sm hover:bg-green-700 text-white font-bold py-1 px-3 rounded" type="button"><i class="fa fa-money-bill"></i> Make Payment</button></a>
 							@endif
 						</td>
 						<td class="px-4 py-2 text-right font-medium">Balance Due</td>
 						<td class="px-4 py-2 text-right border bg-gray-200">{{ money_format('$%i', $invoice->balance) }}</td>
 					</tr>
+					@if ($invoice->public_notes != "")
+					<tr>
+						<td colspan="4" class="px-4 py-2 text-left">
+							<strong>Notes:</strong><br/>
+							{{ $invoice->public_notes }}
+						</td>
+					</tr>
+					@endif
 				</tbody>
 			</table>
 		</div>

@@ -44,7 +44,9 @@
 				<td>
 					Invoice #{{ $data->id }}<br>
 					Date Invoiced: {{ date("m/d/Y", strtotime($data->invoice_date)) }}<br>
+					@if (!is_null($data->start_date))
 					Billing Period: {{ date("m/d/Y", strtotime($data->start_date)) }} - {{ date("m/d/Y", strtotime($data->end_date)) }}<br>
+					@endif
 					<b>Due: {{ date("m/d/Y", strtotime($data->due_date)) }}</b>
 				</td>
 			</tr>
@@ -91,6 +93,10 @@
 		</table>
 		<h3 style="text-align: right;">Total: {{ money_format('%.2n', $data->amount) }}</h3>
 		<h3 style="text-align: right;">Balance Due: {{ money_format('%.2n', $data->balance) }}</h3>
+		@if ($data->public_notes != "")
+			<strong>Notes:</strong><br/>
+			{{ $data->public_notes }}
+		@endif
 	</div>
 </body>
 </html>

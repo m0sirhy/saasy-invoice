@@ -59,7 +59,6 @@
                             <td class="text-center"><a @click="removeRow(index)"><i class="fa fa-times text-red-700"></i></a></td>
                             <td class="text-center">${{ (item.unit_price * item.quantity).toFixed(2) }}</td>
                         </tr>
-
                         <tr>
                             <td colspan="4 pt-4">
                                 <button type="button" class="bg-grey-light hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded inline-flex items-center" @click="addRow">
@@ -76,16 +75,34 @@
                             <td colspan="5"></td>
                             <td class="text-xl"><hr>Balance: ${{ form.balance.toFixed(2) }}</td>
                         </tr>
+                        <tr>
+                            <td colspan="=2">
+                                <button class="bg-blue-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">
+                                    <slot>Submit</slot>
+                                </button>
+                            </td>
+                            <td colspan="2">
+                                <label class="form-label" for="mail"><input type="checkbox" id="mail" v-model="mail.mail" @click="checked()">Mail Invoice</label>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
-                <label class="form-label">
-                <input type="checkbox" id="mail" v-model="mail.mail" @click="checked()">Mail Invoice</label>
+                <div class="flex items-center">
+                    <div class="w-1/2 p-4">
+                        <label class="form-label pt-5" for="public_notes">
+                        <h3>Public Notes:</h3>
+                        </label>
+                        <textarea v-model="form.public_notes" class="form-input leading-tight focus:outline-none focus:shadow-outline" id="public_notes"></textarea>
+                    </div>
+                    <div class="w-1/2 p-4">
+                        <label class="form-label pt-5" for="private_notes">
+                        <h3>Public Notes:</h3>
+                        </label>
+                        <textarea v-model="form.private_notes" class="form-input leading-tight focus:outline-none focus:shadow-outline" id="private_notes"></textarea>
+                    </div>
+                </div>
             </div>
-            <div class="text-right p-3">
-                <button class="bg-blue-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">
-                    <slot>Submit</slot>
-                </button>
-            </div>
+            
         </form>
     </div>
 </template>
@@ -117,7 +134,9 @@
                     start_date: '',
                     end_date: '',
                     id: 0,
-                    balance: 0
+                    balance: 0,
+                    public_notes : '',
+                    private_notes : ''
                 },
                 mail: {
                     mail: '',

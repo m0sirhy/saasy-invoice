@@ -58,6 +58,9 @@ class DashboardController extends Controller
 
     public function downloadInvoice(Invoice $invoice)
     {
+        if ($invoice->client_id !== Auth::user()->id) {
+            abort(413);
+        }
         $data['data'] = $invoice;
         $pdf = PDF::loadView('clients.portal.invoice', $data);
         return $pdf->download('Invoice-#' . $invoice->id . '.pdf');

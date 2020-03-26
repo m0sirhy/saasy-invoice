@@ -102,7 +102,7 @@ class MigrateNinja extends Command
                     'due_date' => $invoice->due_date,
                     'invoice_date' => $invoice->invoice_date,
                     'private_notes' => $invoice->private_notes,
-                    'public_notes' => $invoice->private_notes,
+                    'public_notes' => $invoice->public_notes,
                     'invoice_status_id' => $status
                 ]);
             } catch (\Exception $e) {
