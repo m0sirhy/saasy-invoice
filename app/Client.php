@@ -53,6 +53,9 @@ use App\Traits\Uuids;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereUuid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereZipcode($value)
  * @mixin \Eloquent
+ * @property string|null $notes
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereTermsAcceptedAt($value)
  */
 class Client extends Model implements AuthenticatableContract
 {
@@ -75,7 +78,8 @@ class Client extends Model implements AuthenticatableContract
         'deleted_at',
         'invoice_key',
         'uuid',
-        'id'
+        'id',
+        'notes'
     ];
 
     protected $mapUuid = 'uuid';

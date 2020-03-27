@@ -65,6 +65,14 @@ Route::get('clients', 'ClientController@index')
     ->middleware(['auth'])
     ->name('clients');
 
+Route::get('client/merge/{client}', 'ClientController@merge')
+    ->middleware(['auth'])
+    ->name('client.merge');
+
+Route::post('client/merging/{client}', 'ClientController@merging')
+    ->middleware(['auth'])
+    ->name('client.merging');
+
 Route::get('clients/create', 'ClientController@create')
     ->middleware(['auth'])
     ->name('clients.create');
