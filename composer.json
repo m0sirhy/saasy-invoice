@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "aws/aws-sdk-php": "~3.0",
         "barryvdh/laravel-snappy": "^0.4.6",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
@@ -20,12 +21,12 @@
         "league/omnipay": "^3.0",
         "livewire/livewire": "^1.0",
         "omnipay/authorizenet": "3.x@dev",
+        "phpoffice/phpspreadsheet": "^1.11",
         "yajra/laravel-datatables-buttons": "^4.8",
         "yajra/laravel-datatables-editor": "^1.17",
         "yajra/laravel-datatables-fractal": "^1.5",
         "yajra/laravel-datatables-html": "^4.20",
-        "yajra/laravel-datatables-oracle": "^9.0",
-        "aws/aws-sdk-php": "~3.0"
+        "yajra/laravel-datatables-oracle": "^9.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",

@@ -26,7 +26,7 @@ class Payments extends Component
 
         return view('livewire.payments', [
             'payments' => $payments,
-            'types' => Payment::TYPES
+            'types' => Payment::TYPES,
         ]);
     }
 

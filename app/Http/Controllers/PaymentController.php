@@ -11,6 +11,7 @@ use App\PaymentGatewaySetting;
 use App\DataTables\PaymentsDataTable;
 use App\Events\PaymentAdded;
 use App\Helpers\AuthNet;
+use App\Helpers\ButtonHelper;
 
 class PaymentController extends Controller
 {
@@ -183,5 +184,10 @@ class PaymentController extends Controller
     {
         $payment->delete();
         return redirect()->route('payments');
+    }
+
+    public function downloadExcel($sortField = 'id', $sortAsc = 'desc', $search = '')
+    {
+        return ButtonHelper::createExcel('payments', $sortField, $sortAsc, $search);
     }
 }

@@ -267,6 +267,7 @@ Route::prefix('payments')->middleware(['auth'])->group(function () {
     Route::get('destroy/{payment}', 'PaymentController@destroy')->name('payments.destroy');
     Route::get('card/{invoice?}', 'PaymentController@userCharge')->name('payments.user.card');
     Route::post('charge/card/{invoice?}', 'PaymentController@chargeCard')->name('payments.user.charge.card');
+    Route::get('payments/excel/{sortField?}/{sortAsc?}/{search?}', 'PaymentController@downloadExcel')->name('payments.download.excel');
 });
 
 Route::prefix('api')->middleware(['auth'])->namespace('Api')->group(function () {
