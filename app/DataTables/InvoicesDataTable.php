@@ -32,9 +32,9 @@ class InvoicesDataTable extends DataTable
             ->editColumn('status', function ($data) {
                 return "<span>" . $data->invoiceStatus->status . "</span>";
             })->editColumn('amount', function ($data) {
-                return money_format('$%i', $data->amount);
+                return number_format($data->amount, 2);
             })->editColumn('balance', function ($data) {
-                return money_format('$%i', $data->balance);
+                return number_format($data->balance, 2);
             })->editColumn('due_date', function ($data) {
                 return $this->formatDate($data->due_date);
             })->editColumn('invoice_date', function ($data) {

@@ -63,7 +63,7 @@ class ButtonHelper
                 $payment->id,
                 $payment->client->name ?? 'Unknown',
                 $payment->invoice_id ?? 0,
-                money_format('$%i', $payment->amount),
+                number_format($payment->amount, 2),
                 $payment->payment_at->format('m/d/Y'),
                 $payment->payment_type ?? 'Unknown',
                 $payment->refunded,

@@ -39,10 +39,10 @@ class SubscriptionsDataTable extends DataTable
                 return "<a href='$url' class='link'>#" . $data->last_invoice_id . "</a>";
             })
             ->editColumn('total_billed', function ($data) {
-                return '$' . money_format('%i', $data->total_billed);
+                return '$' . number_format($data->total_billed, 2);
             })
             ->editColumn('total_payed', function ($data) {
-                return '$' . money_format('%i', $data->total_payed);
+                return '$' . number_format($data->total_payed, 2);
             })
             ->rawColumns([
                 'id',

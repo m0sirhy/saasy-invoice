@@ -34,7 +34,7 @@ class CommissionsDataTable extends DataTable
                 return "<a href='$url' class='link'>" . $data->user->name . "</a>";
             })
             ->editColumn('amount', function ($data) {
-                return '$' . money_format('%i', $data->amount);
+                return '$' . number_format($data->amount, 2);
             })
             ->editColumn('paid_date', function ($data) {
                 return $data->paid_date->format('m/d/y');

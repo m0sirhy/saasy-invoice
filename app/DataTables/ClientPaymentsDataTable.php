@@ -40,7 +40,7 @@ class ClientPaymentsDataTable extends DataTable
                 return "<a href='$url' class='link'>#" . $data->invoice_id . "</a>";
             })
             ->editColumn('amount', function ($data) {
-                return '$' . money_format('%i', $data->amount);
+                return '$' . number_format($data->amount, 2);
             })
 
             ->rawColumns(['id', 'client', 'invoice']);

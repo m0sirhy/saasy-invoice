@@ -33,10 +33,10 @@ class CreditsDataTable extends DataTable
                 return $data->user->name;
             })
             ->editColumn('amount', function ($data) {
-                return '$' . money_format('%i', $data->amount);
+                return '$' . number_format($data->amount, 2);
             })
             ->editColumn('balance', function ($data) {
-                return '$' . money_format('%i', $data->balance);
+                return '$' . number_format($data->balance, 2);
             })
             ->editColumn('completed', function ($data) {
                 if ($data->completed == 1) {

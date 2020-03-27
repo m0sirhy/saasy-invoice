@@ -25,9 +25,9 @@ class BillingsDataTable extends DataTable
                 $url = route('billings.edit', ['billing' => $data->id]);
                 return "<a href='$url' class='link'>" . $data->id . "</a>";
             })->editColumn('monthly_min', function ($data) {
-                return money_format('$%i', $data->monthly_min);
+                return number_format($data->monthly_min, 2);
             })->editColumn('monthly_fee', function ($data) {
-                return money_format('$%i', $data->monthly_fee);
+                return number_format($data->monthly_fee, 2);
             })->rawColumns(['id']);
     }
 

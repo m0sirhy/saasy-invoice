@@ -62,8 +62,8 @@
             </div>
             <div class="inline-block mt-4 -mx-1 pl-1 w-1/2">
               <label class="block text-sm text-gray-600" for="amount">Amount</label>
-              {{ money_format('$%i',$invoice->balance) ?? ''}}
-              <input type="hidden" name="amount" value="{{ money_format('%i',$invoice->balance) ?? ''}}" id="amount" />
+              {{ number_format($invoice->balance,2) ?? ''}}
+              <input type="hidden" name="amount" value="{{ number_format($invoice->balance,2) ?? ''}}" id="amount" />
             </div>
         @endif
         <input type="hidden" name="dataValue" id="dataValue" />

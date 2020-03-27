@@ -82,17 +82,17 @@
 						{{ $item->quantity }}
 					</td>
 					<td class="invoice-item">
-						{{ money_format('%.2n', $item->unit_price) }}
+						{{ number_format($item->unit_price,2) }}
 					</td>
 					<td class="invoice-item">
-						{{ money_format('%.2n', $item->unit_price * $item->quantity) }}
+						{{ number_format($item->unit_price * $item->quantity,2) }}
 					</td>
 				</tr>
 				@endforeach
 			</tbody>
 		</table>
-		<h3 style="text-align: right;">Total: {{ money_format('%.2n', $data->amount) }}</h3>
-		<h3 style="text-align: right;">Balance Due: {{ money_format('%.2n', $data->balance) }}</h3>
+		<h3 style="text-align: right;">Total: {{ number_format($data->amount,2) }}</h3>
+		<h3 style="text-align: right;">Balance Due: {{ number_format($data->balance,2) }}</h3>
 		@if ($data->public_notes != "")
 			<strong>Notes:</strong><br/>
 			{{ $data->public_notes }}

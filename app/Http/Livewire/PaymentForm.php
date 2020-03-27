@@ -39,7 +39,7 @@ class PaymentForm extends Component
         if (!is_null($payment->Client)) {
             $this->clientText = $payment->Client->name . ' - ' . $payment->Client->email;
         }
-        $this->amount = money_format('%i', $payment->amount);
+        $this->amount = number_format($payment->amount, 2);
         $this->invoiceBalance = 0;
         if (!is_null($payment->Invoice)) {
             $this->invoiceBalance = $payment->Invoice->balance;
