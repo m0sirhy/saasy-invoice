@@ -1,6 +1,6 @@
 @extends('layouts.client')
 
-@section('title', 'Dashboard')
+@section('title','Invoice #' . $invoice->id)
 
 @section('content')
 <div class="bg-blue-800 p-2 shadow text-xl text-white">
