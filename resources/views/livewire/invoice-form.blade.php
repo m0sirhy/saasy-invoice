@@ -15,8 +15,8 @@
 				<div class="mb-4">
 					<label class="form-label">Invoice Status</label>
 					<select class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" wire:model="status">
-						@foreach ($invoiceStatuses as $status)
-							<option value="{{$status->id}}">{{$status->status}}</option>
+                        @foreach ($invoiceStatuses as $invoiceStatus)
+							<option value="{{$invoiceStatus->id}}">{{$invoiceStatus->status}}</option>
 						@endforeach
 					</select>
 				</div>
@@ -109,11 +109,12 @@
         </div>
         <div class="text-right p-3">
             @if($invoiceCheck)
-                <button class="bg-blue-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" wire:click="update()">
+                <button class="bg-blue-800 text-sm hover:bg-blue-700 text-white font-bold py-1 px-3 rounded" wire:click="update()">
                     Update
                 </button>
+                <a href="{{ route('invoice.download', ['invoice' => $invoiceId]) }}"><button class="bg-blue-800 text-sm hover:bg-blue-700 text-white font-bold py-1 px-3 rounded" type="button"><i class="fa fa-download"></i> Download</button></a>
             @else
-                <button class="bg-blue-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" wire:click="create()">
+                <button class="bg-blue-800 text-sm hover:bg-blue-700 text-white font-bold py-1 px-3 rounded" wire:click="create()">
                     Create
                 </button>
             @endif

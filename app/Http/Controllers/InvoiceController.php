@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
+use Auth;
 use App\Invoice;
-use App\Client;
-use App\Product;
 use App\InvoiceItem;
 use Illuminate\Http\Request;
-use App\Events\InvoiceDeleted;
 use App\Events\InvoiceViewed;
+use App\Events\InvoiceDeleted;
 use App\DataTables\InvoicesDataTable;
 
 class InvoiceController extends Controller
@@ -85,5 +85,12 @@ class InvoiceController extends Controller
         event(new InvoiceDeleted($invoice));
         $invoice->delete();
         return redirect()->route('invoices');
+    }
+
+    public function download(Invoice $invoice)
+    {
+        $data['data'] = $invoice;
+        $pdf = PDF::loadView('clients.portal.invoice', $data);
+        return $pdf->download('Invoice-#' . $invoice->id . '.pdf');
     }
 }

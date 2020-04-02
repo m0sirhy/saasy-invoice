@@ -28,6 +28,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\InvoiceUpdated' => [
             'App\Listeners\UserActivityLogEntry@invoiceUpdated',
+            'App\Listeners\SendInvoiceListener@sendInvoice',
         ],
         'App\Events\InvoiceDeleted' => [
             'App\Listeners\UserActivityLogEntry@invoiceDeleted',

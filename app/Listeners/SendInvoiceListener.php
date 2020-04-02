@@ -2,15 +2,14 @@
 
 namespace App\Listeners;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use Log;
 use Mail;
+use App\Client;
 use App\Mail\NewInvoice;
 use App\Mail\OverdueInvoice;
-use App\Events\InvoiceCreated;
 use App\Events\InvoiceOverdue;
-use App\Client;
-use Log;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SendInvoiceListener
 {
@@ -26,11 +25,11 @@ class SendInvoiceListener
     /**
      * Send an Invoice if $mail is set
      *
-     * @param InvoiceCreated $event
+     * @param mixed $event
      * @return void
      *
      */
-    public function sendInvoice(InvoiceCreated $event)
+    public function sendInvoice($event)
     {
         $client = Client::where('id', $event->invoice->client_id)->first();
         if ($event->mail == 1 && $client != null) {

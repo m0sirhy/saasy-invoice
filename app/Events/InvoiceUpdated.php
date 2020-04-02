@@ -21,10 +21,12 @@ class InvoiceUpdated
      * Create a new event instance.
      *
      * @param Invoice $invoice
+     * @param int $mail;
      * @return void
      */
-    public function __construct(Invoice $invoice)
+    public function __construct(Invoice $invoice, $mail = 0)
     {
         $this->invoice = $invoice;
+        $this->mail = $mail;
     }
 }

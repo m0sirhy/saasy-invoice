@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\Client;
 
-use App\Http\Controllers\Controller;
-use App\DataTables\ClientDashboardDataTable;
-use Illuminate\Http\Request;
-use App\Subscription;
-use App\Invoice;
-use App\ClientToken;
-use App\Payment;
-use App\Helpers\AuthNet;
 use PDF;
 use Auth;
-use App\Events\PaymentAdded;
 use stdClass;
+use App\Invoice;
+use App\Payment;
+use App\ClientToken;
+use App\Subscription;
+use App\Helpers\AuthNet;
+use App\Events\PaymentAdded;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\DataTables\ClientDashboardDataTable;
 
 class DashboardController extends Controller
 {

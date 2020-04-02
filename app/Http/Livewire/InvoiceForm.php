@@ -31,12 +31,11 @@ class InvoiceForm extends Component
     public $publicNotes = '';
     public $privateNotes = '';
     public $invoiceCheck = false;
+    public $invoiceId;
 
     public function mount($invoice = null, $items = [])
     {
-        $this->invoice = [
-            'invoice_status_id' => 1
-        ];
+        $this->status = DRAFT;
         if (!is_null($invoice)) {
             $this->invoiceCheck = true;
             $this->invoice = $invoice->toArray();
@@ -51,6 +50,8 @@ class InvoiceForm extends Component
             $this->mail = $invoice['mail'];
             $this->publicNotes = $invoice['public_notes'];
             $this->privateNotes = $invoice['private_notes'];
+            $this->invoiceId = $invoice['id'];
+            $this->status = $invoice['invoice_status_id'];
         }
         $this->products = Product::get();
         $this->invoiceStatuses = InvoiceStatus::get();
@@ -174,10 +175,8 @@ class InvoiceForm extends Component
                 InvoiceItem::updateOrCreate(['id' => $item['id']], $item);
             }
         }
-
-        event(new InvoiceUpdated($invoice));
-
-        return $this->redirect(route('invoices'))->withSuccess('Invoice updated');
+        event(new InvoiceUpdated($invoice, $this->mail));
+        return redirect()->route('invoices');
     }
     public function create()
     {
@@ -195,9 +194,7 @@ class InvoiceForm extends Component
             $item['invoice_id'] = $invoice->id;
             InvoiceItem::create($item);
         }
-
         event(new InvoiceCreated($invoice, $this->mail));
-
-        return $this->redirect(route('invoices'));
+        return redirect()->route('invoices');
     }
 }

@@ -139,6 +139,10 @@ Route::get('invoices/destroy/{invoice}', 'InvoiceController@destroy')
     ->middleware(['auth'])
     ->name('invoices.destroy');
 
+Route::get('invoices/download/{invoice}', 'InvoiceController@download')
+    ->middleware(['auth'])
+    ->name('invoice.download');
+
 Route::get('credits', 'CreditController@index')
     ->middleware(['auth'])
     ->name('credits');
