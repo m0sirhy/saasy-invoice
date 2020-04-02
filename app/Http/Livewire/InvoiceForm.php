@@ -39,7 +39,10 @@ class InvoiceForm extends Component
         if (!is_null($invoice)) {
             $this->invoiceCheck = true;
             $this->invoice = $invoice->toArray();
-            $this->invoiceDate = $invoice['invoice_date']->format('Y-m-d');
+            $this->invoiceDate = now()->format('Y-m-d');
+            if (!is_null($invoice['invoice_date'])) {
+                $this->invoiceDate = $invoice['invoice_date']->format('Y-m-d');
+            }
             $this->dueDate = date('Y-m-d', strtotime($invoice['due_date'] . '00:00:00'));
             $this->startDate = date('Y-m-d', strtotime($invoice['start_date'] . '00:00:00'));
             $this->endDate = date('Y-m-d', strtotime($invoice['end_date'] . '00:00:00'));
