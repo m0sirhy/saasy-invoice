@@ -62,10 +62,10 @@ class DashboardRepository
 
     public function getOverdueInvoices()
     {
-        $overdues = Invoice::where('invoice_status_id', UNPAID)
+        $overdues = Invoice::where('invoice_status_id', OVER_DUE)
             ->orderBy('id', 'desc')
             ->get();
-        $overdueTotal = Invoice::where('invoice_status_id', UNPAID)->sum('balance');
+        $overdueTotal = Invoice::where('invoice_status_id', OVER_DUE)->sum('balance');
         $overdueData = new stdClass();
         $overdueData->overdues = $overdues;
         $overdueData->overdueTotal = $overdueTotal;

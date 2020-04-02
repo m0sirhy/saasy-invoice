@@ -59,6 +59,16 @@ class MigrateNinja extends Command
                 $balance = 0;
             }
             try {
+                $crmId = 0;
+                $active = 1;
+                $user = DB::connection('monitorbase')->select(
+                    'select * from users where email=?',
+                    [$client->email]
+                );
+                if (!empty($user)) {
+                    $crmId = $user->id;
+                    $active = $user->active;
+                }
                 Client::create([
                     'id' => $client->id,
                     'name' => $client->first_name . ' ' . $client->last_name,
@@ -70,7 +80,8 @@ class MigrateNinja extends Command
                     'zipcode' => $client->postal_code,
                     'balance' => $balance,
                     'total_paid' => $paid,
-                    'crm_id' => 0
+                    'crm_id' => $crmId,
+                    'active' => $active
                 ]);
             } catch (\Exception $e) {
                 info('Client failed: #' . $client->id . ' - ' . $e->getMessage());

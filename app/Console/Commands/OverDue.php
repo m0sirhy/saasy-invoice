@@ -31,10 +31,10 @@ class OverDue extends Command
         $invoices = Invoice::where('balance', '>', 0)
             ->where('invoice_status_id', '!=', OVER_DUE)
             ->where('invoice_status_id', '!=', DRAFT)
-            ->where('due_date', '<=', now())
+            ->where('due_date', '<=', now()->subDay(1))
             ->get();
         foreach ($invoices as $invoice) {
-            $invoice->invoice_status_id = 5;
+            $invoice->invoice_status_id = OVER_DUE;
             $invoice->save();
         }
     }

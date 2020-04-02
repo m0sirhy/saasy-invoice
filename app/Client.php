@@ -26,6 +26,7 @@ use App\Traits\Uuids;
  * @property string|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $active
  * @property-read \App\ClientToken $clientToken
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Credit[] $credits
  * @property-read int|null $credits_count
@@ -79,7 +80,8 @@ class Client extends Model implements AuthenticatableContract
         'invoice_key',
         'uuid',
         'id',
-        'notes'
+        'notes',
+        'active'
     ];
 
     protected $mapUuid = 'uuid';
