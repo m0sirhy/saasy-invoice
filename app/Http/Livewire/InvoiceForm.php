@@ -108,11 +108,12 @@ class InvoiceForm extends Component
 
     public function totalUpdate()
     {
-        $this->total = 0;
+        $this->total = $this->balance = 0;
         foreach ($this->items as $item) {
             $this->total += $item['unit_price'] * $item['quantity'];
+            $this->balance += $item['unit_price'] * $item['quantity'];
         }
-        $this->invoice['amount'] = $this->total;
+        $this->invoice['amount'] = $this->invoice['balance'] = $this->total;
     }
 
     public function addRow()
@@ -176,7 +177,7 @@ class InvoiceForm extends Component
 
         event(new InvoiceUpdated($invoice));
 
-        return $this->redirect(route('invoices'));
+        return $this->redirect(route('invoices'))->withSuccess('Invoice updated');
     }
     public function create()
     {
