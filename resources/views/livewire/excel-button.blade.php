@@ -1,0 +1,3 @@
+<div class="w-1/12">
+    <a href={{route('payments.download.excel', ['sortField' => $sortField, 'sortAsc' => $sortAsc ? 'asc' : 'desc', 'search' => $search])}}><button class="ml-2 py-2 rounded-l rounded-r border-gray-400 bg-gray-200 border sm:rounded-lg-none block w-full text-sm text-gray-700 focus: bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none">Excel</button></a>
+</div>

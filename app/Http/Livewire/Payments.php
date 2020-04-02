@@ -2,10 +2,10 @@
 
 namespace App\Http\Livewire;
 
+use DB;
+use App\Payment;
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Payment;
-use DB;
 
 class Payments extends Component
 {
@@ -30,12 +30,17 @@ class Payments extends Component
         ]);
     }
 
+    public function updatedSearch()
+    {
+        $this->emit('search', $this->search);
+    }
+
     public function sortBy($field)
     {
-        $this->sortAsc = true;
         if ($this->sortField === $field) {
-            $this->sortAsc = ! $this->sortAsc;
+            $this->sortAsc = !$this->sortAsc;
         }
         $this->sortField = $field;
+        $this->emit('sortField', $this->sortField, $this->sortAsc);
     }
 }
