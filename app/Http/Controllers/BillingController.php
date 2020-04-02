@@ -52,10 +52,10 @@ class BillingController extends Controller
     public function edit(Billing $billing)
     {
         $items = BillingItem::where('billing_id', $billing->id)->get()->toArray();
-        foreach ($items as &$item) {
-            $item['unit_price'] = $item['price_per'];
-            unset($item['price_per']);
-        }
+        // foreach ($items as &$item) {
+        //     $item['unit_price'] = $item['price_per'];
+        //     unset($item['price_per']);
+        // }
         return view('billings.edit')
             ->with('billing', $billing->toArray())
             ->with('items', $items);

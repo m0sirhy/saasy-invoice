@@ -150,7 +150,7 @@
             return false;
         }
         if (parseInt(expire[0]) > 12 || parseInt(expire[0]) < 0) {
-            alert('You Inputed An Invalid Month');
+            alert('You Input An Invalid Month');
             return false;
         }
         if (expire[1].length != 4) {

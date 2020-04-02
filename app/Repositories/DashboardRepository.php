@@ -2,10 +2,10 @@
 
 namespace App\Repositories;
 
+use stdClass;
+use App\Client;
 use App\Invoice;
 use App\Payment;
-use App\Client;
-use stdClass;
 use App\UserActivityLog;
 use Auth;
 

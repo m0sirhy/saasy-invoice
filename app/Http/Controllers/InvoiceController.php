@@ -53,10 +53,10 @@ class InvoiceController extends Controller
      */
     public function edit(Invoice $invoice)
     {
-        $items = InvoiceItem::where('invoice_id', $invoice->id)->get()->toArray();
+        $items = InvoiceItem::where('invoice_id', $invoice->id)->get();
         event(new InvoiceViewed($invoice));
-        $invoice = $invoice->toArray();
-        $invoice['invoice_date'] = date('Y-m-d', strtotime($invoice['invoice_date']));
+        // $invoice = $invoice;
+        // $invoice['invoice_date'] = date('Y-m-d', strtotime($invoice['invoice_date']));
         return view('invoices.edit')
             ->with('invoice', $invoice)
             ->with('items', $items);

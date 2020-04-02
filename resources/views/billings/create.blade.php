@@ -11,11 +11,11 @@
             <div class="bg-gray-400 border-b-2 border-gray-500 rounded-tl-lg rounded-tr-lg p-2">
                 <h5 class="font-bold uppercase text-gray-600">Billing Details</h5>
             </div>
-            <div class="p-5" id="app">
-                <billing-form billing-model='' items-model='' url='{{ route('api.billing.create') }}'>
-                </billing-form>
+            <div class="p-5">
+                @livewire('billing-form')
             </div>
         </div>
     </div>
 </div>
 @endsection
+@livewireScripts

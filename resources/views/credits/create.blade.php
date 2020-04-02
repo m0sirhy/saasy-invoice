@@ -11,11 +11,11 @@
             <div class="bg-gray-400 border-b-2 border-gray-500 rounded-tl-lg rounded-tr-lg p-2">
                 <h5 class="font-bold uppercase text-gray-600">Credit Details</h5>
             </div>
-            <div class="p-5" id="app">
-                <credit-form credit-model='' url='{{ route('api.credit.create') }}'>
-                </credit-form>
+            <div class="p-5">
+                @livewire('credit-form')
             </div>
         </div>
     </div>
 </div>
 @endsection
+@livewireScripts
