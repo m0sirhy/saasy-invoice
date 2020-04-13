@@ -20,10 +20,10 @@
 </head>
 <body class="bg-gray-900 font-sans leading-normal tracking-normal mt-12">
 @if(Session::has('error'))
-    <div class="alert-banner w-full fixed top-0 content-center" style="z-index: 1000">
+    <div class="alert-banner w-full fixed top-0 content-center" style="z-index: 1000" id="error">
     <input type="checkbox" class="hidden" id="banneralert">
       
-    <label class="close cursor-pointer flex items-center justify-between w-full p-2 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded" title="close" for="banneralert">
+    <label class="close cursor-pointer flex items-center justify-between w-full p-2 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded" title="close" for="banneralert" onclick="removeAlert('error')">
       {{ Session::pull('error') }}
       <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
         <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
@@ -32,10 +32,10 @@
   </div>
 @endif
 @if(Session::has('success'))
-    <div class="alert-banner w-full fixed top-0 content-center text-center" style="z-index: 1000">
+    <div class="alert-banner w-full fixed top-0 content-center text-center" style="z-index: 1000" id="success">
     <input type="checkbox" class="hidden" id="banneralert">
       
-    <label class="close cursor-pointer flex items-center justify-between w-full p-2 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded" title="close" for="banneralert">
+    <label class="close cursor-pointer flex items-center justify-between w-full p-2 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded" title="close" for="banneralert" onclick="removeAlert('success')">
       {{ Session::pull('success') }}
       <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
         <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
@@ -137,6 +137,11 @@
                 }
             }
         }
+    }
+    //Close the Alert after transition
+    function removeAlert(status) {
+        var div = document.getElementById(status);
+        setTimeout(function(){div.style.display = "none";}, 500);
     }
 </script>
 <script src="{{ mix('js/app.js') }}"></script>
