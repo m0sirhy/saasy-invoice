@@ -40,4 +40,14 @@ class InvoiceItem extends Model
         'unit_price',
         'name'
     ];
+
+    public function invoice()
+    {
+        $this->belongsTo(Invoice::class);
+    }
+
+    public function product()
+    {
+        $this->belongsTo(Product::class);
+    }
 }

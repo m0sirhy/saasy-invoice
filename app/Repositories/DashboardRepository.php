@@ -7,7 +7,6 @@ use App\Client;
 use App\Invoice;
 use App\Payment;
 use App\UserActivityLog;
-use Auth;
 
 class DashboardRepository
 {
@@ -41,8 +40,8 @@ class DashboardRepository
 
     public function getClientData()
     {
-        $clients = \App\Client::count();
-        $newClients = \App\Client::where('created_at', '>=', now()->subDay())->count();
+        $clients = Client::count();
+        $newClients = Client::where('created_at', '>=', now()->subDay())->count();
         $clientData = new stdClass();
         $clientData->clients = $clients;
         $clientData->newClients = $newClients;
@@ -74,9 +73,9 @@ class DashboardRepository
 
     public function getUserActivity()
     {
-        return UserActivityLog::with('Client')
-            ->limit(100)
-            ->orderBy('created_at', 'desc')
+        return UserActivityLog::with('User')
+            ->limit(50)
+            ->orderBy('id', 'desc')
             ->get();
     }
 }

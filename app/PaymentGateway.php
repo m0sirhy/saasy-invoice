@@ -31,4 +31,9 @@ class PaymentGateway extends Model
         'library',
         'active'
     ];
+
+    public function setting()
+    {
+        $this->hasOne(PaymentGatewaySetting::class);
+    }
 }

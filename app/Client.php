@@ -57,6 +57,9 @@ use App\Traits\Uuids;
  * @property string|null $notes
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereNotes($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereTermsAcceptedAt($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\ClientActivityLog[] $activity
+ * @property-read int|null $activity_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereActive($value)
  */
 class Client extends Model implements AuthenticatableContract
 {
@@ -88,21 +91,26 @@ class Client extends Model implements AuthenticatableContract
 
     public function credits()
     {
-        return $this->hasMany('App\Credit');
+        return $this->hasMany(Credit::class);
     }
 
     public function invoices()
     {
-        return $this->hasMany('App\Invoice');
+        return $this->hasMany(Invoice::class);
     }
 
     public function payments()
     {
-        return $this->hasMany('App\Payment');
+        return $this->hasMany(Payment::class);
     }
 
     public function clientToken()
     {
-        return $this->hasOne('App\ClientToken');
+        return $this->hasOne(ClientToken::class);
+    }
+
+    public function activity()
+    {
+        return $this->hasMany(ClientActivityLog::class);
     }
 }

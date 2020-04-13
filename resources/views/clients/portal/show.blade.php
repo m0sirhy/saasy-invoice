@@ -61,15 +61,23 @@
 							<p class="text-xs">{{ $item->description }}</p>
 							@endif
 						</td>
-						<td class="px-4 py-2 text-right">{{ $item->quantity }}</td>
-						<td class="px-4 py-2 text-right">{{ number_format($item->unit_price,2) }}</td>
-						<td class="px-4 py-2 text-right bg-gray-200">{{ number_format($item->quantity * $item->unit_price,2) }}</td>
+						<td class="px-4 py-2 text-right">
+							{{ $item->quantity }}
+						</td>
+						<td class="px-4 py-2 text-right">
+							@include('includes._dollar', ['number' => $item->unit_price])
+						</td>
+						<td class="px-4 py-2 text-right bg-gray-200">
+							@include('includes._dollar', ['number' => $item->quantity * $item->unit_price])
+						</td>
 					</tr>
 					@endforeach
 					<tr class="border-t-2 border-gray-800">
 						<td colspan="2" class="px-4 py-2 text-right"></td>
 						<td class="px-4 py-2 text-right font-medium">Invoice Total</td>
-						<td class="px-4 py-2 text-right border bg-gray-200">{{ number_format($invoice->amount,2) }}</td>
+						<td class="px-4 py-2 text-right border bg-gray-200">
+							@include('includes._dollar', ['number' => $invoice->amount])
+						</td>
 					</tr>
 					<tr>
 						<td colspan="2" class="px-4 py-2 text-left">
@@ -79,7 +87,9 @@
 							@endif
 						</td>
 						<td class="px-4 py-2 text-right font-medium">Balance Due</td>
-						<td class="px-4 py-2 text-right border bg-gray-200">{{ number_format($invoice->balance,2) }}</td>
+						<td class="px-4 py-2 text-right border bg-gray-200">
+							@include('includes._dollar', ['number' => $invoice->balance])
+						</td>
 					</tr>
 					@if ($invoice->public_notes != "")
 					<tr>

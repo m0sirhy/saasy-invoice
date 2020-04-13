@@ -11,6 +11,7 @@ use App\ClientToken;
 use App\Subscription;
 use App\Helpers\AuthNet;
 use App\Events\PaymentAdded;
+use App\Events\Client\ClientInvoiceViewed;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\DataTables\ClientDashboardDataTable;
@@ -52,6 +53,7 @@ class DashboardController extends Controller
             $invoice->invoice_status_id = VIEWED;
             $invoice->save();
         }
+        event(new ClientInvoiceViewed($invoice));
         return view('clients.portal.show')
             ->with('invoice', $invoice);
     }

@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire;
 
-use DB;
 use App\Payment;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -19,7 +18,7 @@ class Payments extends Component
     public function render()
     {
         $cols = ['id', 'invoice_id', 'auth_code', 'amount'];
-        $payments = Payment::with('client')
+        $payments = Payment::with('Client')
             ->whereLike($cols, $this->search)
             ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
             ->paginate($this->perPage);

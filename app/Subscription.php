@@ -56,16 +56,11 @@ class Subscription extends Model
 
     public function invoice()
     {
-        return $this->hasMany('App\Invoice');
+        return $this->hasMany(Invoice::class);
     }
 
     public function client()
     {
-        return $this->belongsTo('App\Client');
+        return $this->belongsTo(Client::class);
     }
-
-    // public function billingType()
-    // {
-    //     return $this->belongsTo('App\BillingType');
-    // }
 }

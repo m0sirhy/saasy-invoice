@@ -2,13 +2,14 @@
 
 namespace App\Console\Commands;
 
+use DB;
 use App\Client;
 use App\Invoice;
 use App\Payment;
 use App\Product;
+use App\ClientToken;
 use App\InvoiceItem;
 use Illuminate\Console\Command;
-use DB;
 
 class MigrateNinja extends Command
 {
@@ -49,25 +50,42 @@ class MigrateNinja extends Command
             JOIN contacts cs ON cs.client_id = c.id
         ');
         foreach ($clients as $client) {
+            $getClient = Client::find($client->id);
+            $user = DB::connection('monitorbase')->select(
+                'select * from users where email=?',
+                [$client->email]
+            );
+            $crmId = 0;
+            $active = 0;
             $paid = $client->paid_to_date;
             if (is_null($paid)) {
                 $paid = 0;
             }
-
             $balance = $client->balance;
             if (is_null($balance)) {
                 $balance = 0;
             }
-            try {
-                $crmId = 0;
-                $active = 1;
-                $user = DB::connection('monitorbase')->select(
-                    'select * from users where email=?',
-                    [$client->email]
-                );
+            if (!is_null($getClient)) {
                 if (!empty($user)) {
-                    $crmId = $user->id;
-                    $active = $user->active;
+                    $getClient->crm_id = $user[0]->id;
+                    $getClient->active = $user[0]->active;
+                    $getClient->balance = $balance;
+                    $getClient->total_paid = $paid;
+                    $getClient->save();
+                    if ($user[0]->auth_id != '') {
+                        ClientToken::updateOrCreate([
+                            'client_id' => $getClient->id,
+                            'token' => $user[0]->auth_id
+                        ]);
+                    }
+                }
+                continue;
+            }
+            
+            try {
+                if (!empty($user)) {
+                    $crmId = $user[0]->id;
+                    $active = $user[0]->active;
                 }
                 Client::create([
                     'id' => $client->id,
@@ -105,17 +123,19 @@ class MigrateNinja extends Command
                 continue;
             }
             try {
-                Invoice::create([
-                    'id' => $invoice->invoice_number,
-                    'client_id' => $invoice->client_id,
-                    'balance' => $invoice->balance,
-                    'amount' => $invoice->amount,
-                    'due_date' => $invoice->due_date,
-                    'invoice_date' => $invoice->invoice_date,
-                    'private_notes' => $invoice->private_notes,
-                    'public_notes' => $invoice->public_notes,
-                    'invoice_status_id' => $status
-                ]);
+                Invoice::updateOrCreate(
+                    ['id' => $invoice->invoice_number],
+                    [
+                        'client_id' => $invoice->client_id,
+                        'balance' => $invoice->balance,
+                        'amount' => $invoice->amount,
+                        'due_date' => $invoice->due_date,
+                        'invoice_date' => $invoice->invoice_date,
+                        'private_notes' => $invoice->private_notes,
+                        'public_notes' => $invoice->public_notes,
+                        'invoice_status_id' => $status
+                    ]
+                );
             } catch (\Exception $e) {
                 info('Invoice failed: #' . $invoice->id . ' - ' . $e->getMessage());
                 $this->info('Invoice failed: #' . $invoice->id . ' - ' . $e->getMessage());

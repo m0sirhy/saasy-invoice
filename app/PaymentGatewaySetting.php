@@ -37,4 +37,9 @@ class PaymentGatewaySetting extends Model
         'public_key',
         'test_mode'
     ];
+
+    public function paymentGateway()
+    {
+        $this->belongsTo(PaymentGateway::class);
+    }
 }

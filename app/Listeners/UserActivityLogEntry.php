@@ -2,27 +2,17 @@
 
 namespace App\Listeners;
 
+use Auth;
 use App\UserActivityLog;
+use App\Events\InvoiceViewed;
 use App\Events\InvoiceCreated;
 use App\Events\InvoiceDeleted;
 use App\Events\InvoiceUpdated;
-use App\Events\InvoiceViewed;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use Auth;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class UserActivityLogEntry
 {
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
     /**
      * Handle the event.
      *

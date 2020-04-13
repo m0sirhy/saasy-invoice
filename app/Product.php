@@ -34,4 +34,9 @@ class Product extends Model
         'unit_price',
         'cost'
     ];
+
+    protected function invoiceItems()
+    {
+        $this->hasMany(InvoiceItem::class);
+    }
 }

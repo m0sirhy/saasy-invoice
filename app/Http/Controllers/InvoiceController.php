@@ -55,8 +55,6 @@ class InvoiceController extends Controller
     {
         $items = InvoiceItem::where('invoice_id', $invoice->id)->get();
         event(new InvoiceViewed($invoice));
-        // $invoice = $invoice;
-        // $invoice['invoice_date'] = date('Y-m-d', strtotime($invoice['invoice_date']));
         return view('invoices.edit')
             ->with('invoice', $invoice)
             ->with('items', $items);

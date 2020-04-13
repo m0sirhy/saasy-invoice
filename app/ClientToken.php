@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\ClientToken whereToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\ClientToken whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Client $client
  */
 class ClientToken extends Model
 {
@@ -28,4 +29,9 @@ class ClientToken extends Model
         'client_id',
         'token'
     ];
+
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
+    }
 }

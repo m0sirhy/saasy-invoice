@@ -30,6 +30,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Commission whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Commission whereUserId($value)
  * @mixin \Eloquent
+ * @property-read \App\Invoice $invoice
  */
 class Commission extends Model
 {
@@ -48,6 +49,11 @@ class Commission extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class);
+    }
+
+    public function invoice()
+    {
+        return $this->belongsTo(Invoice::class);
     }
 }

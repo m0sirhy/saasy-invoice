@@ -82,21 +82,21 @@ class Invoice extends Model
 
     public function products()
     {
-        return $this->hasManyThrough('App\Product', 'App\InvoiceItem');
+        return $this->hasManyThrough(Product::class, InvoiceItem::class);
     }
 
     public function items()
     {
-        return $this->hasMany('App\InvoiceItem');
+        return $this->hasMany(InvoiceItem::class);
     }
 
     public function client()
     {
-        return $this->belongsTo('App\Client');
+        return $this->belongsTo(Client::class);
     }
 
     public function invoiceStatus()
     {
-        return $this->belongsTo('App\InvoiceStatus');
+        return $this->belongsTo(InvoiceStatus::class);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\Client\ClientInvoiceViewed;
+use App\Listeners\ClientActivityLogEntry;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -38,6 +40,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\PaymentAdded' => [
             'App\Listeners\PaymentAdded',
+        ],
+        ClientInvoiceViewed::class => [
+            ClientActivityLogEntry::class,
         ],
     ];
 

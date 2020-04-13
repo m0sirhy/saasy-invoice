@@ -132,15 +132,15 @@
                                                     <b>{{ $userActivity->created_at->format('m/d/y') }}</b>
                                                 </td>
                                                 <td class="w-1/2 text-left">
-                                                    @if (is_null($userActivity->client))
+                                                    @if (is_null($userActivity->User))
                                                         <a class="text-blue-500" href="#"><b>System</b></a>  {{ $userActivity->message }}
                                                     @else
-                                                    <a class="text-blue-500" href={{route('clients.show', ['client' => $userActivity->client->id])}} ><b>{{$userActivity->client->name}}</b></a>  {{ $userActivity->message }}
+                                                    <a class="text-blue-500" href={{ route('clients.show', ['client' => $userActivity->User->id]) }} ><b>{{ $userActivity->User->name }}</b></a>  {{ $userActivity->message }}
                                                     @endif
                                                 </td>
                                                 <td class="w-1/6">
                                                     <div class="text-right pr-2">
-                                                    <a class="text-blue-500" href={{ route("invoices.edit", ["invoice" => $userActivity->invoice_id] )}} ><b>#{{ $userActivity->invoice_id }}</b></a>
+                                                    <a class="text-blue-500" href={{ route("invoices.edit", ["invoice" => $userActivity->invoice_id]) }} ><b>#{{ $userActivity->invoice_id }}</b></a>
                                                     </div>
                                                 </td>
                                             </tr>

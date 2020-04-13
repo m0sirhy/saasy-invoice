@@ -42,16 +42,17 @@ class BillingItem extends Model
         'alt_id',
         'price_per',
         'after_min',
-        'price_after'
+        'price_after',
+        'costs'
     ];
 
     public function billing()
     {
-        return $this->belongsTo('App\Billing');
+        return $this->belongsTo(Billing::class);
     }
 
     public function product()
     {
-        return $this->belongsTo('App\Product');
+        return $this->belongsTo(Product::class);
     }
 }

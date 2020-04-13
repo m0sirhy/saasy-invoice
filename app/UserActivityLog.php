@@ -24,6 +24,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\UserActivityLog whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\UserActivityLog whereUserId($value)
  * @mixin \Eloquent
+ * @property-read \App\Invoice|null $invoice
+ * @property-read \App\User $user
  */
 class UserActivityLog extends Model
 {
@@ -33,8 +35,13 @@ class UserActivityLog extends Model
         'invoice_id'
     ];
 
-    public function client()
+    public function user()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class);
+    }
+
+    public function invoice()
+    {
+        return $this->belongsTo(Invoice::class);
     }
 }
