@@ -13,19 +13,16 @@ use App\Events\InvoiceUpdated;
 
 class InvoiceForm extends Component
 {
-    public $status;
-    public $invoice;
-    public $clients;
+    public $status = 1;
+    public $invoice = [];
     public $dueDate;
     public $endDate;
-    public $products;
     public $clientId;
     public $startDate;
     public $invoiceDate;
     public $invoiceStatuses;
     public $mail = 0;
     public $total = 0;
-    public $items = [];
     public $balance = 0;
     public $removed = [];
     public $publicNotes = '';
@@ -33,7 +30,9 @@ class InvoiceForm extends Component
     public $invoiceCheck = false;
     public $invoiceId;
 
-    public function mount($invoice = null, $items = [])
+    protected $listeners = ['clientUpdated', 'update', 'create'];
+
+    public function mount($invoice = null)
     {
         $this->status = DRAFT;
         if (!is_null($invoice)) {
@@ -47,7 +46,6 @@ class InvoiceForm extends Component
             $this->startDate = date('Y-m-d', strtotime($invoice['start_date'] . '00:00:00'));
             $this->endDate = date('Y-m-d', strtotime($invoice['end_date'] . '00:00:00'));
             $this->clientId = $invoice['client_id'];
-            $this->items = $items->toArray();
             $this->total = $invoice['amount'];
             $this->balance = $invoice['balance'];
             $this->mail = $invoice['mail'];
@@ -56,14 +54,14 @@ class InvoiceForm extends Component
             $this->invoiceId = $invoice['id'];
             $this->status = $invoice['invoice_status_id'];
         }
-        $this->products = Product::get();
         $this->invoiceStatuses = InvoiceStatus::get();
-        $this->clients = Client::get();
     }
 
-    public function updatedClientId()
+    public function clientUpdated($clientId)
     {
-        $this->invoice['client_id'] = $this->clientId;
+        if (is_numeric($clientId)) {
+            $this->invoice['client_id'] = $clientId;
+        }
     }
 
     public function updatedInvoiceDate()
@@ -91,49 +89,6 @@ class InvoiceForm extends Component
         $this->invoice['invoice_status_id'] = $this->status;
     }
 
-    public function updatedItems($name, $value)
-    {
-        if (strpos($value, 'product_id') !== false) {
-            $product = Product::find($name);
-            $index = explode('.', $value)[0];
-            $this->items[$index]['description'] = $product->notes;
-            $this->items[$index]['unit_price'] = $product->unit_price;
-        }
-        $this->totalUpdate();
-    }
-
-    public function removeRow($itemId, $index)
-    {
-        array_push($this->removed, $itemId);
-        unset($this->items[$index]);
-        $this->items = array_values($this->items);
-        $this->totalUpdate();
-    }
-
-    public function totalUpdate()
-    {
-        $this->total = $this->balance = 0;
-        foreach ($this->items as $item) {
-            $this->total += $item['unit_price'] * $item['quantity'];
-            $this->balance += $item['unit_price'] * $item['quantity'];
-        }
-        $this->invoice['amount'] = $this->invoice['balance'] = $this->total;
-    }
-
-    public function addRow()
-    {
-        $item = [
-            'id' => 9999999,
-            'product_id' => 0,
-            'invoice_id' => $this->invoice['id'] ?? 0,
-            'quantity' => 0,
-            'unit_price' => 1,
-            'description' => '',
-            'name' => ''
-        ];
-        array_push($this->items, $item);
-    }
-
     public function mailChecked()
     {
         $check = 0;
@@ -156,24 +111,23 @@ class InvoiceForm extends Component
     
     public function render()
     {
-        return view('livewire.invoice-form', ['items' => $this->items]);
+        return view('livewire.invoice-form');
     }
 
-    public function update()
+    public function update($items, $total, $balance)
     {
         $this->validate = [
-            //work on this
+            
         ];
         if (!empty($this->invoice)) {
+            $total = str_replace(['$', ','], "", $total);
+            $balance = str_replace(['$', ','], "", $balance);
+            $this->invoice['amount'] = $total;
+            $this->invoice['balance'] = $balance;
             $invoice = Invoice::find($this->invoice['id']);
             $invoice->update($this->invoice);
-            foreach ($this->removed as $remove) {
-                InvoiceItem::find($remove)->delete();
-            }
-            foreach ($this->items as $item) {
-                if ($item['id'] == 9999999) {
-                    $item['id'] = null;
-                }
+            InvoiceItem::where('invoice_id', $invoice->id)->delete();
+            foreach ($items as $item) {
                 $item['invoice_id'] = $invoice->id;
                 InvoiceItem::updateOrCreate(['id' => $item['id']], $item);
             }
@@ -181,19 +135,24 @@ class InvoiceForm extends Component
         event(new InvoiceUpdated($invoice, $this->mail));
         return redirect()->route('invoices');
     }
-    public function create()
+    public function create($items, $total, $balance)
     {
         $this->validate = [
             //work on this
         ];
         if (!empty($this->invoice)) {
+            if (!array_key_exists('invoice_status_id', $this->invoice)) {
+                $this->invoice['invoice_status_id'] = 1;
+            }
+            $total = str_replace(['$', ','], "", $total);
+            $balance = str_replace(['$', ','], "", $balance);
+            $this->invoice['amount'] = $total;
+            $this->invoice['balance'] = $balance;
             $invoice = Invoice::create($this->invoice);
             $invoice->save();
         }
-        foreach ($this->items as $item) {
-            if ($item['id'] == 9999999) {
-                unset($item['id']);
-            }
+        foreach ($items as $item) {
+            unset($item['id']);
             $item['invoice_id'] = $invoice->id;
             InvoiceItem::create($item);
         }

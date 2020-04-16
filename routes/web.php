@@ -286,6 +286,7 @@ Route::prefix('api')->middleware(['auth'])->namespace('Api')->group(function () 
     Route::get('clients', 'ClientController@getAll')->name('api.clients.get');
     Route::get('invoice/client/{client}', 'InvoiceController@getByClient')->name('api.invoice.client');
     Route::get('invoice/destroy/{invoice}', 'InvoiceController@destroy')->name('api.invoice.destroy');
+    Route::get('invoice/items/{invoice}', 'InvoiceItemsController@getbyInvoice')->name('api.invoice.items');
     Route::get('products', 'ProductController@getAll')->name('api.products.get');
     Route::get('users', 'UserController@getAll')->name('api.clients.get');
     Route::post('billing/create', 'BillingController@create')->name('api.billing.create');

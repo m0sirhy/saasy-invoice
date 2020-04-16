@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use PDF;
 use Auth;
 use App\Invoice;
+use App\Product;
 use App\InvoiceItem;
+use App\InvoiceStatus;
 use Illuminate\Http\Request;
 use App\Events\InvoiceViewed;
 use App\Events\InvoiceDeleted;
@@ -53,11 +55,10 @@ class InvoiceController extends Controller
      */
     public function edit(Invoice $invoice)
     {
-        $items = InvoiceItem::where('invoice_id', $invoice->id)->get();
         event(new InvoiceViewed($invoice));
         return view('invoices.edit')
             ->with('invoice', $invoice)
-            ->with('items', $items);
+            ->with('invoiceStatuses', InvoiceStatus::get());
     }
 
     /**

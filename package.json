@@ -29,9 +29,11 @@
         "vue-template-compiler": "^2.6.11"
     },
     "dependencies": {
+        "alpinejs": "^2.2.5",
         "datatables.net": "^1.10.20",
         "datatables.net-buttons": "^1.6.1",
         "jquery": "^3.4.1",
+        "select2": "github:select2/select2",
         "vue-interactive-paycard": "^1.0.0",
         "vue-select": "^3.9.4"
     }
