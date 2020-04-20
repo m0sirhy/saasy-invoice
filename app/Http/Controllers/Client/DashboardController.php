@@ -7,6 +7,7 @@ use Auth;
 use stdClass;
 use App\Invoice;
 use App\Payment;
+use App\Setting;
 use App\ClientToken;
 use App\Subscription;
 use App\Helpers\AuthNet;
@@ -63,7 +64,16 @@ class DashboardController extends Controller
         if ($invoice->client_id !== Auth::user()->id) {
             abort(413);
         }
+        $setting = Setting::first();
         $data['data'] = $invoice;
+        $data['data']['address'] = $setting->address;
+        $data['data']['address2'] = $setting->address2;
+        $data['data']['city'] = $setting->city;
+        $data['data']['state'] = $setting->state;
+        $data['data']['zipcode'] = $setting->zipcode;
+        $data['data']['phone'] = $setting->phone;
+        $data['data']['email'] = $setting->email;
+        // dd($data);
         $pdf = PDF::loadView('clients.portal.invoice', $data);
         return $pdf->download('Invoice-#' . $invoice->id . '.pdf');
     }

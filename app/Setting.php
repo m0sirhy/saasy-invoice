@@ -61,6 +61,8 @@ class Setting extends Model
         'zipcode',
         'country',
         'auto_credits',
-        'api_token'
+        'api_token',
+        'phone',
+        'email'
     ];
 }

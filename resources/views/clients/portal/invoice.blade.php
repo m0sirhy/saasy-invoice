@@ -33,7 +33,7 @@
 		<table width="100%">
 			<tr>
 				<td><h1>Invoice #{{ $data->id }}</h1></td>
-				<td style="text-align: right;"><img src="" height="38"><small><br>746 East Winchester, Suite G-20<br>Murray, UT 84107<br>(888) 795-6575<br>support@monitorbase.com</small></td>
+				<td style="text-align: right;"><img src="" height="38"><small><br>{{$data->address}}, {{$data->address2}}<br>{{$data->city}}, {{$data->state}} {{$data->zipcode}}<br>{{$data->phone}}<br>{{$data->email}}</small></td>
 			</tr>
 		</table>
 		<hr>
@@ -91,8 +91,8 @@
 				@endforeach
 			</tbody>
 		</table>
-		<h3 style="text-align: right;">Total: @include('includes._dollar', ['number' => $item->amount])</h3>
-		<h3 style="text-align: right;">Balance Due: @include('includes._dollar', ['number' => $item->balance])</h3>
+		<h3 style="text-align: right;">Total: @include('includes._dollar', ['number' => $data->amount])</h3>
+		<h3 style="text-align: right;">Balance Due: @include('includes._dollar', ['number' => $data->balance])</h3>
 		@if ($data->public_notes != "")
 			<strong>Notes:</strong><br/>
 			{{ $data->public_notes }}

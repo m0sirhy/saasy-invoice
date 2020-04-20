@@ -81,7 +81,7 @@ class InvoiceForm extends Component
 
     public function updatedEndDate()
     {
-        $this->invoice['endDate'] = $this->endDate;
+        $this->invoice['end_date'] = $this->endDate;
     }
 
     public function updatedStatus()
