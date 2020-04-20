@@ -20,7 +20,7 @@ class ClientPicker extends Component
     {
         if ($clientId != 0) {
             $client = Client::where('id', $clientId)->first();
-            $this->clientPlaceholder = $client->id . ' - ' . $client->name . ' - ' . $client->email;
+            $this->clientPlaceholder = $client->name . ' - ' . $client->email;
             $this->original = $this->clientPlaceholder;
         }
         $this->clients = Client::orderBy($this->sortField, 'asc')
@@ -33,7 +33,7 @@ class ClientPicker extends Component
     {
         $this->search = $search;
         
-        $cols = ['id', 'name', 'email'];
+        $cols = ['id', 'crm_id', 'name', 'email'];
         $clients = Client::whereLike($cols, $this->search)
             ->orderBy($this->sortField, 'asc')
             ->select(['id', 'name', 'email'])
@@ -44,7 +44,7 @@ class ClientPicker extends Component
 
     public function clientClicked($clientId, $clientName, $clientEmail)
     {
-        $this->clientPlaceholder = $clientId . ' - ' . $clientName . ' - ' . $clientEmail;
+        $this->clientPlaceholder = $clientName . ' - ' . $clientEmail;
         $this->search = '';
         $this->emit('clientUpdated', $clientId);
     }

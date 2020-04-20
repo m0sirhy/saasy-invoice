@@ -118,14 +118,20 @@
 
         <div class="text-right p-3">
             @if($invoiceCheck)
-                <button class="bg-blue-800 text-sm hover:bg-blue-700 text-white font-bold py-1 px-3 rounded" x-on:click="updateInvoice()">
+                <button class="bg-blue-800 text-sm hover:bg-blue-700 text-white font-bold py-1 px-3 rounded" x-on:click="updateInvoice()" wire:loading.remove>
                     Update
                 </button>
+                <span style="display:none;" wire:loading>
+                    Loading...
+                </span>
                 <a href="{{ route('invoice.download', ['invoice' => $invoiceId]) }}"><button class="bg-blue-800 text-sm hover:bg-blue-700 text-white font-bold py-1 px-3 rounded" type="button"><i class="fa fa-download"></i> Download</button></a>
             @else
-                <button class="bg-blue-800 text-sm hover:bg-blue-700 text-white font-bold py-1 px-3 rounded" x-on:click="createInvoice()">
+                <button class="bg-blue-800 text-sm hover:bg-blue-700 text-white font-bold py-1 px-3 rounded" x-on:click="createInvoice()" wire:loading.remove>
                     Create
                 </button>
+                <span style="display:none;" wire:loading>
+                    Loading...
+                </span>
             @endif
         </div>
         </div>
@@ -194,6 +200,7 @@ function invoice(id) {
                     });
                 }
             );
+            if (id != 0) {
             fetch(`/api/invoice/items/` + id)
                 .then(res => res.json())
                 .then(data => {
@@ -213,6 +220,7 @@ function invoice(id) {
                     });
                     self.itemTotal();
                 });
+            }
             self.netBalance = balance;
         },
 

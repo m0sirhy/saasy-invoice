@@ -15,8 +15,8 @@
             <div x-show="clientOpen">
                 <div id="clientDropdown" class="w-1/3 absolute bg-white border border-solid border-gray-600 overflow-y-auto h-32 rounded">
                     @foreach($clients as $client)
-                        <button class="border-b border-solid border-gray-600 w-full text-left hover:bg-gray-600 hover:text-white" wire:click="clientClicked('{{$client->id}}', '{{$client->name}}', '{{$client->email}}')"><b>{{$client->id}}</b>
-                        <p>{{$client->name}} - {{$client->email}}</p></button>
+                        <button class="border-b border-solid border-gray-600 w-full text-left hover:bg-gray-600 hover:text-white" wire:click="clientClicked('{{$client->id}}', '{{$client->name}}', '{{$client->email}}')">
+                        {{$client->name}} - {{$client->email}}</button>
                     @endforeach
                 </div>
             </div>
