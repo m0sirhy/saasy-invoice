@@ -14,7 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $amount
  * @property float $balance
  * @property int $completed
- * @property string $notes
+ * @property string $private_notes
+ * @property string $public_notes
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Client $client
@@ -43,7 +44,9 @@ class Credit extends Model
         'amount',
         'balance',
         'completed',
-        'notes'
+        'private_notes',
+        'public_notes',
+        'id'
     ];
 
     protected $dates = [

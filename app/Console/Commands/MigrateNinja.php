@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use DB;
 use App\Client;
+use App\Credit;
 use App\Invoice;
 use App\Payment;
 use App\Product;
@@ -38,6 +39,34 @@ class MigrateNinja extends Command
         $this->invoices();
         $this->invoiceItems();
         $this->payments();
+    }
+
+    public function credits()
+    {
+        $credits = DB::connection('invoice')->select('
+            select * from credits
+        ');
+        foreach ($credits as $credit) {
+            $completed = 0;
+            if ($credit->balance == 0) {
+                $completed = 1;
+            }
+            try {
+                Credit::create([
+                    'id' => $credit->id,
+                    'client_id' => $credit->client_id,
+                    'user_id' => 0,
+                    'credit_date' => $credit->credit_date,
+                    'amount' => $credit->amount,
+                    'balance' => $credit->balance,
+                    'completed' => $completed,
+                    'private_notes' => $credit->private_notes,
+                    'public_notes' => $credit->public_notes
+                ]);
+            } catch (\Exception $e) {
+                $this->info('Credit failed: #{{ $credit->id }} - {{ $e->getMessage() }}');
+            }
+        }
     }
 
     public function clients()
