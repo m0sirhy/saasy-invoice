@@ -32,6 +32,14 @@ class ClientController extends Controller
         return redirect()->route('clients');
     }
 
+    public function delete(Client $client)
+    {
+        $client->delete();
+        return redirect()
+            ->route('clients')
+            ->withSuccess("Client {$client->first_name} {$client->last_name} has been deleted");
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -39,9 +47,10 @@ class ClientController extends Controller
      * @param ClientInvoicesDataTable $dataTable
      * @return \Illuminate\Http\Response
      */
-    public function invoicesShow(Client $client, ClientInvoicesDataTable $dataTable)
+    public function show(Client $client, ClientInvoicesDataTable $dataTable)
     {
-        return $dataTable->with('client', $client)->render('clients.invoices', compact('client', $client));
+        return $dataTable->with('client', $client)
+            ->render('clients.show', compact('client', $client));
     }
 
     /**

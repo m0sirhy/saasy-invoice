@@ -4,7 +4,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 require('./bootstrap');
-import 'select2';
+
 // import 'alpinejs';
 // window.Vue = require('vue');
 // import vSelect from 'vue-select'

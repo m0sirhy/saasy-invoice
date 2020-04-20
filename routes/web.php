@@ -81,39 +81,25 @@ Route::post('clients/save', 'ClientController@save')
     ->middleware(['auth'])
     ->name('clients.save');
 
-Route::get('clients/credits/{client}/create', function () {
-        return redirect(route('credits.create'));
-})
-    ->middleware(['auth']);
-
-
 Route::get('clients/credits/{client}', 'ClientController@creditsShow')
     ->middleware(['auth'])
     ->name('clients.credits');
-
-Route::get('clients/payments/{client}/create', function () {
-        return redirect(route('payments.create'));
-})
-    ->middleware(['auth']);
 
 Route::get('clients/payments/{client}', 'ClientController@paymentsShow')
     ->middleware(['auth'])
     ->name('clients.payments');
 
-Route::get('clients/show/{client}/create', function () {
-        return redirect(route('invoices.create'));
-})
-    ->middleware(['auth']);
-
-Route::get('clients/show/{client}', 'ClientController@invoicesShow')
+Route::get('clients/show/{client}', 'ClientController@show')
     ->middleware(['auth'])
     ->name('clients.show');
+
+Route::get('clients/delete/{client}', 'ClientController@delete')
+    ->middleware(['auth'])
+    ->name('client.delete');
 
 Route::get('api/clients/datatables', 'ClientController@datatables')
     ->middleware(['auth'])
     ->name('clients.data');
-
-
 
 Route::get('invoices', 'InvoiceController@index')
     ->middleware(['auth'])
@@ -190,6 +176,7 @@ Route::get('danger/delete', 'SettingController@delete')
 Route::get('billings/show/{subscription?}', 'BillingController@show')
     ->middleware(['auth'])
     ->name('billings.show');
+
 Route::prefix('commissions')->middleware(['auth'])->group(function () {
     Route::get('', 'CommissionController@index')
         ->name('commissions');
@@ -208,9 +195,6 @@ Route::prefix('commissions')->middleware(['auth'])->group(function () {
 Route::prefix('commissions')->middleware(['auth'])->group(function () {
     Route::get('', 'CommissionController@index')
         ->name('commissions');
-    Route::get('owed/create', function () {
-        return redirect(route('commissions.create'));
-    });
     Route::get('owed', 'CommissionController@owed')
         ->name('commissions.owed');
     Route::get('edit/{commission}', 'CommissionController@edit')
@@ -288,7 +272,7 @@ Route::prefix('api')->middleware(['auth'])->namespace('Api')->group(function () 
     Route::get('invoice/destroy/{invoice}', 'InvoiceController@destroy')->name('api.invoice.destroy');
     Route::get('invoice/items/{invoice}', 'InvoiceItemsController@getbyInvoice')->name('api.invoice.items');
     Route::get('products', 'ProductController@getAll')->name('api.products.get');
-    Route::get('users', 'UserController@getAll')->name('api.clients.get');
+    Route::get('users', 'UserController@getAll')->name('api.users.get');
     Route::post('billing/create', 'BillingController@create')->name('api.billing.create');
     Route::post('billing/update/{billing}', 'BillingController@update')->name('api.billing.update');
     Route::post('commission/create', 'CommissionController@create')->name('api.commission.create');

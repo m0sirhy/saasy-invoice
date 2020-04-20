@@ -10,12 +10,12 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
-        "@babel/parser": "^7.9.3",
+        "@babel/parser": "^7.9.4",
         "axios": "^0.19.2",
         "bootstrap": "^4.0.0",
         "cross-env": "^5.1",
-        "css-loader": "^3.4.2",
-        "jquery": "^3.2",
+        "css-loader": "^3.5.2",
+        "jquery": "^3.5.0",
         "laravel-mix": "^4.0.14",
         "laravel-mix-purgecss": "^4.1",
         "laravel-mix-tailwind": "^0.1.0",
@@ -32,9 +32,7 @@
         "alpinejs": "^2.2.5",
         "datatables.net": "^1.10.20",
         "datatables.net-buttons": "^1.6.1",
-        "jquery": "^3.4.1",
-        "select2": "github:select2/select2",
         "vue-interactive-paycard": "^1.0.0",
-        "vue-select": "^3.9.4"
+        "vue-select": "^3.10.1"
     }
 }

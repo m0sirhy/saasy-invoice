@@ -13,6 +13,7 @@
             <div class="flex p-5">
                 <div class="w-1/3">
                     <p>{{ $client->name }}</p>
+                    <p>CRM ID: {{ $client->crm_id }}
                     <p><a class="link" href="mailto:{{ $client->email }}">{{ $client->email }}</a></p>
                     <p><a class="link" href="{{ route('client.login', ['uuid' => $client->uuid]) }}">Login</a>
                 </div>
@@ -69,8 +70,9 @@
             </div>
             <div class="p-5">
                 <ul>
-                    <li><a href="#" class="link"  data-toggle="modal" data-target="#myModal">Create Invoice</a></li>
+                    <!--<li><a href="#" class="link"  data-toggle="modal" data-target="#myModal">Create Invoice</a></li>-->
                     <li><a href="{{ route('client.merge', ['client' => $client->id]) }}" class="link">Merge Client Into</a></li>
+                    <li><a href="{{ route('client.delete', ['client' => $client->id]) }}" class="text-red-600">Delete Client</a></li>
                 </ul>
             </div>
         </div>
