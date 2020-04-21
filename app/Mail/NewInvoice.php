@@ -4,6 +4,7 @@ namespace App\Mail;
 
 use App\Client;
 use App\Invoice;
+use App\Setting;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -16,6 +17,12 @@ class NewInvoice extends Mailable
     public $invoice;
 
     public $client;
+
+    public $company;
+
+    public $url;
+
+    public $setting;
     /**
      * Create a new message instance.
      *
@@ -26,6 +33,9 @@ class NewInvoice extends Mailable
     {
         $this->invoice = $invoice;
         $this->client = $client;
+        $this->setting = Setting::first();
+        $this->company = $this->setting->company;
+        $this->url = $this->setting->website;
     }
 
     /**
@@ -35,6 +45,8 @@ class NewInvoice extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.invoices.sendnew')->subject('A New Invoice From Saasy-Invoice');
+        return $this->from($this->setting->email, $this->setting->company)
+            ->markdown('emails.invoices.sendnew')
+            ->subject('A New Invoice From ' . $this->company);
     }
 }

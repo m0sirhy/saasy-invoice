@@ -17,6 +17,12 @@ class OverdueInvoice extends Mailable
 
     public $client;
 
+    public $company;
+
+    public $url;
+
+    public $setting;
+
     /**
      * Create a new message instance.
      *
@@ -28,6 +34,9 @@ class OverdueInvoice extends Mailable
     {
         $this->invoice = $invoice;
         $this->client = $client;
+        $this->setting = Setting::first();
+        $this->company = $this->setting->company;
+        $this->url = $this->setting->website;
     }
 
     /**
@@ -37,6 +46,8 @@ class OverdueInvoice extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.invoices.sendoverdue')->subject('Overdue Invoice From SaasyInvoice');
+        return $this->from($this->setting->email, $this->setting->company)
+            ->markdown('emails.invoices.sendoverdue')
+            ->subject('Overdue Invoice From' . $this->company);
     }
 }
