@@ -32,7 +32,7 @@ class PaymentAdded
         }
         $event->invoice->save();
         $paid = $event->invoice->client->payments
-            ->where('payment_type', '!=', 'Site Credit')
+            ->where('payment_type', '!=', 2)
             ->sum('balance');
         $event->invoice->client->update([
             'balance' => $event->invoice->client->invoices->sum('balance'),

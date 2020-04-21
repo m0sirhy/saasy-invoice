@@ -47,7 +47,7 @@ class PaymentForm extends Component
         $this->types = $types;
         $this->type = $payment->type;
         $this->authCode = $payment->auth_code;
-        $this->paymentType = $payment->payment_type;
+        $this->paymentType = Payment::TYPES[$payment->payment_type];
         $this->paymentDate = $payment->payment_at->format('Y-m-d');
         if (!is_null($payment->Client)) {
             $this->client = $payment->Client->id;

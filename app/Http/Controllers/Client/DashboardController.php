@@ -122,7 +122,7 @@ class DashboardController extends Controller
                 'amount' => $request->amount,
                 'refunded' => '0',
                 'auth_code' => $payment->transactionResponse->authCode,
-                'payment_type' => 'Credit Card',
+                'payment_type' => 3,
                 'payment_at' => now(),
                 'transaction_id' => $payment->transactionResponse->transId
             ]);

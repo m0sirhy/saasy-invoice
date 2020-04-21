@@ -85,7 +85,7 @@ class PaymentController extends Controller
                     'amount' => $request->amount,
                     'refunded' => '0',
                     'auth_code' => $payment->transactionResponse->authCode,
-                    'payment_type' => 'Credit Card',
+                    'payment_type' => 3,
                     'payment_at' => now(),
                     'transaction_id' => $payment->transactionResponse->transId
                 ]);
@@ -107,7 +107,7 @@ class PaymentController extends Controller
                 'amount' => $request->amount,
                 'refunded' => '0',
                 'auth_code' => $payment->getAuthorizationCode(),
-                'payment_type' => 'Credit Card',
+                'payment_type' => 3,
                 'payment_at' => now(),
                 'transaction_id' => json_decode($payment->getTransactionReference())->transId
             ]);
@@ -168,7 +168,7 @@ class PaymentController extends Controller
     public function refund(Payment $payment)
     {
         $payment->Client->load('ClientToken');
-        if ($payment->payment_type == 'Credit Card') {
+        if ($payment->payment_type == 3) {
             $token = $payment->Client->ClientToken->token;
             $response = AuthNet::refund($payment->transaction_id, $payment->amount, $token);
             if (!$response->isSuccessful()) {

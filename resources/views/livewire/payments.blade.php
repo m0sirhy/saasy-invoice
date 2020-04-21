@@ -69,7 +69,12 @@
                             </td>
                             <td class="py-4 px-6 border-b border-grey-light">${{ number_format($payment->amount, 2) }}</td>
                             <td class="py-4 px-6 border-b border-grey-light">{{ $payment->payment_at->format('m/d/y') }}</td>
-                            <td class="py-4 px-6 border-b border-grey-light">{{ $types[$payment->payment_type] ?? 'Unknown' }}</td>
+                            <td class="py-4 px-6 border-b border-grey-light">
+                                {{ $types[$payment->payment_type] ?? 'Unknown' }}
+                                @if ($payment->refunded == 1)
+                                - Refunded
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

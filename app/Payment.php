@@ -72,7 +72,8 @@ class Payment extends Model
         1 => 'Check',
         2 => 'Site Credit',
         3 => 'Credit Card',
-        4 => 'ACH'
+        4 => 'ACH',
+        5 => 'Refunded'
     ];
 
     public function client()
