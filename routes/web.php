@@ -227,6 +227,7 @@ Route::prefix('client')->namespace('Client')->group(function () {
     Route::post('invoice/payment/{invoice:public_id}', 'DashboardController@payment')
         ->name('client.invoice.payment')
         ->middleware(['auth:client']);
+
     Route::namespace('Auth')->group(function () {
         Route::get('/login/{uuid}', 'LoginController@login')
             ->name('client.login')
