@@ -1,9 +1,9 @@
 <div class="bg-blue-100 border-b-4 border-blue-600 rounded-lg shadow-lg p-5 items-center">
-  <h5 class="font-bold uppercase text-gray-600 text-center">Payment Details</h5>
+  <h5 class="font-bold uppercase text-gray-600 text-center">New Payment Method</h5>
   <div class="py-2">
       <div class="w-full rounded overflow-hidden shadow-lg bg-white">
           <div class="px-6 py-4">
-            {!! Form::model($invoice, ['route' => ['client.invoice.payment', 'invoice' => $invoice->public_id], 'id' => 'paymentForm']) !!}
+            {!! Form::model($invoice, ['route' => ['client.invoice.onfile', 'invoice' => $invoice->public_id], 'id' => 'paymentForm']) !!}
               <div class="">
                 <label class="hidden text-sm text-gray-00" for="name">Name on Card</label>
                 <input class="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="name" name="name" type="text" required value="{{ $invoice->Client->name }}" aria-label="Name">

@@ -57,7 +57,7 @@ return [
 
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'support@monitorbase.com'),
-        'name' => env('MAIL_FROM_NAME', 'SaasyInvoice'),
+        'name' => env('MAIL_FROM_NAME', 'Invoice'),
     ],
 
     /*

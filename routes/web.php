@@ -213,27 +213,24 @@ Route::prefix('activity')->group(function () {
     Route::get('show', 'UserActivityLogController@index')->name('user.activity.show');
 });
 
-Route::prefix('client')->namespace('Client')->group(function () {
+Route::prefix('client')->namespace('Client')->middleware(['auth:client'])->group(function () {
     Route::get('dashboard', 'DashboardController@index')->name('client.dashboard');
-    Route::get('invoice/show/{invoice:public_id}', 'DashboardController@showInvoice')
-        ->name('client.invoice.show')
-        ->middleware(['auth:client']);
-    Route::get('invoice/download/{invoice:public_id}', 'DashboardController@downloadInvoice')
-        ->name('client.invoice.download')
-        ->middleware(['auth:client']);
-    Route::get('invoice/pay/{invoice:public_id}', 'DashboardController@payInvoice')
-        ->name('client.invoice.pay')
-        ->middleware(['auth:client']);
-    Route::post('invoice/payment/{invoice:public_id}', 'DashboardController@payment')
-        ->name('client.invoice.payment')
-        ->middleware(['auth:client']);
-
-    Route::namespace('Auth')->group(function () {
-        Route::get('/login/{uuid}', 'LoginController@login')
-            ->name('client.login')
-            ->middleware(['guest:client']);
-        Route::post('/logout', 'LoginController@logout')->name('client.logout');
-    });
+    Route::get('invoice/show/{invoice:public_id}', 'InvoiceController@show')
+        ->name('client.invoice.show');
+    Route::get('invoice/download/{invoice:public_id}', 'InvoiceController@download')
+        ->name('client.invoice.download');
+    Route::post('invoice/onfile/{invoice:public_id}', 'PaymentController@paymentFile')
+        ->name('client.invoice.onfile');
+    Route::get('invoice/pay/{invoice:public_id}', 'PaymentController@payInvoice')
+        ->name('client.invoice.pay');
+    Route::post('invoice/payment/{invoice:public_id}', 'PaymentController@payment')
+        ->name('client.invoice.payment');
+});
+Route::prefix('client')->namespace('Client\Auth')->group(function () {
+    Route::get('/login/{uuid}', 'LoginController@login')
+        ->name('client.login')
+        ->middleware(['guest:client']);
+    Route::post('/logout', 'LoginController@logout')->name('client.logout');
 });
 Route::prefix('client')->namespace('Client')->group(function () {
     Route::get('/loggedout', 'LoggedOutController@loggedOut')->name('client.loggedout');

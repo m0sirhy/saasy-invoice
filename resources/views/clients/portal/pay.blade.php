@@ -12,30 +12,17 @@
     </div>
     <div class="w-full md:w-1/2 xl:w-1/3 p-3">
         <!--Metric Card-->
-            @if(is_null($cardData))
-                @include('clients.portal.includes.no-card')
-            @else
+            @if(!is_null($cardData))
                 @include('clients.portal.includes.have-card')
             @endif
+            @include('clients.portal.includes.no-card')
         </div>
     </div>
 </div>
 <script type="text/javascript" src="https://js.authorize.net/v1/Accept.js" charset="utf-8"></script>
 <script type="text/javascript">
     function checkIfUpdated() {
-        var cardNumber = document.getElementById("number").value;
-        var expire = document.getElementById("expire").value;
-        if (cardNumber.match(/X{4}\d{4}/)) {
-            if (expire.match(/X{4}/)) {
-                document.getElementById("paymentForm").submit();
-            }
-        }
-        if (!cardNumber.match(/X{4}\d{4}/)) {
-            if (!expire.match(/X{4}/)) {
-                document.getElementById("updated").value = 1;
-                sendPaymentDataToAnet();
-            }
-        }
+        document.getElementById("paymentForm").submit();
     }
 
     function sendPaymentDataToAnet() {
