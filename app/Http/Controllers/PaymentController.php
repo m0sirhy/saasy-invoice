@@ -72,7 +72,7 @@ class PaymentController extends Controller
                 $response = AuthNet::deleteAndUpdateCard($token, $paymentProfile, $params);
                 if ($response == 'Error') {
                     $message = 'We were unable to process your updated card information.';
-                    return redirect()->back()->with('errors', $message);
+                    return redirect()->back()->withError($message);
                 }
             }
             $id = $invoice->id;
@@ -92,13 +92,13 @@ class PaymentController extends Controller
                 event(new PaymentAdded($invoice, $request->amount));
                 return redirect()->route('payments')->with('message', 'Payment successful');
             }
-            return redirect()->back()->with('errors', 'We are unable to process your payment.');
+            return redirect()->back()->withError('We are unable to process your payment.');
         }
         $name = explode(' ', $request->name, 2);
         $params = AuthNet::setParamsSingle($request, $name);
         $payment = AuthNet::chargeCard($params);
         if (is_null($payment->getResultCode()) || $payment->getResultCode() != 1) {
-            return redirect()->back()->with('errors', 'We were unable to process the request');
+            return redirect()->back()->withError('We were unable to process the request');
         }
         if (!is_null($payment->getResultCode()) && $payment->getResultCode() == 1) {
             Payment::create([
@@ -114,7 +114,7 @@ class PaymentController extends Controller
             // event(new PaymentAdded(0, $request->amount));
             return redirect()->route('payments.user.card')->with('message', 'Payment successful');
         }
-        return redirect()->back()->with('errors', 'We are unable to process your payment.');
+        return redirect()->back()->withError('We are unable to process your payment.');
     }
 
     /**

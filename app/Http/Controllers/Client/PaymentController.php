@@ -49,7 +49,7 @@ class PaymentController extends Controller
             event(new PaymentAdded($invoice, $request->amount));
             return redirect()->route('client.dashboard')->withSuccess('Payment successful');
         }
-        return redirect()-back()->withError('We are unable to process your payment.');
+        return redirect()->back()->withError('We are unable to process your payment.');
     }
 
     public function payment(Request $request, Invoice $invoice)
@@ -73,7 +73,7 @@ class PaymentController extends Controller
             $params = AuthNet::setParams($request, $invoice, $name);
             $response = AuthNet::deleteAndUpdateCard($token, $paymentProfile, $params);
             if ($response == 'Error') {
-                return redirect()->back()->with('errors', 'We were unable to process your updated card information.');
+                return redirect()->back()->withError('We were unable to process your updated card information.');
             }
         }
         return $this->chargeProfile();
