@@ -37,6 +37,7 @@ class InvoiceCreated extends Command
             ->with(['client' => function ($query) {
                 $query->with('ClientToken');
             }])
+            ->where('amount', '>', 0)
             ->where('queue', 1)
             ->each(function ($invoice) {
                 event(new IC($invoice, 1));
@@ -55,6 +56,8 @@ class InvoiceCreated extends Command
                     $amount = $invoice->balance;
                     $payment = AuthNet::chargeProfile($token, $paymentProfile, $amount, $id);
                     $responseCode = $payment->transactionResponse->responseCode;
+                    $invoice->queue = 0;
+                    $invoice->save();
                     if (!is_null($responseCode) && $responseCode == 1) {
                         Payment::create([
                             'invoice_id' => $invoice->id,
@@ -73,6 +76,8 @@ class InvoiceCreated extends Command
                             'user_id' => $userId,
                             'invoice_id' => $invoice->id
                         ]);
+                        $invoice->invoice_status_id = PAID;
+                        $invoice->save();
                         return;
                     }
                     $message = ' - Unable to process payment for Invoice #' . $invoice->id;
