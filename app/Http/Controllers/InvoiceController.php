@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use PDF;
 use Auth;
 use App\Invoice;
+use App\Payment;
 use App\Product;
 use App\InvoiceItem;
 use App\InvoiceStatus;
@@ -56,9 +57,11 @@ class InvoiceController extends Controller
     public function edit(Invoice $invoice)
     {
         event(new InvoiceViewed($invoice));
+
         return view('invoices.edit')
             ->with('invoice', $invoice)
-            ->with('invoiceStatuses', InvoiceStatus::get());
+            ->with('invoiceStatuses', InvoiceStatus::get())
+            ->with('types', Payment::TYPES);
     }
 
     /**

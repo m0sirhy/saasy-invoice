@@ -39,6 +39,7 @@ class MigrateNinja extends Command
         $this->invoices();
         $this->invoiceItems();
         $this->payments();
+        $this->credits();
     }
 
     public function credits()
@@ -64,7 +65,7 @@ class MigrateNinja extends Command
                     'public_notes' => $credit->public_notes
                 ]);
             } catch (\Exception $e) {
-                $this->info('Credit failed: #{{ $credit->id }} - {{ $e->getMessage() }}');
+                $this->info('Credit failed: #{ $credit->id } - { $e->getMessage() }');
             }
         }
     }
@@ -229,7 +230,6 @@ class MigrateNinja extends Command
             } elseif ($payment->payment_type_id == 3) {
                 $type = 0;
             }
-
             try {
                 Payment::create([
                     'invoice_id' => $payment->invoice_number,

@@ -33,10 +33,10 @@ class InvoiceCreated extends Command
      */
     public function handle()
     {
-        $invoices = Invoice::where('created_at', '<=', now()->subHours(1)->format('Y-m-d h:i:s'))
-            ->with(['client' => function ($query) {
+        $invoices = Invoice::with(['Client' => function ($query) {
                 $query->with('ClientToken');
-            }])
+        }])
+            ->where('amount', '>', 0)
             ->where('queue', 1)
             ->each(function ($invoice) {
                 event(new IC($invoice, 1));
@@ -47,7 +47,7 @@ class InvoiceCreated extends Command
                     $paymentProfile = AuthNet::getPayment($token);
                     if (is_null($paymentProfile)) {
                         $message = ' - Failed To Get Payment Profile For invoice #' . $invoice->id;
-                        $invoice->private_note = $invoice->private_note . $message;
+                        $invoice->private_notes = $invoice->private_note . $message;
                         $invoice->save();
                         return;
                     }
@@ -55,6 +55,8 @@ class InvoiceCreated extends Command
                     $amount = $invoice->balance;
                     $payment = AuthNet::chargeProfile($token, $paymentProfile, $amount, $id);
                     $responseCode = $payment->transactionResponse->responseCode;
+                    $invoice->queue = 0;
+                    $invoice->save();
                     if (!is_null($responseCode) && $responseCode == 1) {
                         Payment::create([
                             'invoice_id' => $invoice->id,
@@ -73,10 +75,12 @@ class InvoiceCreated extends Command
                             'user_id' => $userId,
                             'invoice_id' => $invoice->id
                         ]);
+                        $invoice->invoice_status_id = PAID;
+                        $invoice->save();
                         return;
                     }
                     $message = ' - Unable to process payment for Invoice #' . $invoice->id;
-                    $invoice->private_note = $invoice->private_note . $message;
+                    $invoice->private_notes = $invoice->private_note . $message;
                     $invoice->save();
                     return;
                 }
