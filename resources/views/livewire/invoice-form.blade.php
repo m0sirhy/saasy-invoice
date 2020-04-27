@@ -23,14 +23,14 @@
                             <input class="form-input leading-tight focus:outline-none focus:shadow-outline" value="{{-- {{$invoiceDate}} --}}" type="date" wire:model="invoiceDate">
                         </div>
                         <div class="mb-4">
-                            <label class="form-label">Due Date</label>
-                            <input class="form-input leading-tight focus:outline-none focus:shadow-outline" value="dueDate" type="date" wire:model="dueDate">
+                            <label class="form-label">Start Date</label>
+                            <input class="form-input leading-tight focus:outline-none focus:shadow-outline" value="startDate" type="date" wire:model="startDate">
                         </div>
                     </div>
                     <div class="w-1/2">
                         <div class="mb-10">
-                            <label class="form-label">Start Date</label>
-                            <input class="form-input leading-tight focus:outline-none focus:shadow-outline" value="startDate" type="date" wire:model="startDate">
+                            <label class="form-label">Due Date</label>
+                            <input class="form-input leading-tight focus:outline-none focus:shadow-outline" value="dueDate" type="date" wire:model="dueDate">
                         </div>
                         <div class="mb-4">
                             <label class="form-label">End Date</label>

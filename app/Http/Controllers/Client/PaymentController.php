@@ -66,7 +66,7 @@ class PaymentController extends Controller
         $token = $invoice->Client->ClientToken->token;
         $paymentProfile = AuthNet::getPayment($token);
         if (is_null($paymentProfile)) {
-            return redirect()->back()->with('message', 'Something went wrong getting your payment profile.');
+            return redirect()->back()->withError('Something went wrong getting your payment profile.');
         }
         if (isset($request->all()['updated']) && $request->all()['updated'] == 1) {
             $name = explode(' ', $invoice->Client->name, 2);

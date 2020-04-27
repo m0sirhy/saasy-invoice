@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Payment;
-use App\Invoice;
 use App\Client;
+use App\Invoice;
+use App\Payment;
 use App\PaymentGateway;
+use App\Helpers\AuthNet;
+use App\Events\PaymentAdded;
+use Illuminate\Http\Request;
+use App\Helpers\ButtonHelper;
 use App\PaymentGatewaySetting;
 use App\DataTables\PaymentsDataTable;
-use App\Events\PaymentAdded;
-use App\Helpers\AuthNet;
-use App\Helpers\ButtonHelper;
 
 class PaymentController extends Controller
 {
@@ -32,6 +32,22 @@ class PaymentController extends Controller
     {
         return view('payments.create')
             ->with('types', Payment::TYPES);
+    }
+
+    public function addPayment(Request $request, Invoice $invoice)
+    {
+        Payment::create([
+            'invoice_id' => $invoice->id,
+            'client_id' => $invoice->client_id,
+            'amount' => $request->amount,
+            'refunded' => '0',
+            'auth_code' => $request->auth_code,
+            'payment_type' => $request->payment_type,
+            'payment_at' => $request->payment_at,
+            'transaction_id' => ''
+        ]);
+        event(new PaymentAdded($invoice, $request->amount));
+        return redirect()->back()->withSuccess('Payment Added');
     }
 
     public function userCharge(Invoice $invoice)
@@ -64,7 +80,7 @@ class PaymentController extends Controller
             $token = $invoice->Client->ClientToken->token;
             $paymentProfile = AuthNet::getPayment($token);
             if (is_null($paymentProfile)) {
-                return redirect()->back()->with('message', 'Something went wrong getting your payment profile.');
+                return redirect()->back()->withError('Something went wrong getting your payment profile.');
             }
             if (is_null($new) && isset($request->all()['updated']) && $request->all()['updated'] == 1) {
                 $name = explode(' ', $invoice->Client->name, 2);
@@ -90,7 +106,7 @@ class PaymentController extends Controller
                     'transaction_id' => $payment->transactionResponse->transId
                 ]);
                 event(new PaymentAdded($invoice, $request->amount));
-                return redirect()->route('payments')->with('message', 'Payment successful');
+                return redirect()->route('payments')->withSuccess('Payment successful');
             }
             return redirect()->back()->withError('We are unable to process your payment.');
         }
@@ -101,7 +117,7 @@ class PaymentController extends Controller
             return redirect()->back()->withError('We were unable to process the request');
         }
         if (!is_null($payment->getResultCode()) && $payment->getResultCode() == 1) {
-            Payment::create([
+            $receipt = Payment::create([
                 'invoice_id' => '0',
                 'client_id' => '0',
                 'amount' => $request->amount,
@@ -111,8 +127,8 @@ class PaymentController extends Controller
                 'payment_at' => now(),
                 'transaction_id' => json_decode($payment->getTransactionReference())->transId
             ]);
-            // event(new PaymentAdded(0, $request->amount));
-            return redirect()->route('payments.user.card')->with('message', 'Payment successful');
+            event(new PaymentOneTime($receipt, $request->email));
+            return redirect()->route('payments.user.card')->withSuccess('Payment successful');
         }
         return redirect()->back()->withError('We are unable to process your payment.');
     }
@@ -177,6 +193,7 @@ class PaymentController extends Controller
         }
         $payment->refunded = 1;
         $payment->save();
+        event(new PaymentRefunded($payment));
         return redirect()->route('payments');
     }
 

@@ -39,7 +39,13 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\SendInvoiceListener@overdueInvoice',
         ],
         'App\Events\PaymentAdded' => [
-            'App\Listeners\PaymentAdded',
+            'App\Listeners\PaymentListener@paymentAdded',
+        ],
+        'App\Events\PaymentRefunded' => [
+            'App\Listeners\PaymentListener@paymentRefunded',
+        ],
+        'App\Events\PaymentOneTime' => [
+            'App\Listeners\PaymentListener@paymentOneTime',
         ],
         ClientInvoiceViewed::class => [
             ClientActivityLogEntry::class,
