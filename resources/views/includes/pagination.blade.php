@@ -21,4 +21,7 @@
       <li><a class="block hover:text-white hover:bg-blue-900 text-blue px-3 py-2" href="#">Next</a></li>
     </ul>
 </div>
+<div class="text-center py-2 px-6">
+    Showing {{ $paginator->firstItem() }} to {{ $paginator->lastItem() }} out of {{ $paginator->total() }} results
+</div>
 @endif

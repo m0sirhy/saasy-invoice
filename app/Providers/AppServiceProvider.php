@@ -49,7 +49,14 @@ class AppServiceProvider extends ServiceProvider
                     );
                 }
             });
-
+            return $this;
+        });
+        Builder::macro('joinLike', function ($attributes, string $searchTerm) {
+            $this->where(function (Builder $query) use ($attributes, $searchTerm) {
+                foreach ($attributes as $attribute) {
+                    $query->orWhere($attribute,'LIKE', "%{$searchTerm}%");
+                }
+            });
             return $this;
         });
     }

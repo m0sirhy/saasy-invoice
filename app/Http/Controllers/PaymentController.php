@@ -22,10 +22,7 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        $payments = Payment::with('client')->orderBy('id', 'desc')->get();
-        return view('payments.index', [
-            'payments' => $payments
-        ]);
+        return view('payments.index');
     }
 
     public function create()

@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Client;
 use App\Credit;
-use App\DataTables\CreditsDataTable;
-use Auth;
 use Illuminate\Http\Request;
+use App\WireTables\CreditsWireTable;
 
 class CreditController extends Controller
 {
@@ -15,9 +13,10 @@ class CreditController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(CreditsDataTable $dataTable)
+    public function index(CreditsWireTable $credits)
     {
-        return $dataTable->render('credits.index');
+        return view('wiretable.table')
+            ->with('wiretable', $credits);
     }
 
     /**
