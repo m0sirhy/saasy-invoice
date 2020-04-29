@@ -9,7 +9,7 @@
     <h3 class="font-bold pl-2">Payments</h3>
 </div>
 <div class="p-5">
-	@livewire('payments')
+	@livewire('table.payments')
 </div>
 @endsection
 

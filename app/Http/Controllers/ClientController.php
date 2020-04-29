@@ -7,18 +7,18 @@ use App\Credit;
 use App\Invoice;
 use App\Payment;
 use App\ClientToken;
+use App\Subscription;
 use Illuminate\Http\Request;
-use App\DataTables\ClientsDataTable;
+use App\WireTables\ClientsWireTable;
 use App\DataTables\ClientCreditsDataTable;
 use App\DataTables\ClientInvoicesDataTable;
 use App\DataTables\ClientPaymentsDataTable;
-use App\Subscription;
 
 class ClientController extends Controller
 {
-    public function index(ClientsDataTable $dataTable)
+    public function index(ClientsWireTable $wiretable)
     {
-        return $dataTable->render('clients.index');
+        return $wiretable->render();
     }
 
     public function create()
@@ -72,7 +72,7 @@ class ClientController extends Controller
      * @param ClientInvoicesDataTable $dataTab
      * @return \Illuminate\Http\Response
      */
-    public function creditsShow(Client $client, ClientCreditsDataTable $dataTable)
+    public function creditsShow(Client $client, ClientInvoicesDataTable $dataTable)
     {
         return $dataTable->with('client', $client)->render('clients.credits', compact('client', $client));
     }

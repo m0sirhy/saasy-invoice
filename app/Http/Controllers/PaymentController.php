@@ -11,7 +11,7 @@ use App\Events\PaymentAdded;
 use Illuminate\Http\Request;
 use App\Helpers\ButtonHelper;
 use App\PaymentGatewaySetting;
-use App\DataTables\PaymentsDataTable;
+use App\WireTables\PaymentsWireTable;
 
 class PaymentController extends Controller
 {
@@ -20,12 +20,9 @@ class PaymentController extends Controller
      *
      * @return [type] [description]
      */
-    public function index()
+    public function index(PaymentsWireTable $wiretable)
     {
-        $payments = Payment::with('client')->orderBy('id', 'desc')->get();
-        return view('payments.index', [
-            'payments' => $payments
-        ]);
+        return $wiretable->render();
     }
 
     public function create()

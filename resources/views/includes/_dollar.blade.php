@@ -1,1 +1,1 @@
-${{ number_format($number, 2) }}
+${{ number_format($text, 2) }}
