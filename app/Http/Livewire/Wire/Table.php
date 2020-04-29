@@ -15,7 +15,7 @@ class Table extends Component
     public $sortAsc = false;
     public $search = '';
 
-    private $table;
+    public $table;
     public $model;
     public $joins;
 
@@ -28,17 +28,14 @@ class Table extends Component
 
     public function render()
     {
-        $table = collect($this->table);
-        
-
-        $query = $this->model::select($table->keys()->toArray());
-        $data = $this->addjoins($query)->joinLike($table->keys(), $this->search)
+        $keys = array_keys($this->table);
+        $query = $this->model::select($keys);
+        $query = $this->addjoins($query);
+        $data = $query->joinLike($keys, $this->search)
             ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
             ->paginate($this->perPage);
         return view('livewire.wire.table')
-            ->with('data', $data)
-            ->with('table', $table)
-            ->with('title', 'Credits');
+            ->with('data', $data);
     }
 
     public function addJoins($query)

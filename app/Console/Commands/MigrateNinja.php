@@ -35,17 +35,17 @@ class MigrateNinja extends Command
      */
     public function handle()
     {
+        $this->credits();
         $this->clients();
         $this->invoices();
         $this->invoiceItems();
         $this->payments();
-        $this->credits();
     }
 
     public function credits()
     {
         $credits = DB::connection('invoice')->select('
-            select * from credits
+            select * from credits where deleted_at is null
         ');
         foreach ($credits as $credit) {
             $completed = 0;

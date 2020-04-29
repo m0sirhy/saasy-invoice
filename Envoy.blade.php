@@ -16,7 +16,7 @@
 @endtask
 
 @task('jump', ['on' => 'jump'])
-    ssh -t guywarner@10.10.50.154
+    ssh -t {{ $user }}@10.10.50.154
     cd /var/www/invoice
     php artisan down
     git pull origin mb-master
@@ -24,7 +24,7 @@
     npm install
     php artisan migrate
     npm run prod
-    chmod 777 -R storage
+    sudo chmod 777 -R storage
     php artisan route:cache
     php artisan view:cache
     php artisan up
@@ -37,7 +37,4 @@
     $response = $headers[0];
     @endphp
     echo {{ $healthUrl }} - {{ $response }}
-    @php
-        dd($this);
-    @endphp
 @endtask

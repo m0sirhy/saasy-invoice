@@ -13,6 +13,7 @@ class WireTable
 
     public function render()
     {
+        
         return view('wiretable.table')
             ->with('wiretable', $this);
     }
