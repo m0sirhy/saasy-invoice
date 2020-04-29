@@ -24,6 +24,7 @@
     npm install
     php artisan migrate
     npm run prod
+    chmod 777 -R storage
     php artisan route:cache
     php artisan view:cache
     php artisan up
