@@ -16,9 +16,9 @@
 @endtask
 
 @task('jump', ['on' => 'jump'])
-    php artisan down
-    ssh -t 10.10.50.154
+    ssh -t guywarner@10.10.50.154
     cd /var/www/invoice
+    php artisan down
     git pull origin mb-master
     composer install --optimize-autoloader --no-dev
     npm install
@@ -31,8 +31,12 @@
 
 @task('healthCheck', ['on' => 'local'])
     @php
+    sleep(10);
     $headers = get_headers($healthUrl);
     $response = $headers[0];
     @endphp
     echo {{ $healthUrl }} - {{ $response }}
+    @php
+        dd($this);
+    @endphp
 @endtask
