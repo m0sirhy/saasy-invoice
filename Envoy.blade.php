@@ -19,7 +19,7 @@
     php artisan down
     ssh -t 10.10.50.154
     cd /var/www/invoice
-    git pull origin master
+    git pull origin mb-master
     composer install --optimize-autoloader --no-dev
     npm install
     php artisan migrate
