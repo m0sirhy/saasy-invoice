@@ -12,7 +12,7 @@ use App\InvoiceStatus;
 use Illuminate\Http\Request;
 use App\Events\InvoiceViewed;
 use App\Events\InvoiceDeleted;
-use App\DataTables\InvoicesDataTable;
+use App\WireTables\InvoicesWireTable;
 
 class InvoiceController extends Controller
 {
@@ -21,9 +21,9 @@ class InvoiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(InvoicesDataTable $dataTable)
+    public function index(InvoicesWireTable $wiretable)
     {
-        return $dataTable->render('invoices.index');
+        return $wiretable->render();
     }
 
     /**

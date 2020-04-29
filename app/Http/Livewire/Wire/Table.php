@@ -12,30 +12,41 @@ class Table extends Component
 
     public $perPage = 10;
     public $sortField = 'id';
-    public $sortAsc = true;
+    public $sortAsc = false;
     public $search = '';
 
-    public $table;
+    private $table;
     public $model;
+    public $joins;
 
-    public function mount($table = [], $model = "")
+    public function mount($table = [], $model = "", $joins = [])
     {
         $this->table = $table;
         $this->model = $model;
+        $this->joins = $joins;
     }
 
     public function render()
     {
         $table = collect($this->table);
-        $data = $this->model::join('clients', 'credits.client_id', 'clients.id')
-            ->select($table->keys()->toArray())
-            ->joinLike($table->keys(), $this->search)
+        
+
+        $query = $this->model::select($table->keys()->toArray());
+        $data = $this->addjoins($query)->joinLike($table->keys(), $this->search)
             ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
             ->paginate($this->perPage);
         return view('livewire.wire.table')
             ->with('data', $data)
             ->with('table', $table)
             ->with('title', 'Credits');
+    }
+
+    public function addJoins($query)
+    {
+        foreach ($this->joins as $join) {
+            $query->join($join[0], $join[1], $join[2]);
+        }
+        return $query;
     }
 
     public function updatedSearch()

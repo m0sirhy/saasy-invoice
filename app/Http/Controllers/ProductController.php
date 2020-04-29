@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use Illuminate\Http\Request;
-use App\DataTables\ProductsDataTable;
+use App\WireTables\ProductsWireTable;
 
 class ProductController extends Controller
 {
@@ -13,9 +13,9 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(ProductsDataTable $dataTable)
+    public function index(ProductsWireTable $wiretable)
     {
-        return $dataTable->render('products.index');
+        return $wiretable->render();
     }
 
     /**

@@ -2,20 +2,20 @@
 
 namespace App\WireTables;
 
-class CreditsWireTable extends WireTable
+class PaymentsWireTable extends WireTable
 {
-    public $model = "App\Credit";
+    public $model = "App\Payment";
 
-    public $title = "Credits";
+    public $title = "Payments";
 
-    public $create = "credits.create";
+    public $create = "payments.create";
 
     public $joins = [
-        ['clients', 'credits.client_id', 'clients.id']
+        ['clients', 'payments.client_id', 'clients.id']
     ];
 
     public $table = [
-        'credits.id' => [
+        'payments.id' => [
             'search' => true,
             'header' => [
                 'title' => 'ID',
@@ -24,16 +24,16 @@ class CreditsWireTable extends WireTable
             'cell' => [
                 'display' => 'id',
                 'link' => [
-                    'route' => 'credits.edit',
+                    'route' => 'payments.edit',
                     'params' => [
-                        'name' => 'credit',
+                        'name' => 'payment',
                         'value' => 'id'
                     ],
                     'class' => 'link'
                 ]
             ]
         ],
-        'credits.client_id' => [],
+        'payments.client_id' => [],
         'clients.name' => [
             'search' => true,
             'header' => [
@@ -52,18 +52,25 @@ class CreditsWireTable extends WireTable
                 ]
             ]
         ],
-        'credits.balance' => [
+        'payments.invoice_id' => [
             'search' => true,
             'header' => [
-                'title' => 'Remaining Balance',
+                'title' => 'Invoice #',
                 'sort' => true
             ],
             'cell' => [
-                'display' => 'balance',
-            ],
-            'dollar' => true
+                'display' => 'invoice_id',
+                'link' => [
+                    'route' => 'invoices.edit',
+                    'params' => [
+                        'name' => 'invoice',
+                        'value' => 'invoice_id'
+                    ],
+                    'class' => 'link'
+                ]
+            ]
         ],
-        'credits.amount' => [
+        'payments.amount' => [
             'search' => true,
             'header' => [
                 'title' => 'Amount',
@@ -74,27 +81,5 @@ class CreditsWireTable extends WireTable
             ],
             'dollar' => true
         ],
-        'credits.credit_date' => [
-            'search' => true,
-            'header' => [
-                'title' => 'Date',
-                'sort' => true
-            ],
-            'cell' => [
-                'display' => 'credit_date',
-            ],
-            'carbon' => true
-        ],
-        'credits.public_notes' => [
-            'search' => true,
-            'header' => [
-                'title' => 'Public Notes',
-                'sort' => true
-            ],
-            'cell' => [
-                'display' => 'public_notes',
-            ],
-            'limit' => true
-        ]
     ];
 }

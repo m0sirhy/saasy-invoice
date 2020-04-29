@@ -13,7 +13,7 @@
     @if ($wiretable->create != "")
     <a href="{{ route($wiretable->create) }}">Create New</a>
     @endif
-	@livewire('wire.table', ['table' => $wiretable->table, 'model' => $wiretable->model])
+	@livewire('wire.table', ['table' => $wiretable->table, 'model' => $wiretable->model, 'joins' => $wiretable->joins])
 </div>
 @endsection
 
