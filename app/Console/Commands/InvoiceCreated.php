@@ -33,12 +33,13 @@ class InvoiceCreated extends Command
      */
     public function handle()
     {
-        $invoices = Invoice::with(['Client' => function ($query) {
+        $billed = 0;
+        Invoice::with(['Client' => function ($query) {
                 $query->with('ClientToken');
         }])
             ->where('amount', '>', 0)
             ->where('queue', 1)
-            ->each(function ($invoice) {
+            ->each(function ($invoice) use (&$billed) {
                 event(new IC($invoice, 1));
                 $invoice->queue = 0;
                 $invoice->save();
@@ -68,6 +69,8 @@ class InvoiceCreated extends Command
                             'payment_at' => now(),
                             'transaction_id' => $payment->transactionResponse->transId
                         ]);
+                        $billed += $invoice->amount;
+                        $this->info($billed);
                         event(new PaymentAdded($invoice, $amount));
                         $userId = 9999999;
                         UserActivityLog::create([

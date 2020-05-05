@@ -65,10 +65,10 @@
 							{{ $item->quantity }}
 						</td>
 						<td class="px-4 py-2 text-right">
-							@include('includes._dollar', ['number' => $item->unit_price])
+							@include('includes._dollar', ['text' => $item->unit_price])
 						</td>
 						<td class="px-4 py-2 text-right bg-gray-200">
-							@include('includes._dollar', ['number' => $item->quantity * $item->unit_price])
+							@include('includes._dollar', ['text' => $item->quantity * $item->unit_price])
 						</td>
 					</tr>
 					@endforeach
@@ -76,7 +76,7 @@
 						<td colspan="2" class="px-4 py-2 text-right"></td>
 						<td class="px-4 py-2 text-right font-medium">Invoice Total</td>
 						<td class="px-4 py-2 text-right border bg-gray-200">
-							@include('includes._dollar', ['number' => $invoice->amount])
+							@include('includes._dollar', ['text' => $invoice->amount])
 						</td>
 					</tr>
 					<tr>
@@ -88,7 +88,7 @@
 						</td>
 						<td class="px-4 py-2 text-right font-medium">Balance Due</td>
 						<td class="px-4 py-2 text-right border bg-gray-200">
-							@include('includes._dollar', ['number' => $invoice->balance])
+							@include('includes._dollar', ['text' => $invoice->balance])
 						</td>
 					</tr>
 					@if ($invoice->public_notes != "")

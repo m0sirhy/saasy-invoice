@@ -37,6 +37,7 @@ class InvoiceApplyCredits
         $credits = Credit::where('client_id', $event->invoice->client_id)
             ->where("balance", ">", 0)
             ->get();
+        $amount = $event->invoice->balance;
         foreach ($credits as $credit) {
             if ($event->invoice->balance == 0) {
                 break;

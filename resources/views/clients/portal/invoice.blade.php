@@ -82,17 +82,17 @@
 						{{ $item->quantity }}
 					</td>
 					<td class="invoice-item">
-						@include('includes._dollar', ['number' => $item->unit_price])
+						@include('includes._dollar', ['text' => $item->unit_price])
 					</td>
 					<td class="invoice-item">
-						@include('includes._dollar', ['number' => $item->unit_price * $item->quantity])
+						@include('includes._dollar', ['text' => $item->unit_price * $item->quantity])
 					</td>
 				</tr>
 				@endforeach
 			</tbody>
 		</table>
-		<h3 style="text-align: right;">Total: @include('includes._dollar', ['number' => $data->amount])</h3>
-		<h3 style="text-align: right;">Balance Due: @include('includes._dollar', ['number' => $data->balance])</h3>
+		<h3 style="text-align: right;">Total: @include('includes._dollar', ['text' => $data->amount])</h3>
+		<h3 style="text-align: right;">Balance Due: @include('includes._dollar', ['text' => $data->balance])</h3>
 		@if ($data->public_notes != "")
 			<strong>Notes:</strong><br/>
 			{{ $data->public_notes }}
