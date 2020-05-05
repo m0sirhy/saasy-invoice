@@ -7,7 +7,9 @@ use Mail;
 use App\Client;
 use App\Mail\NewInvoice;
 use App\Mail\OverdueInvoice;
+use App\Mail\ReminderInvoice;
 use App\Events\InvoiceOverdue;
+use App\Events\InvoiceReminder;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -51,8 +53,22 @@ class SendInvoiceListener
     public function overdueInvoice(InvoiceOverdue $event)
     {
         $client = Client::where('id', $event->invoice->client_id)->first();
-        if ($client != null) {
+        if (!is_null($client)) {
             Mail::to($client->email)->send(new OverdueInvoice($event->invoice, $client));
+        }
+    }
+
+    /**
+     * Send a reminder for an Invoice
+     *
+     * @param App\Events\InvoiceReminder $event
+     * @return void
+     *
+     */
+    public function invoiceReminder(InvoiceReminder $event)
+    {
+        if (!is_null($event->invoice->client)) {
+            Mail::to($event->invoice->client)->send(new ReminderInvoice($event->invoice));
         }
     }
 }

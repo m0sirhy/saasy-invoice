@@ -31,6 +31,14 @@ Route::post('settings/payment', 'PaymentController@settingsSave')
     ->middleware(['auth'])
     ->name('settings.payment.save');
 
+Route::get('settings/reminders', 'SettingController@remindersSettings')
+    ->middleware(['auth'])
+    ->name('settings.reminders');
+
+Route::post('settings/reminders', 'SettingController@remindersSave')
+    ->middleware(['auth'])
+    ->name('settings.reminders.save');
+
 Route::get('settings/user/{user}', 'UserController@show')
     ->middleware(['auth'])
     ->name('user.show');

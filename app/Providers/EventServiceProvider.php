@@ -28,15 +28,18 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\InvoiceViewed' => [
             'App\Listeners\UserActivityLogEntry@invoiceViewed',
         ],
-        'App\Events\InvoiceUpdated' => [
-            'App\Listeners\UserActivityLogEntry@invoiceUpdated',
-            'App\Listeners\SendInvoiceListener@sendInvoice',
-        ],
         'App\Events\InvoiceDeleted' => [
             'App\Listeners\UserActivityLogEntry@invoiceDeleted',
         ],
         'App\Events\InvoiceOverdue' => [
             'App\Listeners\SendInvoiceListener@overdueInvoice',
+        ],
+        'App\Events\InvoiceReminder' => [
+            'App\Listeners\SendInvoiceListener@invoiceReminder',
+        ],
+        'App\Events\InvoiceUpdated' => [
+            'App\Listeners\UserActivityLogEntry@invoiceUpdated',
+            'App\Listeners\SendInvoiceListener@sendInvoice',
         ],
         'App\Events\PaymentAdded' => [
             'App\Listeners\PaymentListener@paymentAdded',

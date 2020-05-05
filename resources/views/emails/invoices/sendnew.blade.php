@@ -8,7 +8,7 @@
 
 <b>{{$client->name}}</b>
 
-You have a new invoice from {{ $company }} for ${{$invoice->balance}}.  Click the link below to view invoice #{{$invoice->id}}.
+You have a new invoice from {{ $company }} for <b>${{$invoice->balance}}</b>.  Click the link below to view invoice <b>#{{$invoice->id}}</b>.
 
 @component('mail::button', ['url' => route('client.login', $client->uuid)])
 View Invoices

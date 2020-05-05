@@ -19,6 +19,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $zipcode
  * @property string $country
  * @property int $auto_credits
+ * @property int $remind_days1
+ * @property int $remind_days2
+ * @property int $remind_days3
+ * @property int $remind_after1
+ * @property int $remind_after2
+ * @property int $remind_after3
+ * @property int $remind_enable1
+ * @property int $remind_enable2
+ * @property int $remind_enable3
  * @property string $api_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -63,6 +72,15 @@ class Setting extends Model
         'auto_credits',
         'api_token',
         'phone',
-        'email'
+        'email',
+        'remind_days1',
+        'remind_days2',
+        'remind_days3',
+        'remind_after1',
+        'remind_after2',
+        'remind_after3',
+        'remind_enable1',
+        'remind_enable2',
+        'remind_enable3'
     ];
 }

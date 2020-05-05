@@ -8,8 +8,7 @@
 
 <b>{{$client->name}}</b>
 
-
-You have an overdue invoice from {{ $company }} with a remaining balance of <b>${{$invoice->balance}}</b>.  Click the link below to view invoice <b>#{{$invoice->id}}</b>.
+This is a reminder that you have an invoice from {{ $company }} with a remaining balance of <b>${{$invoice->balance}}</b>.  Click the link below to view invoice <b>#{{$invoice->id}}</b>.
 
 @component('mail::button', ['url' => route('client.login', $client->uuid)])
 View Invoices

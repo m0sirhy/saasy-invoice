@@ -25,6 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('invoice:overdue')->daily();
+        // $schedule->command('invoice:reminders')->daily()->at('7:00');
         //$schedule->command('invoice:send')->hourly()->between('9:00', '6:00');
     }
 

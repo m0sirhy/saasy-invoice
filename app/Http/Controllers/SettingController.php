@@ -60,6 +60,41 @@ class SettingController extends Controller
     }
 
     /**
+     * Show the reminder settings page
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function remindersSettings()
+    {
+        return view('settings.invoices.reminder')
+            ->with('setting', Setting::find('1'));
+    }
+
+    /**
+     * Save reminder settings
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function remindersSave(Request $request)
+    {
+        $temp = $request->all();
+        if (!isset($request->remind_enable1)) {
+            $temp['remind_enable1'] = 0;
+        }
+        if (!isset($request->remind_enable2)) {
+            $temp['remind_enable2'] = 0;
+        }
+        if (!isset($request->remind_enable3)) {
+            $temp['remind_enable3'] = 0;
+        }
+        unset($temp['_token']);
+        Setting::where('id', 1)
+            ->update($temp);
+        return redirect()->route('settings');
+    }
+
+    /**
      * Remove all information from the site
      *
      * @return void

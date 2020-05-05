@@ -6,6 +6,7 @@
         <ul>
             <li><a href="{{ route('settings') }}" class="link">Settings</a></li>
             <li><a href="{{ route('settings.payment') }}" class="link">Payment</a></li>
+            <li><a href="{{ route('settings.reminders') }}" class="link">Reminders</a></li>
             <li><a href="{{ route('users') }}" class="link">Users</a></li>
             <li><br/><a href="{{ route('danger') }}" class="text-red-800 underline"><strong>DANGER ZONE</strong></a></li>
         </ul>
