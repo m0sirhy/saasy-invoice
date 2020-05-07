@@ -20,6 +20,15 @@
  */
 @tailwind components;
 
+/*Button Styles*/
+.btn-std { @apply font-bold rounded py-2 px-4; }
+
+.btn-std-blue { @apply bg-blue-800 text-white; }
+.btn-std-green { @apply bg-green-800 text-white; }
+
+.btn-std-blue:hover { @apply bg-blue-700; }
+.btn-std-green:hover { @apply bg-green-700; }
+
 .form-label { @apply block text-gray-700 text-sm font-bold mb-2 }
 .form-input { @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight }
 .link { @apply block py-1 pl-0 align-middle text-black underline }

@@ -59,10 +59,10 @@
                         <br>
                     </div>
                     <div class="mb-4">
-                        <button type="button" class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' id="generate-api">Generate Token</button>
+                        <button type="button" class='btn-std btn-std-blue' id="generate-api">Generate Token</button>
                     </div>
                     <div class="mb-4">
-                        {!! Form::submit('Save', ['class' => 'bg-blue-500 hover:bg-blue-700 text-white font-bold mt-2 py-2 px-4 rounded']) !!}
+                        {!! Form::submit('Save', ['class' => 'btn-std btn-std-blue']) !!}
                     </div>
                 </div>
                 <div class="w-1/4 items-center p-5">

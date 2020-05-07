@@ -53,7 +53,7 @@
                         <div class="w-1/5 p-4">
                             <div class="mb-10">
                                 <label class="form-label">&nbsp;</label>
-                                <button class="bg-blue-800 text-sm hover:bg-blue-700 text-white font-bold py-1 px-3 rounded" x-on:click="createInvoice()" wire:loading.remove>
+                                <button class="btn-std btn-std-blue" x-on:click="createInvoice()" wire:loading.remove>
                                     Add Payment
                                 </button>
                             </div>

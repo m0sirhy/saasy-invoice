@@ -53,7 +53,7 @@
                             {!! Form::checkbox('test_mode', '1') !!}
                         </div>
                         <div class="mb-4">
-                            {!! Form::submit('Save', ['class' => 'bg-blue-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded']) !!}
+                            {!! Form::submit('Save', ['class' => 'btn-std btn-std-blue']) !!}
                         </div>
                     {!! Form::close() !!}
             </div>

@@ -22,8 +22,19 @@ class InvoiceController extends Controller
             $invoice->save();
         }
         event(new ClientInvoiceViewed($invoice));
+        $setting = Setting::select([
+                'company',
+                'address',
+                'address2',
+                'city',
+                'state',
+                'zipcode',
+                'phone',
+                'email'
+            ])->first();
         return view('clients.portal.show')
-            ->with('invoice', $invoice);
+            ->with('invoice', $invoice)
+            ->with('setting', $setting);
     }
 
     public function download(Invoice $invoice)
