@@ -33,7 +33,8 @@
 		<table width="100%">
 			<tr>
 				<td><h1>Invoice #{{ $data->id }}</h1></td>
-				<td style="text-align: right;"><img src="" height="38"><small><br>{{$data->address}}, {{$data->address2}}<br>{{$data->city}}, {{$data->state}} {{$data->zipcode}}<br>{{$data->phone}}<br>{{$data->email}}</small></td>
+				<td style="text-align: right;"><img src="" height="38">
+					<span style="text-align: right;">{{$data->company}}</span><small><br>{{$data->address}}, {{$data->address2}}<br>{{$data->city}}, {{$data->state}} {{$data->zipcode}}<br>{{$data->phone}}<br>{{$data->email}}</small></td>
 			</tr>
 		</table>
 		<hr>

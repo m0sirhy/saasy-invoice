@@ -7,6 +7,7 @@ use Auth;
 use App\Invoice;
 use App\Payment;
 use App\Product;
+use App\Setting;
 use App\InvoiceItem;
 use App\InvoiceStatus;
 use Illuminate\Http\Request;
@@ -92,6 +93,16 @@ class InvoiceController extends Controller
     public function download(Invoice $invoice)
     {
         $data['data'] = $invoice;
+        $setting = Setting::first();
+        $data['data'] = $invoice;
+        $data['data']['company'] = $setting->company;
+        $data['data']['address'] = $setting->address;
+        $data['data']['address2'] = $setting->address2;
+        $data['data']['city'] = $setting->city;
+        $data['data']['state'] = $setting->state;
+        $data['data']['zipcode'] = $setting->zipcode;
+        $data['data']['phone'] = $setting->phone;
+        $data['data']['email'] = $setting->email;
         $pdf = PDF::loadView('clients.portal.invoice', $data);
         return $pdf->download('Invoice-#' . $invoice->id . '.pdf');
     }

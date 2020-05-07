@@ -44,6 +44,7 @@ class InvoiceController extends Controller
         }
         $setting = Setting::first();
         $data['data'] = $invoice;
+        $data['data']['company'] = $setting->company;
         $data['data']['address'] = $setting->address;
         $data['data']['address2'] = $setting->address2;
         $data['data']['city'] = $setting->city;
