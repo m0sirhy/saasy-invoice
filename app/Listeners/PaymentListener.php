@@ -9,7 +9,7 @@ use App\Mail\PaymentAdd;
 use App\Mail\PaymentOnce;
 use App\Mail\PaymentRefund;
 use App\Events\PaymentAdded as PA;
-use App\Events\paymentOneTime as POT;
+use App\Events\PaymentOneTime as POT;
 use App\Events\PaymentRefunded as PR;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
