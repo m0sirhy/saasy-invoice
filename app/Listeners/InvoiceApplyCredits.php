@@ -36,8 +36,8 @@ class InvoiceApplyCredits
         }
         $credits = Credit::where('client_id', $event->invoice->client_id)
             ->where("balance", ">", 0)
+            ->where("completed", '!=', 1)
             ->get();
-        $amount = $event->invoice->balance;
         foreach ($credits as $credit) {
             if ($event->invoice->balance == 0) {
                 break;
@@ -45,11 +45,21 @@ class InvoiceApplyCredits
             if ($credit->balance > $event->invoice->balance) {
                 $amount = $event->invoice->balance;
                 $this->addPayment($event, $amount);
+                $credit->balance -= $amount;
+                if ($credit->balance == 0) {
+                    $credit->completed = 1;
+                }
+                $credit->save();
                 event(new PaymentAdded($event->invoice, $amount));
                 break;
             }
-            $this->addPayment($event, $amount);
             $amount = $credit->balance;
+            $this->addPayment($event, $amount);
+            $credit->balance -= $amount;
+            if ($credit->balance == 0) {
+                $credit->completed = 1;
+            }
+            $credit->save();
             event(new PaymentAdded($event->invoice, $amount));
         }
     }
