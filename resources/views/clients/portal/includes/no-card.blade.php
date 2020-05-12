@@ -3,7 +3,7 @@
   <div class="py-2">
       <div class="w-full rounded overflow-hidden shadow-lg bg-white">
           <div class="px-6 py-4">
-            {!! Form::model($invoice, ['route' => ['client.invoice.onfile', 'invoice' => $invoice->public_id], 'id' => 'paymentForm']) !!}
+            {!! Form::model($invoice, ['route' => ['client.invoice.payment', 'invoice' => $invoice->public_id], 'id' => 'paymentForm']) !!}
               <div class="">
                 <label class="hidden text-sm text-gray-00" for="name">Name on Card</label>
                 <input class="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="name" name="name" type="text" required value="{{ $invoice->Client->name }}" aria-label="Name">
@@ -28,6 +28,7 @@
                 <label class="block text-sm text-gray-600" for="amount">Amount</label>
                 ${{ number_format($invoice->balance,2) }}
               </div>
+              <input type="hidden" name="updated" value="{{ $cardData ? 1 : 0}}" />
               <input type="hidden" name="invoice" value="{{ $invoice->id }}" id="invoice" />
               <input type="hidden" name="amount" value="{{ $invoice->balance }}" id="amount" />
               <input type="hidden" name="dataValue" id="dataValue" />

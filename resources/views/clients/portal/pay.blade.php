@@ -22,7 +22,7 @@
 <script type="text/javascript" src="https://js.authorize.net/v1/Accept.js" charset="utf-8"></script>
 <script type="text/javascript">
     function checkIfUpdated() {
-        document.getElementById("paymentForm").submit();
+        document.getElementById("useCard").submit();
     }
 
     function sendPaymentDataToAnet() {
@@ -59,6 +59,7 @@
     }
 
     function paymentFormUpdate(opaqueData) {
+
         document.getElementById("dataDescriptor").value = opaqueData.dataDescriptor;
         document.getElementById("dataValue").value = opaqueData.dataValue;
         document.getElementById("number").value = "";

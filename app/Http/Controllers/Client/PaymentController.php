@@ -76,6 +76,6 @@ class PaymentController extends Controller
                 return redirect()->back()->withError('We were unable to process your updated card information.');
             }
         }
-        return $this->chargeProfile();
+        return $this->chargeProfile($token, $paymentProfile, $request, $invoice);
     }
 }
