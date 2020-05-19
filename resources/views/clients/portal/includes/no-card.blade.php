@@ -20,6 +20,12 @@
                 <label class="hidden block text-sm text-gray-600" for="cvc">CVC</label>
                 <input class="w-full px-2 py-2 text-gray-700 bg-gray-200 rounded" id="cvc"  name="cvc" type="text" required="" placeholder="CVC" aria-label="cvc">
               </div>
+              <div class="inline-block mt-2 -mx-1 pl-1 w-1/2">
+                <label class="hidden block text-sm text-gray-600" for="cvc">CVC</label>
+                <input class="w-full px-2 py-2 text-gray-700 bg-gray-200 rounded" id="zip"  name="zip" type="text" required="" placeholder="Zip Code" aria-label="zip">
+              </div>
+              <div class="inline-block mt-2 -mx-1 pl-1 w-1/2">
+              </div>
               <div class="inline-block mt-4 w-1/2 pr-1">
                 <label class="block text-sm text-gray-600" for="invoice">Invoice</label>
                 #{{ $invoice->id }}
@@ -34,7 +40,10 @@
               <input type="hidden" name="dataValue" id="dataValue" />
               <input type="hidden" name="dataDescriptor" id="dataDescriptor" />
               <div class="mt-4">
-                <button  onclick="sendPaymentDataToAnet()" class="px-4 py-1 text-white font-light tracking-wider bg-green-900 rounded" type="button">Submit Payment</button>
+                <button  onclick="sendPaymentDataToAnet()" class="btn-std btn-std-dk-green" type="button">Submit Payment</button>
+              </div>
+              <div class="inline-block mt-2 mx-1 pl-1 w-full text-sm">
+                *This payment information will be used for all future billings for your account.
               </div>
             </form>
           </div>

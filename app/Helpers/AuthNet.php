@@ -2,16 +2,16 @@
 
 namespace App\Helpers;
 
-use GuzzleHttp\Client as Guzzle;
+use Log;
+use Auth;
 use App\Setting;
 use App\Client;
 use App\Invoice;
 use App\Payment;
-use Auth;
+use Omnipay\Omnipay;
 use App\UserActivityLog;
 use Omnipay\Common\CreditCard;
-use Omnipay\Omnipay;
-use Log;
+use GuzzleHttp\Client as Guzzle;
 
 class AuthNet
 {
@@ -61,9 +61,12 @@ class AuthNet
     public static function createCustomer($params)
     {
         $gateway = self::setupGateway();
-        $response = $gateway->createCard($params)->send();
+        $request = $gateway->createCard($params);
+        $response = $request->send();
         $data = $response->getData();
-        self::checkErrors($data);
+        if (!isset($data['paymentProfile']['customerProfileId'])) {
+            return $data;
+        }
         return $data['paymentProfile']['customerProfileId'];
     }
 
@@ -76,12 +79,11 @@ class AuthNet
     public static function getPayment($token)
     {
         $gateway = self::setupGateway();
-        $data = $gateway->getCustomerProfile([
-            'customerProfileId' => $token
-        ])->send()
-        ->getData();
+        $request = $gateway->getCustomerProfile(['customerProfileId' => $token]);
+        $response = $request->send();
+        $data = $response->getData();
         if (!isset($data['profile']['paymentProfiles']['customerPaymentProfileId'])) {
-            return null;
+            return $data;
         }
         return $data['profile']['paymentProfiles']['customerPaymentProfileId'];
     }
@@ -95,10 +97,12 @@ class AuthNet
     public static function getPaymentProfiles($token)
     {
         $gateway = self::setupGateway();
-        $data = $gateway->getCustomerProfile([
-            'customerProfileId' => $token
-        ])->send()
-        ->getData();
+        $request = $gateway->getCustomerProfile(['customerProfileId' => $token]);
+        $response = $request->send();
+        $data = $response->getData();
+        if (!isset($data['profile']['paymentProfiles'])) {
+            return $data;
+        }
         return $data['profile']['paymentProfiles'];
     }
 
@@ -111,29 +115,13 @@ class AuthNet
     public static function getCardData($token)
     {
         $gateway = self::setupGateway();
-        $data = $gateway->getCustomerProfile([
-            'customerProfileId' => $token
-        ])->send()
-        ->getData();
+        $request = $gateway->getCustomerProfile(['customerProfileId' => $token]);
+        $response = $request->send();
+        $data = $response->getData();
         if (!isset($data['profile']['paymentProfiles']['payment']['creditCard'])) {
             return null;
         }
         return $data['profile']['paymentProfiles']['payment']['creditCard'];
-    }
-
-    /**
-     * Check for errors
-     *
-     * @param array $data
-     * @return void
-     */
-    public static function checkErrors($data)
-    {
-        if (isset($data['messages']['resultCode']) == 'Error') {
-            if ($data['messages']['message']['code'] == 'E00115') {
-                abort(419);
-            }
-        }
     }
 
     /**
@@ -156,8 +144,9 @@ class AuthNet
             'description' => 'Purchase',
             'invoiceNumber' => $invoice
         ];
-        $request = $gateway->purchase($params)->send()->getData();
-        return $request;
+        $request = $gateway->purchase($params);
+        $response = $request->send();
+        return $response;
     }
 
     /**
@@ -195,7 +184,7 @@ class AuthNet
      * @param int $token
      * @param int $profile
      * @param array $params
-     * @return Omnipay
+     * @return mixed
      */
     public static function deleteAndUpdateCard($token, $profile, $params)
     {
@@ -204,12 +193,13 @@ class AuthNet
         $gateway = self::setupGateway();
         $params['customerProfileId'] = $token;
         $params['customerPaymentProfileId'] = $profile;
-        $request = $gateway->updateCard($params)->send();
-        $code = $request->getData()['messages']['resultCode'];
-        if ($code == "Error") {
-            return $code;
+        $request = $gateway->updateCard($params);
+        $response = $request->send();
+        $data = $response->getData();
+        if ($data['messages']['resultCode'] == 'Error') {
+            return $data;
         }
-        return $request;
+        return 'Success';
     }
 
     /**
@@ -218,7 +208,7 @@ class AuthNet
      * @param \Request $request
      * @param \App\Invoice $invoice
      * @param array $name
-     * @return void
+     * @return Array
      */
     public static function setParams($request, $invoice, $name)
     {
@@ -226,11 +216,12 @@ class AuthNet
             'card' => [
                 'billingFirstName' => $name[0],
                 'billingLastName' => $name[1],
-                'billingAddress1' => $invoice->Client->address,
-                'billingCity' => $invoice->Client->city,
-                'billingState' => $invoice->Client->state,
-                'billingPostcode' => $invoice->Client->zipcode,
+                'billingAddress1' => $request->address,
+                'billingCity' => $invoice->Client->city ?? '',
+                'billingState' => $invoice->Client->state ?? '',
+                'billingPostcode' => $request->zip,
                 'billingPhone' => '',
+                'billingCountry' => 'USA',
             ],
             'opaqueDataDescriptor' => $request->dataDescriptor,
             'opaqueDataValue' => $request->dataValue,
@@ -239,7 +230,8 @@ class AuthNet
             'customerType' => 'individual',
             'customerId' => $invoice->Client->crm_id,
             'description' => 'MEMBER ID ' . $invoice->client_id,
-            'forceCardUpdate' => true
+            'forceCardUpdate' => true,
+            'validationMode' => 'none'
         ];
         return $params;
     }
@@ -253,7 +245,8 @@ class AuthNet
     public static function chargeCard($params)
     {
         $gateway = self::setupGatewayAIM();
-        $response = $gateway->purchase($params)->send();
+        $request = $gateway->purchase($params);
+        $response = $request->send();
         return $response;
     }
 
@@ -291,8 +284,63 @@ class AuthNet
             'customerType' => 'individual',
             'customerId' => 01,
             'description' => 'MEMBER ID SINGLE',
-            'forceCardUpdate' => true
         ];
         return $params;
+    }
+
+    /**
+     * Check for errors
+     *
+     * @param array $data
+     * @param string $message
+     * @return void
+     */
+    public static function checkErrors($data, $message)
+    {
+        if (isset($data['messages']['resultCode']) && $data['messages']['resultCode'] == 'Error') {
+            if ($data['messages']['message']['code'] == 'E00115') {
+                abort(419);
+            }
+            $setting = Setting::first();
+            $code = $data['messages']['message']['code'];
+            $message .= 'Please contact ' . $setting->email . ' with error code ' . $code . '.';
+            return redirect()->back()->withError($message);
+        }
+        return redirect()->back()->withError('An error occurred processing your transaction.');
+    }
+
+    public static function responseError($data, $message)
+    {
+
+    }
+
+    /**
+     * Payment Profile error message
+     *
+     * @return String
+     */
+    public static function profileErrorMessage()
+    {
+        return 'Something went wrong obtaining your payment profile.  ';
+    }
+
+    /**
+     * Create Customer error message
+     *
+     * @return String
+     */
+    public static function creationErrorMessage()
+    {
+        return 'An error occurred creating your customer profile.  ';
+    }
+
+    /**
+     * Updated Card error message
+     *
+     * @return String
+     */
+    public static function updateErrorMessage()
+    {
+        return 'We were unable to update your card information.  ';
     }
 }

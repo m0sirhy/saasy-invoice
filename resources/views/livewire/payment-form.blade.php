@@ -22,8 +22,8 @@
         <div class="p-4 w-1/4">
             <label class="form-label">Payment Type</label>
         	<select class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" wire:model="paymentType">
-        	 	@foreach($types as $type)
-		          	<option>{{ $type }}</option>
+        	 	@foreach($types as $key => $type)
+		          	<option value={{$key}}>{{ $type }}</option>
 	          	@endforeach
 	        </select>
         </div>

@@ -70,7 +70,7 @@
         <input type="hidden" name="dataDescriptor" id="dataDescriptor" />
         <input type="hidden" name="updated" id="updated" value={{$cardData['cardNumber']??1}}>
         <div class="mt-4">
-          <button  onclick="checkIfUpdated()" class="px-4 py-1 text-white font-light tracking-wider bg-green-900 rounded" type="button">Submit Payment</button>
+          <button  onclick="checkIfUpdated()" class="btn-std btn-std-dk-green" type="button">Submit Payment</button>
         </div>
       </form>
     </div>

@@ -71,6 +71,9 @@ class PaymentController extends Controller
                 $name = explode(' ', $invoice->Client->name, 2);
                 $params = AuthNet::setParams($request, $invoice, $name);
                 $token = AuthNet::createCustomer($params);
+                if (is_array($token)) {
+                    return AuthNet::checkError($token, AuthNet::creationErrorMessage());
+                }
                 $invoice->Client->ClientToken = ClientToken::create([
                     'client_id' => $invoice->client_id,
                     'token' => $token
@@ -78,44 +81,48 @@ class PaymentController extends Controller
             }
             $token = $invoice->Client->ClientToken->token;
             $paymentProfile = AuthNet::getPayment($token);
-            if (is_null($paymentProfile)) {
-                return redirect()->back()->withError('Something went wrong getting your payment profile.');
+            if (is_array($paymentProfile)) {
+                return AuthNet::checkErrors($paymentProfile, AuthNet::profileErrorMessage());
             }
             if (is_null($new) && isset($request->all()['updated']) && $request->all()['updated'] == 1) {
                 $name = explode(' ', $invoice->Client->name, 2);
                 $params = AuthNet::setParams($request, $invoice, $name);
-                $response = AuthNet::deleteAndUpdateCard($token, $paymentProfile, $params);
-                if ($response == 'Error') {
-                    $message = 'We were unable to process your updated card information.';
-                    return redirect()->back()->withError($message);
+                $data = AuthNet::deleteAndUpdateCard($token, $paymentProfile, $params);
+                if (is_array($data)) {
+                    return AuthNet::checkErrors($data, AuthNet::updateErrorMessage());
                 }
             }
             $id = $invoice->id;
             $amount = $request->amount;
             $payment = AuthNet::chargeProfile($token, $paymentProfile, $amount, $id);
-            if (!is_null($payment->transactionResponse->responseCode) && $payment->transactionResponse->responseCode == 1) {
+            if (!is_null($payment->getResultCode()) && $payment->getResultCode() == 1) {
+                $reference = json_decode($payment->getTransactionReference())->transId;
                 Payment::create([
                     'invoice_id' => $invoice->id,
                     'client_id' => $invoice->client_id,
                     'amount' => $request->amount,
                     'refunded' => '0',
-                    'auth_code' => $payment->transactionResponse->authCode,
+                    'auth_code' => $payment->getAuthorizationCode(),
                     'payment_type' => 3,
                     'payment_at' => now(),
-                    'transaction_id' => $payment->transactionResponse->transId
+                    'transaction_id' => $reference,
                 ]);
                 event(new PaymentAdded($invoice, $request->amount));
                 return redirect()->route('payments')->withSuccess('Payment successful');
+            }
+            if (!is_null($payment->getResultCode())) {
+                $code = $payment->getResultCode();
+                $message = 'Please contact ' . $setting->email . ' with transaction response code ' . $code;
+                return redirect()->back()->withError('We were unable to process your payment. ' . $message . '.');
             }
             return redirect()->back()->withError('We are unable to process your payment.');
         }
         $name = explode(' ', $request->name, 2);
         $params = AuthNet::setParamsSingle($request, $name);
         $payment = AuthNet::chargeCard($params);
-        if (is_null($payment->getResultCode()) || $payment->getResultCode() != 1) {
-            return redirect()->back()->withError('We were unable to process the request');
-        }
         if (!is_null($payment->getResultCode()) && $payment->getResultCode() == 1) {
+            dd('got here!');
+            $reference = json_decode($payment->getTransactionReference())->transId;
             $receipt = Payment::create([
                 'invoice_id' => '0',
                 'client_id' => '0',
@@ -124,7 +131,7 @@ class PaymentController extends Controller
                 'auth_code' => $payment->getAuthorizationCode(),
                 'payment_type' => 3,
                 'payment_at' => now(),
-                'transaction_id' => json_decode($payment->getTransactionReference())->transId
+                'transaction_id' => $reference,
             ]);
             event(new PaymentOneTime($receipt, $request->email));
             return redirect()->route('payments.user.card')->withSuccess('Payment successful');

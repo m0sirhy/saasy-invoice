@@ -43,31 +43,32 @@ class InvoiceCreated extends Command
                 event(new IC($invoice, 1));
                 $invoice->queue = 0;
                 $invoice->save();
-                if (!is_null($invoice->Client->ClientToken)) {
+                if ($invoice->balance > 0 && !is_null($invoice->Client->ClientToken)) {
                     $token = $invoice->Client->ClientToken->token;
                     $paymentProfile = AuthNet::getPayment($token);
-                    if (is_null($paymentProfile)) {
+                    if (is_array($paymentProfile)) {
                         $message = ' - Failed To Get Payment Profile For invoice #' . $invoice->id;
-                        $invoice->private_notes = $invoice->private_note . $message;
+                        $invoice->private_notes = $invoice->private_notes . $message . ' ' . now()->format('Y-m-d H:i:s');
                         $invoice->save();
                         return;
                     }
                     $id = $invoice->id;
                     $amount = $invoice->balance;
                     $payment = AuthNet::chargeProfile($token, $paymentProfile, $amount, $id);
-                    $responseCode = $payment->transactionResponse->responseCode;
+                    $resultCode = $payment->getResultCode();
                     $invoice->queue = 0;
                     $invoice->save();
-                    if (!is_null($responseCode) && $responseCode == 1) {
+                    if (!is_null($resultCode) && $resultCode == 1) {
+                        $reference = json_decode($payment->getTransactionReference())->transId;
                         Payment::create([
                             'invoice_id' => $invoice->id,
                             'client_id' => $invoice->client_id,
                             'amount' => $invoice->amount,
                             'refunded' => '0',
-                            'auth_code' => $payment->transactionResponse->authCode,
+                            'auth_code' => $payment->getAuthorizationCode(),
                             'payment_type' => 3,
                             'payment_at' => now(),
-                            'transaction_id' => $payment->transactionResponse->transId
+                            'transaction_id' => $reference,
                         ]);
                         $billed += $invoice->amount;
                         $this->info($billed);
@@ -83,7 +84,7 @@ class InvoiceCreated extends Command
                         return;
                     }
                     $message = ' - Unable to process payment for Invoice #' . $invoice->id;
-                    $invoice->private_notes = $invoice->private_note . $message;
+                    $invoice->private_notes = $invoice->private_notes . $message;
                     $invoice->save();
                     return;
                 }

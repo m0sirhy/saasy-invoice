@@ -36,6 +36,7 @@
                 cardData.month = expire[0];
                 cardData.year = expire[1];
                 cardData.cardCode = document.getElementById("cvc").value;
+                cardData.zip = document.getElementById("zip").value;
             var secureData = {};
                 secureData.authData = authData;
                 secureData.cardData = cardData;
@@ -88,7 +89,7 @@
             return false;
         }
         if (parseInt(expire[0]) > 12 || parseInt(expire[0]) < 0) {
-            alert('You Inputed An Invalid Month');
+            alert('You Input An Invalid Month');
             return false;
         }
         if (expire[1].length != 4) {
